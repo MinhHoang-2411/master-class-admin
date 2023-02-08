@@ -1,0 +1,14 @@
+version: '3.4'
+services:
+  iqa-web:
+    image: master-class-admin-fe:lastest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8086:8086'
+    restart: unless-stopped
+networks:
+  default:
+    external:
+      name: localhost
