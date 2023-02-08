@@ -1,10 +1,14 @@
-import {LoginPayload} from '../../models'
+import {LoginPayload, RegisterPayload} from '../../models'
 import axiosClient from '../axiosClient'
 
 const authApi = {
   login(params: LoginPayload) {
-    const url = '/login'
-    return axiosClient.post(url, {params})
+    const url = 'auth/login'
+    return axiosClient.post(url, params)
+  },
+  register(params: RegisterPayload) {
+    const url = 'auth/register'
+    return axiosClient.post(url, params)
   },
 }
 

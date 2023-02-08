@@ -1,26 +1,14 @@
-import {RootState} from '../../app/saga/store'
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {UserModel} from '../../models'
-import {getAuth, setAuth} from '../../utils/auth'
-
-export interface LoginPayload {
-  email: string
-  password: string
-}
-
-export interface LogoutPayload {}
-
-export interface AuthState {
-  isLoggedIn: boolean
-  logging: boolean
-  currentUser?: UserModel
-}
+import {RootState} from '../../app/saga/store'
+import {AuthState, LoginPayload, LogoutPayload, RegisterPayload, UserModel} from '../../models'
+import {getAuth} from '../../utils/auth'
 
 const api_token = getAuth()?.api_token
 
 const initialState: AuthState = {
   isLoggedIn: api_token ? true : false, // logged
   logging: false, // loading
+  loadingRegister: false,
   currentUser: undefined, // info user if login success
 }
 
@@ -43,6 +31,18 @@ const authSlice = createSlice({
     logout(state, action: PayloadAction<LogoutPayload>) {
       state.isLoggedIn = false
       state.currentUser = undefined
+    },
+
+    register(state, action: PayloadAction<RegisterPayload>) {
+      state.loadingRegister = true
+    },
+    registerSuccess(state, action: PayloadAction<UserModel>) {
+      state.isLoggedIn = true
+      state.loadingRegister = false
+      state.currentUser = action.payload
+    },
+    registerFailed(state, action: PayloadAction<string>) {
+      state.loadingRegister = false
     },
   },
 })

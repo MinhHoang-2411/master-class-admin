@@ -1,20 +1,12 @@
 import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
-// import { connectRouter, routerMiddleware } from 'connected-react-router';
 import authReducer from '../../store/auth/authSlice'
 import createSagaMiddleware from 'redux-saga'
-// import { history } from 'utils';
 import rootSaga from './rootSaga'
-
-// const rootReducer = combineReducers({
-//   router: connectRouter(history),
-//   counter: counterReducer,
-//   auth: authReducer,
-// });
+import alertReducer from '../../store/alert/alertSlice'
 
 const sagaMiddleware = createSagaMiddleware()
 export const store = configureStore({
-  reducer: {auth: authReducer},
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware, routerMiddleware(history)),
+  reducer: {auth: authReducer, alert: alertReducer},
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,

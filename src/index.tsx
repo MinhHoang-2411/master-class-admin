@@ -4,13 +4,14 @@ import {QueryClient, QueryClientProvider} from 'react-query'
 import {ReactQueryDevtools} from 'react-query/devtools'
 import {unstable_HistoryRouter as HistoryRouter} from 'react-router-dom'
 // Apps
-import './app/assets/sass/style.scss'
+import {Provider} from 'react-redux'
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import './app/assets/sass/plugins.scss'
 import './app/assets/sass/style.react.scss'
-import {AppRoutes} from './routes/AppRoutes'
-import {Provider} from 'react-redux'
+import './app/assets/sass/style.scss'
 import {store} from './app/saga/store'
-import {BrowserRouter} from 'react-router-dom'
+import {AppRoutes} from './routes/AppRoutes'
 import history from './routes/history'
 
 const queryClient = new QueryClient()
@@ -23,6 +24,7 @@ if (container) {
         <QueryClientProvider client={queryClient}>
           <AppRoutes />
           <ReactQueryDevtools initialIsOpen={false} />
+          <ToastContainer />
         </QueryClientProvider>
       </HistoryRouter>
     </Provider>
