@@ -1,23 +1,24 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {useState, useEffect} from 'react'
-import {useFormik} from 'formik'
-import * as Yup from 'yup'
 import clsx from 'clsx'
+import {useFormik} from 'formik'
+import {useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {toAbsoluteUrl} from '../../app/helpers'
+import * as Yup from 'yup'
 import {PasswordMeterComponent} from '../../app/assets/ts/components'
+import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
+import {authActions} from '../../store/auth/authSlice'
 
 const initialValues = {
-  firstname: '',
-  lastname: '',
+  firstName: '',
+  lastName: '',
   email: '',
   password: '',
-  changepassword: '',
-  acceptTerms: false,
+  confirmPassword: '',
+  acceptTerms: true,
 }
 
 const registrationSchema = Yup.object().shape({
-  firstname: Yup.string()
+  firstName: Yup.string()
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('First name is required'),
@@ -26,15 +27,15 @@ const registrationSchema = Yup.object().shape({
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Email is required'),
-  lastname: Yup.string()
+  lastName: Yup.string()
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Last name is required'),
   password: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
+    .min(8, 'Minimum 8 symbols')
+    .max(16, 'Maximum 16 symbols')
     .required('Password is required'),
-  changepassword: Yup.string()
+  confirmPassword: Yup.string()
     .required('Password confirmation is required')
     .when('password', {
       is: (val: string) => (val && val.length > 0 ? true : false),
@@ -44,30 +45,19 @@ const registrationSchema = Yup.object().shape({
 })
 
 export function Registration() {
-  const [loading, setLoading] = useState(false)
-  // const {saveAuth, setCurrentUser} = useAuth()
+  const dispatch = useAppDispatch()
+  const loading = useAppSelector((state) => state.auth.loadingRegister)
+
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
     onSubmit: async (values, {setStatus, setSubmitting}) => {
-      setLoading(true)
       try {
-        // const {data: auth} = await register(
-        //   values.email,
-        //   values.firstname,
-        //   values.lastname,
-        //   values.password,
-        //   values.changepassword
-        // )
-        // saveAuth(auth)
-        // const {data: user} = await getUserByToken(auth.api_token)
-        // setCurrentUser(user)
+        dispatch(authActions.register(values))
       } catch (error) {
         console.error(error)
-        // saveAuth(undefined)
         setStatus('The registration details is incorrect')
         setSubmitting(false)
-        setLoading(false)
       }
     },
   })
@@ -123,56 +113,56 @@ export function Registration() {
         </div>
       )}
 
-      {/* begin::Form group Firstname */}
+      {/* begin::Form group firstName */}
       <div className='row fv-row mb-7'>
         <div className='col-xl-6'>
-          <label className='class="form-label fw-bolder text-dark fs-6'>First name</label>
+          <label className='form-label fw-bolder text-dark fs-6'>First name</label>
           <input
             placeholder='First name'
             type='text'
             autoComplete='off'
-            {...formik.getFieldProps('firstname')}
+            {...formik.getFieldProps('firstName')}
             className={clsx(
               'form-control form-control-lg form-control-solid',
               {
-                'is-invalid': formik.touched.firstname && formik.errors.firstname,
+                'is-invalid': formik.touched.firstName && formik.errors.firstName,
               },
               {
-                'is-valid': formik.touched.firstname && !formik.errors.firstname,
+                'is-valid': formik.touched.firstName && !formik.errors.firstName,
               }
             )}
           />
-          {formik.touched.firstname && formik.errors.firstname && (
+          {formik.touched.firstName && formik.errors.firstName && (
             <div className='fv-plugins-message-container'>
               <div className='fv-help-block'>
-                <span role='alert'>{formik.errors.firstname}</span>
+                <span role='alert'>{formik.errors.firstName}</span>
               </div>
             </div>
           )}
         </div>
         <div className='col-xl-6'>
-          {/* begin::Form group Lastname */}
+          {/* begin::Form group lastName */}
           <div className='fv-row mb-5'>
             <label className='form-label fw-bolder text-dark fs-6'>Last name</label>
             <input
               placeholder='Last name'
               type='text'
               autoComplete='off'
-              {...formik.getFieldProps('lastname')}
+              {...formik.getFieldProps('lastName')}
               className={clsx(
                 'form-control form-control-lg form-control-solid',
                 {
-                  'is-invalid': formik.touched.lastname && formik.errors.lastname,
+                  'is-invalid': formik.touched.lastName && formik.errors.lastName,
                 },
                 {
-                  'is-valid': formik.touched.lastname && !formik.errors.lastname,
+                  'is-valid': formik.touched.lastName && !formik.errors.lastName,
                 }
               )}
             />
-            {formik.touched.lastname && formik.errors.lastname && (
+            {formik.touched.lastName && formik.errors.lastName && (
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.lastname}</span>
+                  <span role='alert'>{formik.errors.lastName}</span>
                 </div>
               </div>
             )}
@@ -248,9 +238,7 @@ export function Registration() {
           </div>
           {/* end::Meter */}
         </div>
-        <div className='text-muted'>
-          Use 8 or more characters with a mix of letters, numbers & symbols.
-        </div>
+        <div className='text-muted'>Use between 8 and 16 characters.</div>
       </div>
       {/* end::Form group */}
 
@@ -261,21 +249,21 @@ export function Registration() {
           type='password'
           placeholder='Password confirmation'
           autoComplete='off'
-          {...formik.getFieldProps('changepassword')}
+          {...formik.getFieldProps('confirmPassword')}
           className={clsx(
             'form-control form-control-lg form-control-solid',
             {
-              'is-invalid': formik.touched.changepassword && formik.errors.changepassword,
+              'is-invalid': formik.touched.confirmPassword && formik.errors.confirmPassword,
             },
             {
-              'is-valid': formik.touched.changepassword && !formik.errors.changepassword,
+              'is-valid': formik.touched.confirmPassword && !formik.errors.confirmPassword,
             }
           )}
         />
-        {formik.touched.changepassword && formik.errors.changepassword && (
+        {formik.touched.confirmPassword && formik.errors.confirmPassword && (
           <div className='fv-plugins-message-container'>
             <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.changepassword}</span>
+              <span role='alert'>{formik.errors.confirmPassword}</span>
             </div>
           </div>
         )}

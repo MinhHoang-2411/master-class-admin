@@ -17,7 +17,6 @@ import {PrivateRoutes} from './PrivateRoutes'
 const AppRoutes: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const currentUser = getAuth()
-  console.log('currentUser', currentUser)
 
   return (
     <Routes>

@@ -7,11 +7,24 @@ export interface AuthModel {
 }
 
 export interface LoginPayload {
-  username: string
+  email: string
   password: string
 }
 
+export interface RegisterPayload {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  confirmPassword: string
+  acceptTerms?: boolean
+}
+
+export interface LogoutPayload {}
+
 export interface AuthState {
   isLoggedIn: boolean
-  logging?: boolean
+  logging: boolean
+  loadingRegister: boolean
+  currentUser?: UserModel
 }
