@@ -1,10 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {useEffect} from 'react'
-import {Outlet, Route, Routes} from 'react-router-dom'
+import {Navigate, Outlet, Route, Routes} from 'react-router-dom'
 import {Registration} from '../../components/auth/Registration'
 import {ForgotPassword} from '../../components/auth/ForgotPassword'
 import {Login} from '../../components/auth/Login'
 import {toAbsoluteUrl} from '../../app/helpers'
+import {VerifyCode} from '../../components/auth/VerifiCode'
+import {useAppSelector} from '../../app/saga/hooks'
+import {ResetPassword} from '../../components/auth/ResetPassword'
 
 const AuthLayout = () => {
   useEffect(() => {
@@ -56,15 +59,24 @@ const AuthLayout = () => {
   )
 }
 
-const AuthPage = () => (
-  <Routes>
-    <Route element={<AuthLayout />}>
-      <Route path='login' element={<Login />} />
-      <Route path='registration' element={<Registration />} />
-      <Route path='forgot-password' element={<ForgotPassword />} />
-      <Route index element={<Login />} />
-    </Route>
-  </Routes>
-)
+const AuthPage = () => {
+  const {tokenForgotPass} = useAppSelector((state) => state?.auth)
+
+  return (
+    <Routes>
+      <Route element={<AuthLayout />}>
+        <Route path='login' element={<Login />} />
+        <Route path='registration' element={<Registration />} />
+        <Route path='forgot-password' element={<ForgotPassword />} />
+        <Route
+          path='verify-code'
+          element={tokenForgotPass ? <VerifyCode /> : <Navigate to='/' />}
+        />
+        <Route path='reset-password' element={<ResetPassword />} />
+        <Route index element={<Login />} />
+      </Route>
+    </Routes>
+  )
+}
 
 export {AuthPage}

@@ -2,12 +2,12 @@ import {AUTH_LOCAL_STORAGE_KEY, INFO_USER_LOCAL_STORAGE_KEY} from '../../constan
 import {AuthModel} from '../../models'
 import history from '../../routes/history'
 
-const getAuth = (): AuthModel | undefined => {
+const getAuth = (key: string = AUTH_LOCAL_STORAGE_KEY): AuthModel | undefined => {
   if (!localStorage) {
     return
   }
 
-  const lsValue: string | null = localStorage.getItem(AUTH_LOCAL_STORAGE_KEY)
+  const lsValue: string | null = localStorage.getItem(key)
 
   if (!lsValue) {
     return
@@ -21,6 +21,28 @@ const getAuth = (): AuthModel | undefined => {
     }
   } catch (error) {
     console.error('AUTH LOCAL STORAGE PARSE ERROR', error)
+  }
+}
+
+const getSessionStorage = (key: string): any => {
+  if (!localStorage) {
+    return
+  }
+
+  const lsValue: string | null = sessionStorage.getItem(key)
+
+  if (!lsValue) {
+    return
+  }
+
+  try {
+    const auth: any = JSON.parse(lsValue)
+
+    if (auth) {
+      return auth
+    }
+  } catch (error) {
+    console.error('AUTH SESSION STORAGE PARSE ERROR', error)
   }
 }
 
@@ -56,4 +78,4 @@ const logout = () => {
   }
 }
 
-export {getAuth, setAuth, removeAuth, logout}
+export {getAuth, setAuth, removeAuth, logout, getSessionStorage}
