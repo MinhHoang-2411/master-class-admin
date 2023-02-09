@@ -13,10 +13,7 @@ const loginSchema = Yup.object().shape({
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Email is required'),
-  password: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Password is required'),
+  password: Yup.string().required('Password is required'),
 })
 
 const initialValues = {
@@ -57,12 +54,12 @@ export function Login() {
       {/* begin::Heading */}
       <div className='text-center mb-10'>
         <h1 className='text-dark mb-3'>Sign In to Masterclass</h1>
-        <div className='text-gray-400 fw-bold fs-4'>
+        {/* <div className='text-gray-400 fw-bold fs-4'>
           New Here?{' '}
           <Link to='/auth/registration' className='link-primary fw-bolder'>
             Create an Account
           </Link>
-        </div>
+        </div> */}
       </div>
       {/* begin::Heading */}
 
@@ -70,7 +67,7 @@ export function Login() {
       <div className='fv-row mb-10'>
         <label className='form-label fs-6 fw-bolder text-dark'>Email</label>
         <input
-          placeholder='Email'
+          placeholder='Enter your email'
           {...formik.getFieldProps('email')}
           className={clsx(
             'form-control form-control-lg form-control-solid',
@@ -85,7 +82,9 @@ export function Login() {
         />
         {formik.touched.email && formik.errors.email && (
           <div className='fv-plugins-message-container'>
-            <span role='alert'>{formik.errors.email}</span>
+            <div className='fv-help-block'>
+              <span role='alert'>{formik.errors.email}</span>
+            </div>
           </div>
         )}
       </div>
@@ -112,6 +111,7 @@ export function Login() {
         <input
           type='password'
           autoComplete='off'
+          placeholder='Enter your password'
           {...formik.getFieldProps('password')}
           className={clsx(
             'form-control form-control-lg form-control-solid',

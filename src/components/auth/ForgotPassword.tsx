@@ -1,11 +1,13 @@
-import React, {useState} from 'react'
-import * as Yup from 'yup'
 import clsx from 'clsx'
-import {Link} from 'react-router-dom'
 import {useFormik} from 'formik'
+import {useState} from 'react'
+import {Link} from 'react-router-dom'
+import * as Yup from 'yup'
+import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
+import {authActions} from '../../store/auth/authSlice'
 
 const initialValues = {
-  email: 'admin@demo.com',
+  email: '',
 }
 
 const forgotPasswordSchema = Yup.object().shape({
@@ -17,27 +19,18 @@ const forgotPasswordSchema = Yup.object().shape({
 })
 
 export function ForgotPassword() {
-  const [loading, setLoading] = useState(false)
+  const loading = useAppSelector((state) => state?.auth?.loadingForgotPass)
+  const dispatch = useAppDispatch()
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const formik = useFormik({
     initialValues,
     validationSchema: forgotPasswordSchema,
     onSubmit: (values, {setStatus, setSubmitting}) => {
-      setLoading(true)
-      setHasErrors(undefined)
-      // setTimeout(() => {
-      //   requestPassword(values.email)
-      //     .then(({data: {result}}) => {
-      //       setHasErrors(false)
-      //       setLoading(false)
-      //     })
-      //     .catch(() => {
-      //       setHasErrors(true)
-      //       setLoading(false)
-      //       setSubmitting(false)
-      //       setStatus('The login detail is incorrect')
-      //     })
-      // }, 1000)
+      try {
+        dispatch(authActions.forgotPass(values.email))
+      } catch (error) {
+        setHasErrors(true)
+      }
     },
   })
 
@@ -55,7 +48,7 @@ export function ForgotPassword() {
           {/* end::Title */}
 
           {/* begin::Link */}
-          <div className='text-gray-400 fw-bold fs-4'>Enter your email to reset your password.</div>
+          <div className='text-gray-400 fw-bold fs-4'>Enter your email to reset password.</div>
           {/* end::Link */}
         </div>
 
@@ -80,7 +73,7 @@ export function ForgotPassword() {
           <label className='form-label fw-bolder text-gray-900 fs-6'>Email</label>
           <input
             type='email'
-            placeholder=''
+            placeholder='Enter your email'
             autoComplete='off'
             {...formik.getFieldProps('email')}
             className={clsx(
