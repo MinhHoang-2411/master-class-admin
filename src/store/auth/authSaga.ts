@@ -1,7 +1,7 @@
 import {PayloadAction} from '@reduxjs/toolkit'
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects'
 import authApi from '../../api/auth'
-import {TOKEN_FORGOT_PASS} from '../../constants/auth'
+import {TOKEN_FORGOT_PASS, TOKEN_VERIFY_CODE} from '../../constants/auth'
 import {
   ErrorModel,
   LoginPayload,
@@ -15,6 +15,7 @@ import {
 } from '../../models'
 import history from '../../routes/history'
 import {logout, setAuth} from '../../utils/auth'
+import {addMinutesToDate} from '../../utils/date-time'
 import {alertActions} from '../alert/alertSlice'
 import {authActions} from './authSlice'
 
@@ -83,7 +84,7 @@ function* handleForgotPass(action: PayloadAction<string>) {
   try {
     const response: ResponseForgotPass = yield call(authApi.forgotPassword, email)
 
-    const expires = new Date(new Date().getTime() + 60000 * 5) // 5min
+    const expires = addMinutesToDate(5)
     const sessionObject = {
       expiresAt: expires,
       someOtherSessionData: response.data,
@@ -107,15 +108,26 @@ function* handleForgotPass(action: PayloadAction<string>) {
 function* handleVerifyCode(action: PayloadAction<VerifyCodeModel>) {
   const params = action.payload
   try {
-    const response: ResponseForgotPass = yield call(authApi.verifyCode, params)
+    const response: {data: string} = yield call(authApi.verifyCode, params)
 
-    yield put(authActions.verifyCodeSuccess(response.data.token))
+    const expires = addMinutesToDate(5)
+    const sessionObject = {
+      expiresAt: expires,
+      someOtherSessionData: {
+        token: response.data,
+      },
+    }
+    sessionStorage.setItem(TOKEN_VERIFY_CODE, JSON.stringify(sessionObject))
+
+    yield put(authActions.verifyCodeSuccess(response.data))
     yield put(
       alertActions.showAlert({
         text: 'Code verification successful',
         type: 'success',
       })
     )
+
+    history.replace('/auth/reset-password')
   } catch (error: ErrorModel | any) {
     console.error(error)
     yield put(authActions.verifyCodeFailed(error as string))
@@ -140,6 +152,8 @@ function* handleResetPass(action: PayloadAction<ResetPasswordModel>) {
         type: 'success',
       })
     )
+
+    history.replace('/auth')
   } catch (error: ErrorModel | any) {
     console.error(error)
     yield put(authActions.resetPasswordFailed(error as string))

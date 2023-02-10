@@ -25,7 +25,7 @@ const getAuth = (key: string = AUTH_LOCAL_STORAGE_KEY): AuthModel | undefined =>
 }
 
 const getSessionStorage = (key: string): any => {
-  if (!localStorage) {
+  if (!sessionStorage) {
     return
   }
 
@@ -41,6 +41,18 @@ const getSessionStorage = (key: string): any => {
     if (auth) {
       return auth
     }
+  } catch (error) {
+    console.error('AUTH SESSION STORAGE PARSE ERROR', error)
+  }
+}
+
+const removeSessionStorage = (key: string) => {
+  if (!sessionStorage) {
+    return
+  }
+
+  try {
+    sessionStorage.removeItem(key)
   } catch (error) {
     console.error('AUTH SESSION STORAGE PARSE ERROR', error)
   }
@@ -78,4 +90,4 @@ const logout = () => {
   }
 }
 
-export {getAuth, setAuth, removeAuth, logout, getSessionStorage}
+export {getAuth, setAuth, removeAuth, logout, getSessionStorage, removeSessionStorage}

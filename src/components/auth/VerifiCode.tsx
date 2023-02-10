@@ -1,11 +1,14 @@
 import {useFormik} from 'formik'
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef} from 'react'
 import {Link} from 'react-router-dom'
 import * as Yup from 'yup'
 import '../../app/assets/sass/components/auth.scss'
 import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
+import {TOKEN_FORGOT_PASS} from '../../constants/auth'
 import {VerifyCodeModel} from '../../models'
 import {authActions} from '../../store/auth/authSlice'
+import {getSessionStorage} from '../../utils/auth'
+import CountdownTimer from '../date-time/countdown-time.tsx'
 
 const initialValues = {
   arrCode: [],
@@ -20,10 +23,11 @@ const verifyCodeSchema = Yup.object().shape({
 
 export function VerifyCode() {
   const codesRef = useRef<any>([])
+  const dataTokenForgotPass = getSessionStorage(TOKEN_FORGOT_PASS)
   const token_forgot_pass = useAppSelector((state) => state?.auth?.tokenForgotPass)
+  const loading = useAppSelector((state) => state?.auth?.loadingVerify)
   const dispatch = useAppDispatch()
 
-  const [loading, setLoading] = useState(false)
   const formik = useFormik({
     initialValues,
     validationSchema: verifyCodeSchema,
@@ -78,7 +82,7 @@ export function VerifyCode() {
         id='kt_login_password_reset_form'
         onSubmit={formik.handleSubmit}
       >
-        <div className='text-center mb-10'>
+        <div className='text-center mb-5'>
           {/* begin::Title */}
           <h1 className='text-dark mb-3'>Forgot Password ?</h1>
           {/* end::Title */}
@@ -89,8 +93,11 @@ export function VerifyCode() {
           </div>
           {/* end::Link */}
         </div>
+        <div>
+          <CountdownTimer targetDate={dataTokenForgotPass?.expiresAt} session={TOKEN_FORGOT_PASS} />
+        </div>
         {/* Verify code  */}
-        <div className='fv-row mb-10 d-flex justify-content-center'>
+        <div className='fv-row mb-15 mt-5 d-flex justify-content-center'>
           {Array.from(Array(6).keys())?.map((item, index) => {
             return (
               <input

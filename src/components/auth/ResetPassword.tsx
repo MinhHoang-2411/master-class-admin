@@ -4,8 +4,11 @@ import {useState} from 'react'
 import {Link} from 'react-router-dom'
 import * as Yup from 'yup'
 import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
+import {TOKEN_FORGOT_PASS, TOKEN_VERIFY_CODE} from '../../constants/auth'
 import {ResetPasswordModel} from '../../models'
 import {authActions} from '../../store/auth/authSlice'
+import {getSessionStorage} from '../../utils/auth'
+import CountdownTimer from '../date-time/countdown-time.tsx'
 
 const initialValues = {
   password: '',
@@ -26,7 +29,8 @@ const resetPasswordSchema = Yup.object().shape({
 })
 
 export function ResetPassword() {
-  const {loadingResetPass: loading, tokenForgotPass} = useAppSelector((state) => state?.auth)
+  const {loadingResetPass: loading, tokenVerifyCode} = useAppSelector((state) => state?.auth)
+  const dataTokenVerifyPass = getSessionStorage(TOKEN_VERIFY_CODE)
   const dispatch = useAppDispatch()
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const formik = useFormik({
@@ -35,7 +39,7 @@ export function ResetPassword() {
     onSubmit: (values, {setStatus, setSubmitting}) => {
       try {
         const params = {
-          token: tokenForgotPass,
+          token: tokenVerifyCode,
           password: values.password,
         }
         dispatch(authActions.resetPassword(params as ResetPasswordModel))
@@ -53,7 +57,7 @@ export function ResetPassword() {
         id='kt_login_password_reset_form'
         onSubmit={formik.handleSubmit}
       >
-        <div className='text-center mb-10'>
+        <div className='text-center mb-5'>
           {/* begin::Title */}
           <h1 className='text-dark mb-3'>Reset Password</h1>
           {/* end::Title */}
@@ -79,8 +83,12 @@ export function ResetPassword() {
         )}
         {/* end::Title */}
 
+        <div>
+          <CountdownTimer targetDate={dataTokenVerifyPass?.expiresAt} session={TOKEN_FORGOT_PASS} />
+        </div>
+
         {/* begin::Form group */}
-        <div className='mb-10 fv-row' data-kt-password-meter='true'>
+        <div className='mb-10 mt-5 fv-row' data-kt-password-meter='true'>
           <div className='mb-1'>
             <label className='form-label fw-bolder text-dark fs-6'>Password</label>
             <div className='position-relative mb-3'>
@@ -124,7 +132,7 @@ export function ResetPassword() {
         {/* end::Form group */}
 
         {/* begin::Form group Confirm password */}
-        <div className='fv-row mb-5'>
+        <div className='fv-row mb-10'>
           <label className='form-label fw-bolder text-dark fs-6'>Confirm Password</label>
           <input
             type='password'
