@@ -60,7 +60,7 @@ const AuthLayout = () => {
 }
 
 const AuthPage = () => {
-  const {tokenForgotPass} = useAppSelector((state) => state?.auth)
+  const {tokenForgotPass, tokenVerifyCode} = useAppSelector((state) => state?.auth)
 
   return (
     <Routes>
@@ -68,11 +68,11 @@ const AuthPage = () => {
         <Route path='login' element={<Login />} />
         <Route path='registration' element={<Registration />} />
         <Route path='forgot-password' element={<ForgotPassword />} />
+        <Route path='verify-code' element={tokenForgotPass ? <VerifyCode /> : <VerifyCode />} />
         <Route
-          path='verify-code'
-          element={tokenForgotPass ? <VerifyCode /> : <Navigate to='/' />}
+          path='reset-password'
+          element={tokenVerifyCode ? <ResetPassword /> : <Navigate to='/auth/forgot-password' />}
         />
-        <Route path='reset-password' element={<ResetPassword />} />
         <Route index element={<Login />} />
       </Route>
     </Routes>

@@ -7,6 +7,7 @@ const axiosClient = axios.create({
   baseURL: URL_API,
   headers: {
     'Content-Type': 'application/json',
+    'Accept-Language': 'en',
   },
 })
 

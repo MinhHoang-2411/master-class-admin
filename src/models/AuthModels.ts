@@ -32,6 +32,7 @@ export interface AuthState {
   loadingResetPass: boolean
   currentUser?: UserModel
   tokenForgotPass?: string
+  tokenVerifyCode?: string
 }
 
 export interface VerifyCodeModel {

@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from '../../app/saga/store'
-import {TOKEN_FORGOT_PASS} from '../../constants/auth'
+import {TOKEN_FORGOT_PASS, TOKEN_VERIFY_CODE} from '../../constants/auth'
 import {
   AuthState,
   LoginPayload,
@@ -14,6 +14,7 @@ import {getAuth, getSessionStorage} from '../../utils/auth'
 
 const api_token = getAuth()?.api_token
 const token_forgot_pass = getSessionStorage(TOKEN_FORGOT_PASS)?.someOtherSessionData?.token
+const token_verify_code = getSessionStorage(TOKEN_VERIFY_CODE)?.someOtherSessionData?.token
 
 const initialState: AuthState = {
   isLoggedIn: api_token ? true : false, // logged
@@ -24,6 +25,7 @@ const initialState: AuthState = {
   loadingResetPass: false,
   currentUser: undefined, // info user if login success
   tokenForgotPass: token_forgot_pass || undefined,
+  tokenVerifyCode: token_verify_code || undefined,
 }
 
 const authSlice = createSlice({
@@ -75,7 +77,7 @@ const authSlice = createSlice({
     },
     verifyCodeSuccess(state, action: PayloadAction<string>) {
       state.loadingVerify = false
-      // state.tokenverifyCode = action.payload
+      state.tokenVerifyCode = action.payload
     },
     verifyCodeFailed(state, action: PayloadAction<string>) {
       state.loadingVerify = false
