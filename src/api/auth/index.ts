@@ -14,15 +14,15 @@ const authApi = {
   },
   forgotPassword(email: string) {
     const url = 'auth/forgot-password'
-    return axiosClient.post(`${URL_FORGOT_PASS}/auth/forgot-password`, {email})
+    return axiosClient.post(url, {email})
   },
   verifyCode(params: VerifyCodeModel) {
     const url = 'auth/verify-forgot-password'
-    return axiosClient.post(`${URL_FORGOT_PASS}/auth/verify-forgot-password`, params)
+    return axiosClient.post(url, params)
   },
   resetPassword(params: ResetPasswordModel) {
     const url = 'auth/reset-password'
-    return axiosClient.post(`${URL_FORGOT_PASS}/auth/reset-password`, params)
+    return axiosClient.post(url, params)
   },
 }
 
