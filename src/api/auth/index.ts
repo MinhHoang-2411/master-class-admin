@@ -1,7 +1,7 @@
 import {LoginPayload, RegisterPayload, ResetPasswordModel, VerifyCodeModel} from '../../models'
 import axiosClient from '../axiosClient'
 
-const URL_FORGOT_PASS = process.env.REACT_APP_API_URL_MOBILE
+const URL_FORGOT_PASS = process.env.REACT_APP_API_URL_ADMIN
 
 const authApi = {
   login(params: LoginPayload) {
