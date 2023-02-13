@@ -116,15 +116,6 @@ export function ResetPassword() {
               )}
             </div>
             {/* begin::Meter */}
-            <div
-              className='d-flex align-items-center mb-3'
-              data-kt-password-meter-control='highlight'
-            >
-              <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-              <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-              <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-              <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px'></div>
-            </div>
             {/* end::Meter */}
           </div>
           <div className='text-muted'>Use between 8 and 16 characters.</div>

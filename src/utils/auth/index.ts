@@ -1,4 +1,4 @@
-import {AUTH_LOCAL_STORAGE_KEY, INFO_USER_LOCAL_STORAGE_KEY} from '../../constants/auth'
+import {AUTH_LOCAL_STORAGE_KEY} from '../../constants/auth'
 import {AuthModel} from '../../models'
 import history from '../../routes/history'
 
