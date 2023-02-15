@@ -9,6 +9,7 @@ import {WithChildren} from '../app/helpers'
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../pages/profile/ProfilePage'))
   const AccountPage = lazy(() => import('../pages/accounts/AccountPage'))
+  const BannerPage = lazy(() => import('../pages/banner/BannerPage'))
 
   return (
     <Routes>
@@ -23,6 +24,14 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <ProfilePage />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='crafted/pages/banner/*'
+          element={
+            <SuspensedView>
+              <BannerPage />
             </SuspensedView>
           }
         />

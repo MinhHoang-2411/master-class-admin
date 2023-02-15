@@ -19,7 +19,8 @@ axiosClient.interceptors.request.use(
     const auth = getAuth()
     if (auth) {
       config.headers = {
-        Authorization: `Bearer ${auth}`,
+        // Authorization: `Bearer ${auth.api_token}`,
+        Authorization: `${auth.api_token}`,
       }
     }
     return config
