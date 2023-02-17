@@ -137,6 +137,16 @@ function* onDeleteImage(action: PayloadAction<any>) {
   }
 }
 
+function* onDeletePublicFile(action: PayloadAction<any>) {
+  const payload = action.payload
+  try {
+    const response: ResponseUploadImages = yield call(bannerApi.deletePublicFile, payload)
+    yield put(bannerActions.onDeletePublicFileSuccess(response.data.images))
+  } catch (error: ErrorModel | any) {
+    console.error(error)
+  }
+}
+
 function* bannerFlow() {
   yield all([
     takeEvery(bannerActions.getDataStart.type, fetchBanner),
@@ -146,6 +156,7 @@ function* bannerFlow() {
     takeEvery(bannerActions.onUpdateBanner.type, onUpdateBanner),
     takeEvery(bannerActions.onDeleteImage.type, onDeleteImage),
     takeEvery(bannerActions.onDeleteBanner.type, onDeleteBanner),
+    takeEvery(bannerActions.onDeletePublicFile.type, onDeletePublicFile),
   ])
 }
 

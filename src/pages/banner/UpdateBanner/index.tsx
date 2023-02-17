@@ -35,7 +35,7 @@ const UpdateBanner = ({banner}: IProps) => {
       images: listImages,
     }
     try {
-      dispatch(bannerActions.onCreateBanner(payload))
+      dispatch(bannerActions.onUpdateBanner(payload))
     } catch (error) {}
   }
 
@@ -141,14 +141,3 @@ const UpdateBanner = ({banner}: IProps) => {
 }
 
 export default UpdateBanner
-
-// const onSubmit = (values: any) => {
-//   const payload = {
-//     ...values,
-//     images: listImages,
-//     isActive: true,
-//   }
-//   try {
-//     dispatch(bannerActions.onUpdateBanner(payload))
-//   } catch (error) {}
-// }
