@@ -7,6 +7,7 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import {FC, useEffect} from 'react'
 import {Link} from 'react-router-dom'
+import {isMappable} from '../../app/helpers/isMapple'
 import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
 import history from '../../routes/history'
 import {bannerActions} from '../../store/banner/bannerSlice'
@@ -38,44 +39,39 @@ const BannersOverview: FC = () => {
         </div>
         <div className='card-body p-9'>
           <Grid container spacing={3}>
-            {banners.map((banner: any) => (
-              <Grid item xs={12} sm={6} md={4} key={banner._id}>
-                <Card sx={{maxWidth: 345}}>
-                  <CardMedia sx={{height: 140}} image={banner.images[0]} title='banner' />
-                  <CardContent>
-                    <Typography gutterBottom variant='h5' component='div'>
-                      {banner.title}
-                    </Typography>
-                    <Typography variant='body2' color='text.secondary'>
-                      {banner.description}
-                    </Typography>
-                  </CardContent>
-                  <CardActions sx={{display: 'flex', justifyContent: 'end'}}>
-                    <Button
-                      size='small'
-                      onClick={() => dispatch(bannerActions.onDeleteBanner(banner._id))}
-                    >
-                      Delete
-                    </Button>
-                    <Button size='small' onClick={() => RedirecBannerDetail(banner)}>
-                      Detail
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
+            {isMappable(banners) ? (
+              banners.map((banner: any) => (
+                <Grid item xs={12} sm={6} md={4} key={banner._id}>
+                  <Card sx={{maxWidth: 345}}>
+                    <CardMedia sx={{height: 140}} image={banner.images[0]} title='banner' />
+                    <CardContent>
+                      <Typography gutterBottom variant='h5' component='div'>
+                        {banner.title}
+                      </Typography>
+                      <Typography variant='body2' color='text.secondary'>
+                        {banner.description}
+                      </Typography>
+                    </CardContent>
+                    <CardActions sx={{display: 'flex', justifyContent: 'end'}}>
+                      <Button
+                        size='small'
+                        onClick={() => dispatch(bannerActions.onDeleteBanner(banner._id))}
+                      >
+                        Delete
+                      </Button>
+                      <Button size='small' onClick={() => RedirecBannerDetail(banner)}>
+                        Detail
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))
+            ) : (
+              <div className='p-9'>
+                <label className='fw-bold text-muted'>There are no banner</label>
+              </div>
+            )}
           </Grid>
-        </div>
-        <div className='d-flex justify-content-end p-3'>
-          {/* <Pagination
-              count={10}
-              renderItem={(item) => (
-                <PaginationItem
-                  slots={{previous: ArrowBackIcon, next: ArrowForwardIcon}}
-                  {...item}
-                />
-              )}
-            /> */}
         </div>
       </div>
     </>

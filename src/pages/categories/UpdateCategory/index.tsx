@@ -1,10 +1,10 @@
-import {Switch, TextField} from '@mui/material'
-import {Field, Form, Formik} from 'formik'
-import {useEffect} from 'react'
-import {useParams} from 'react-router-dom'
-import {useAppDispatch, useAppSelector} from '../../../app/saga/hooks'
-import {ErrorMessage} from '../../../shared/ErrorMesage/ErrorMessage'
-import {categoriesActions} from '../../../store/categories/categoriesSlice'
+import { Switch, TextField } from '@mui/material'
+import { Field, Form, Formik } from 'formik'
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { useAppDispatch } from '../../../app/saga/hooks'
+import { ErrorMessage } from '../../../shared/ErrorMesage/ErrorMessage'
+import { categoriesActions } from '../../../store/categories/categoriesSlice'
 import categorySchema from './Validate'
 
 const UpdateCategory = () => {
@@ -77,7 +77,7 @@ const UpdateCategory = () => {
                 </div>
                 <div className='card-footer d-flex justify-content-end py-6 px-9'>
                   <button type='submit' className='btn btn-primary'>
-                    Update banner
+                    Update category
                   </button>
                 </div>
               </div>

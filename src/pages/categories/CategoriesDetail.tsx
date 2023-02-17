@@ -1,11 +1,10 @@
-import {Button, Card, CardMedia, Grid} from '@mui/material'
-import {useEffect} from 'react'
-import {Link, useParams} from 'react-router-dom'
-import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
+import { Button } from '@mui/material'
+import { format } from 'date-fns'
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../app/saga/hooks'
 import history from '../../routes/history'
-import {bannerActions} from '../../store/banner/bannerSlice'
-import {format} from 'date-fns'
-import {categoriesActions} from '../../store/categories/categoriesSlice'
+import { categoriesActions } from '../../store/categories/categoriesSlice'
 
 const CategoryDetail = () => {
   const dispatch = useAppDispatch()

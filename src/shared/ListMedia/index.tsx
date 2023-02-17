@@ -1,6 +1,8 @@
 import CloseIcon from '@mui/icons-material/Close'
-import { Box, Card, CardMedia, Grid } from '@mui/material'
+import {Box, Card, CardMedia, Grid} from '@mui/material'
 import IconButton from '@mui/material/IconButton'
+import {useAppDispatch} from '../../app/saga/hooks'
+import {bannerActions} from '../../store/banner/bannerSlice'
 
 interface IListImage {
   images: any
@@ -8,9 +10,20 @@ interface IListImage {
 }
 
 const ListMedia = ({images, setFiles}: IListImage) => {
+  const dispatch = useAppDispatch()
+
   const removeFile = ({pos, url}: {url: string; pos: number}) => {
     const newFiles = images.filter((_: never, index: number) => index !== pos)
     setFiles(newFiles)
+    onDeletePublicFile(url)
+  }
+
+  const onDeletePublicFile = (url: string) => {
+    const payload: any = {
+      urlFile: url,
+      uploadType: 'image',
+    }
+    dispatch(bannerActions.onDeletePublicFile(payload))
   }
 
   return (

@@ -20,7 +20,7 @@ const CreateBanner = () => {
   const dispatch = useAppDispatch()
   const images = useAppSelector((state) => state.banner.images)
 
-  const [listImages, setListImages] = useState<any>([])
+  const [listImages, setListImages] = useState<any>(images)
 
   const onSubmit = (values: any) => {
     const payload = {

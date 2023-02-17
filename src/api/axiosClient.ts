@@ -7,7 +7,6 @@ const axiosClient = axios.create({
   baseURL: URL_API,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': 'en',
   },
 })
 
@@ -20,7 +19,8 @@ axiosClient.interceptors.request.use(
     if (auth) {
       config.headers = {
         // Authorization: `Bearer ${auth.api_token}`,
-        Authorization: `${auth.api_token}`,
+        'Authorization': `${auth.api_token}`,
+        'Accept-Language': 'en',
       }
     }
     return config

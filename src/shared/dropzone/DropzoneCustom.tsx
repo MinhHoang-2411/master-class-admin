@@ -1,10 +1,10 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import { Box } from '@mui/material'
-import { useCallback } from 'react'
-import { useDropzone } from 'react-dropzone'
-import { toast } from 'react-toastify'
-import { useAppDispatch } from '../../app/saga/hooks'
-import { bannerActions } from '../../store/banner/bannerSlice'
+import {Box} from '@mui/material'
+import {useCallback} from 'react'
+import {useDropzone} from 'react-dropzone'
+import {toast} from 'react-toastify'
+import {useAppDispatch} from '../../app/saga/hooks'
+import {bannerActions} from '../../store/banner/bannerSlice'
 
 const styleDropzone = {
   flex: 1,
@@ -30,9 +30,7 @@ interface IDropzone {
 }
 
 const DropzoneCustom = ({maxFile, setFieldValue, name}: IDropzone) => {
-
-  const dispatch = useAppDispatch();
-
+  const dispatch = useAppDispatch()
 
   const onDrop = useCallback((acceptedFiles: any) => {
     const newFiles = acceptedFiles.map((file: File) =>
@@ -43,10 +41,8 @@ const DropzoneCustom = ({maxFile, setFieldValue, name}: IDropzone) => {
 
     const formdata: any = new FormData()
     newFiles.map((file: File) => formdata.append('images', file))
-
     dispatch(bannerActions.onUploadImages(formdata))
   }, [])
-
 
   const {getRootProps, getInputProps} = useDropzone({
     accept: {

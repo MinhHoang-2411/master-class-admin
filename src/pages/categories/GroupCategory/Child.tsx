@@ -1,22 +1,17 @@
-import React from 'react'
-import {format} from 'date-fns'
 import DeleteIcon from '@mui/icons-material/Delete'
-import {useAppDispatch} from '../../../app/saga/hooks'
-import {IconButton} from '@mui/material'
-import {categoriesActions} from '../../../store/categories/categoriesSlice'
-import history from '../../../routes/history'
 import PreviewIcon from '@mui/icons-material/Preview'
+import { IconButton } from '@mui/material'
+import { format } from 'date-fns'
+import { useAppDispatch } from '../../../app/saga/hooks'
+import history from '../../../routes/history'
+import { categoriesActions } from '../../../store/categories/categoriesSlice'
 
 interface IProps {
-  onActivate: any
-  hidden: any
-  level: any
-  setHidden: any
   idx: any
   item: any
 }
 
-const Child = ({onActivate, hidden, level, setHidden, idx, item}: IProps) => {
+const Child = ({idx, item}: IProps) => {
   const dispatch = useAppDispatch()
 
   const RedirectCategoryDetail = (category: any) => {

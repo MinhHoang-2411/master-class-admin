@@ -10,7 +10,7 @@ const initialValues = {
 }
 
 const CreateCategory = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const onSubmit = (values: any) => {
     try {
@@ -50,7 +50,7 @@ const CreateCategory = () => {
                 </div>
                 <div className='card-footer d-flex justify-content-end py-6 px-9'>
                   <button type='submit' className='btn btn-primary'>
-                    Create banner
+                    Create category
                   </button>
                 </div>
               </div>

@@ -10,6 +10,7 @@ interface IInitialStateBanner {
   loadingDeleteBanner: boolean
   loadingCreateBanner: boolean
   loadingUpdateBanner: boolean
+  loadingDeletePublicFile: boolean
   error: any
   images: any
   bannerDetail: any
@@ -24,6 +25,7 @@ const initialState: IInitialStateBanner = {
   loadingDeleteBanner: false,
   loadingCreateBanner: false,
   loadingUpdateBanner: false,
+  loadingDeletePublicFile: false,
   error: null,
   images: [],
   bannerDetail: null,
@@ -141,6 +143,19 @@ const bannerSlice = createSlice({
       state.error = action.payload
     },
 
+    onDeletePublicFile: (state) => {
+      state.loadingDeletePublicFile = true
+    },
+
+    onDeletePublicFileSuccess: (state, action) => {
+      state.loadingDeletePublicFile = false
+      state.error = null
+    },
+
+    onDeletePublicFileFailure: (state, action) => {
+      state.loadingDeletePublicFile = false
+      state.error = action.payload
+    },
   },
 })
 

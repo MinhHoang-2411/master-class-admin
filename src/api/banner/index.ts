@@ -18,7 +18,7 @@ const bannerApi = {
     return axiosClient.put(url, params)
   },
   uploadImage(params: any) {
-    const url = 'banners/uploads'
+    const url = 'banners/uploads?uploadType=banner'
     return axiosClient.post(url, params)
   },
   deleteImage(params: any) {
@@ -28,6 +28,12 @@ const bannerApi = {
   deleteBanner(paramsId: string) {
     const url = `banners/${paramsId}`
     return axiosClient.delete(url)
+  },
+
+  deletePublicFile(params: any) {
+    console.log('params', params)
+    const url = `publics/files`
+    return axiosClient.delete(url, {data: params})
   },
 }
 
