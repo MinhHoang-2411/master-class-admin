@@ -1,10 +1,10 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import {Box} from '@mui/material'
-import {useCallback, useEffect, useState} from 'react'
-import {useDropzone} from 'react-dropzone'
-import {toast} from 'react-toastify'
-import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
-import {bannerActions} from '../../store/banner/bannerSlice'
+import { Box } from '@mui/material'
+import { useCallback } from 'react'
+import { useDropzone } from 'react-dropzone'
+import { toast } from 'react-toastify'
+import { useAppDispatch } from '../../app/saga/hooks'
+import { bannerActions } from '../../store/banner/bannerSlice'
 
 const styleDropzone = {
   flex: 1,
