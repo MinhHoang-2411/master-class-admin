@@ -4,10 +4,16 @@ import createSagaMiddleware from 'redux-saga'
 import rootSaga from './rootSaga'
 import alertReducer from '../../store/alert/alertSlice'
 import bannerReducer from '../../store/banner/bannerSlice'
+import categoriesReducer from '../../store/categories/categoriesSlice'
 
 const sagaMiddleware = createSagaMiddleware()
 export const store = configureStore({
-  reducer: {auth: authReducer, alert: alertReducer, banner: bannerReducer},
+  reducer: {
+    auth: authReducer,
+    alert: alertReducer,
+    banner: bannerReducer,
+    categories: categoriesReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
