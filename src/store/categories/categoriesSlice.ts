@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
 interface IInitialStateCategory {
   data: any
@@ -64,7 +64,7 @@ const categoriesSlice = createSlice({
       state.error = action.payload
     },
 
-    onDeleteCategory: (state) => {
+    onDeleteCategory: (state, action: PayloadAction<string>) => {
       state.loadingDelete = true
     },
     onDeleteCategorySuccess: (state, action) => {

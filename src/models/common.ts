@@ -47,19 +47,6 @@ export interface ErrorModel {
   }
 }
 
-export interface ResponseBanner {
-  data: []
-  paginate: {
-    limit: number
-    total_page: number
-    page: number
-    total_record: number
-  }
-  status?: string
-  statusText?: string
-  message?: string
-}
-
 export interface ResponseUploadImages {
   data: {
     images: string[]

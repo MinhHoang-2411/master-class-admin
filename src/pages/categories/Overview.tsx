@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { isMappable } from '../../app/helpers/isMapple'
 import { useAppDispatch, useAppSelector } from '../../app/saga/hooks'
+import { ICategory } from '../../models/CategoryModels'
 import { categoriesActions } from '../../store/categories/categoriesSlice'
 import GroupCategory from './GroupCategory/GroupCategory'
 
@@ -34,18 +35,18 @@ const CategoriesOverview = () => {
             <table className='table align-middle'>
               <thead className={'text-uppercase text-dark thead-pito border-bottom text-uppercase'}>
                 <tr>
-                  <th className='py-2 pl-4 pr-2 '>STT</th>
-                  <th className='py-2 w-40'>Name Category</th>
+                  <th className='py-2 pl-4 pr-2 '>No</th>
+                  <th className='py-2 w-40'>Category Name</th>
                   <th className='py-2 text-center'>Active Status</th>
                   <th className='py-2 text-center'>Date Created</th>
                   <th className='py-2 text-center'>Date updated</th>
                   <th className='py-2 text-center'>Date deleted</th>
-                  <th className='py-2 text-center'>Action</th>
+                  <th className='py-2 text-center'>Actions</th>
                 </tr>
               </thead>
               <tbody className='category-list'>
                 {isMappable(categories) ? (
-                  categories?.map((item: any, idx: number) => (
+                  categories?.map((item: ICategory, idx: number) => (
                     <GroupCategory item={item} idx={idx} key={item?._id} />
                   ))
                 ) : (

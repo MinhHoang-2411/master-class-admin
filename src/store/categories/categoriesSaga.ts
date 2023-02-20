@@ -1,7 +1,8 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import categoryApi from '../../api/category'
-import { ErrorModel, ResponseBanner } from '../../models'
+import { ErrorModel } from '../../models'
+import { ICategory, ResponseCategory } from '../../models/CategoryModels'
 import history from '../../routes/history'
 import { alertActions } from '../alert/alertSlice'
 import { categoriesActions } from './categoriesSlice'
@@ -12,7 +13,7 @@ function* fetchCategories() {
       limit: 20,
       page: 1,
     }
-    const response: ResponseBanner = yield call(categoryApi.getListCategory, payload)
+    const response: ResponseCategory<ICategory> = yield call(categoryApi.getListCategory, payload)
     yield put(categoriesActions.getDataSuccess(response.data))
   } catch (error: ErrorModel | any) {
     console.error(error)
@@ -22,7 +23,7 @@ function* fetchCategories() {
 function* fetchCategoryDetail(action: PayloadAction<any>) {
   const payload = action.payload
   try {
-    const response: ResponseBanner = yield call(categoryApi.getCategoryDetail, payload)
+    const response: ResponseCategory<ICategory> = yield call(categoryApi.getCategoryDetail, payload)
     localStorage.setItem('categoryDetail', JSON.stringify(response.data))
     yield put(categoriesActions.getDetailCategorySuccess(response.data))
   } catch (error: ErrorModel | any) {
@@ -32,7 +33,7 @@ function* fetchCategoryDetail(action: PayloadAction<any>) {
 function* onCreateCategory(action: PayloadAction<any>) {
   const payload = action.payload
   try {
-    const response: ResponseBanner = yield call(categoryApi.createCategory, payload)
+    const response: ResponseCategory<ICategory> = yield call(categoryApi.createCategory, payload)
     yield put(categoriesActions.onCreateCategorySuccess(response.data))
     yield put(
       alertActions.showAlert({
@@ -56,7 +57,7 @@ function* onCreateCategory(action: PayloadAction<any>) {
 function* onUpdateCategory(action: PayloadAction<any>) {
   const payload = action.payload
   try {
-    const response: ResponseBanner = yield call(categoryApi.updateCategory, payload)
+    const response: ResponseCategory<ICategory> = yield call(categoryApi.updateCategory, payload)
     yield put(categoriesActions.onUpdateCategorySuccess(response.data))
     yield put(
       alertActions.showAlert({
@@ -80,7 +81,7 @@ function* onUpdateCategory(action: PayloadAction<any>) {
 function* onDeleteCategory(action: PayloadAction<any>) {
   const payload = action.payload
   try {
-    const response: ResponseBanner = yield call(categoryApi.deleteCategory, payload)
+    const response: ResponseCategory<ICategory> = yield call(categoryApi.deleteCategory, payload)
     yield put(categoriesActions.onDeleteCategorySuccess(response.data))
     yield put(
       alertActions.showAlert({

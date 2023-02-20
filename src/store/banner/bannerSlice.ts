@@ -42,6 +42,7 @@ const bannerSlice = createSlice({
     getDataSuccess: (state, action) => {
       state.loadingGetData = false
       state.data = action.payload
+      state.images = []
       state.error = null
     },
     getDataFailure: (state, action) => {
