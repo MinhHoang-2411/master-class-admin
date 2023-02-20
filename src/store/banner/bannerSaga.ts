@@ -1,10 +1,11 @@
 import {PayloadAction} from '@reduxjs/toolkit'
 import {all, call, fork, put, takeEvery} from 'redux-saga/effects'
 import bannerApi from '../../api/banner'
-import {ErrorModel, ResponseBanner, ResponseUploadImages} from '../../models'
+import {ErrorModel, ResponseUploadImages} from '../../models'
 import {alertActions} from '../alert/alertSlice'
 import {bannerActions} from './bannerSlice'
 import history from '../../routes/history'
+import { ResponseBanner } from '../../models/BannerModels'
 
 function* fetchBanner() {
   try {

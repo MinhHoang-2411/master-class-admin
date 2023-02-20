@@ -108,7 +108,7 @@ const CreateBanner = () => {
                   <div className='col-lg-8'>
                     <div className='col-lg-2'>
                       <DropzoneCustom
-                        maxFile={15 - images.length}
+                        maxFile={15 - images?.length}
                         setFieldValue={setFieldValue}
                         name={values.images}
                       />

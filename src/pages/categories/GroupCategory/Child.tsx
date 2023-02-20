@@ -3,12 +3,13 @@ import PreviewIcon from '@mui/icons-material/Preview'
 import { IconButton } from '@mui/material'
 import { format } from 'date-fns'
 import { useAppDispatch } from '../../../app/saga/hooks'
+import { ICategory } from '../../../models/CategoryModels'
 import history from '../../../routes/history'
 import { categoriesActions } from '../../../store/categories/categoriesSlice'
 
 interface IProps {
-  idx: any
-  item: any
+  idx: number
+  item: ICategory
 }
 
 const Child = ({idx, item}: IProps) => {
