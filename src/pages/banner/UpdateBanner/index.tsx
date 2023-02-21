@@ -1,4 +1,4 @@
-import {TextField} from '@mui/material'
+import {Switch, TextField} from '@mui/material'
 import {Field, Form, Formik} from 'formik'
 import {useEffect, useState} from 'react'
 import {useAppDispatch, useAppSelector} from '../../../app/saga/hooks'
@@ -22,6 +22,7 @@ const UpdateBanner = ({banner}: IProps) => {
     title: banner?.title ? banner?.title : _banner?.title,
     description: banner?.description ? banner?.description : _banner?.description,
     images: banner?.images ? banner?.images : [],
+    isActive: banner?.isActive ? banner?.isActive : _banner?.isActive,
   }
 
   const dispatch = useAppDispatch()
@@ -42,6 +43,12 @@ const UpdateBanner = ({banner}: IProps) => {
   useEffect(() => {
     setListImages([...listImages, ...images])
   }, [images])
+
+  const onUploadImage = (formdata: any) => {
+    dispatch(bannerActions.onUploadImages(formdata))
+  }
+
+  const label = {inputProps: {'aria-label': 'Switch status'}}
 
   return (
     <>
@@ -89,6 +96,21 @@ const UpdateBanner = ({banner}: IProps) => {
                 </div>
                 <div className='row mb-6'>
                   <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                    Active status
+                  </label>
+                  <div className='col-lg-8 fv-row'>
+                    <Switch
+                      {...label}
+                      color='secondary'
+                      checked={values.isActive}
+                      value={values.isActive}
+                      onChange={(e) => setFieldValue('isActive', e.target.checked)}
+                    />
+                    <ErrorMessage name='isActive' />
+                  </div>
+                </div>
+                <div className='row mb-6'>
+                  <label className='col-lg-4 col-form-label required fw-bold fs-6'>
                     Description
                   </label>
                   <div className='col-lg-8 fv-row'>
@@ -116,8 +138,8 @@ const UpdateBanner = ({banner}: IProps) => {
                     <div className='col-lg-2'>
                       <DropzoneCustom
                         maxFile={15 - images?.length}
-                        setFieldValue={setFieldValue}
-                        name={'images'}
+                        onUploadImage={onUploadImage}
+                        typeAppend={'images'}
                       />
                     </div>
                     <div className='col-lg-10 mt-6'>
