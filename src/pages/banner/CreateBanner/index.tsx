@@ -36,6 +36,10 @@ const CreateBanner = () => {
     setListImages([...listImages, ...images])
   }, [images])
 
+  const onUploadImage = (formdata: any) => {
+    dispatch(bannerActions.onUploadImages(formdata))
+  }
+
   return (
     <>
       <div className='card mb-5 mb-xl-10' id='kt_profile_details_view'>
@@ -109,8 +113,8 @@ const CreateBanner = () => {
                     <div className='col-lg-2'>
                       <DropzoneCustom
                         maxFile={15 - images?.length}
-                        setFieldValue={setFieldValue}
-                        name={values.images}
+                        onUploadImage={onUploadImage}
+                        typeAppend={'images'}
                       />
                     </div>
                     <div className='col-lg-10 mt-6'>

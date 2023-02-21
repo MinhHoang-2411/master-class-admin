@@ -5,6 +5,7 @@ import rootSaga from './rootSaga'
 import alertReducer from '../../store/alert/alertSlice'
 import bannerReducer from '../../store/banner/bannerSlice'
 import categoriesReducer from '../../store/categories/categoriesSlice'
+import coursesReducer from '../../store/courses/coursesSlice'
 
 const sagaMiddleware = createSagaMiddleware()
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     alert: alertReducer,
     banner: bannerReducer,
     categories: categoriesReducer,
+    courses: coursesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

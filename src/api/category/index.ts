@@ -2,7 +2,7 @@ import axiosClient from '../axiosClient'
 
 const categoryApi = {
   getListCategory(params: any) {
-    const url = 'categories?limit=20&page=1'
+    const url = 'categories?limit=40&page=1'
     return axiosClient.get(url, params)
   },
   getCategoryDetail(paramsId: string) {

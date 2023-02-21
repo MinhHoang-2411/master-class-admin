@@ -1,10 +1,8 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import {Box} from '@mui/material'
-import {useCallback} from 'react'
-import {useDropzone} from 'react-dropzone'
-import {toast} from 'react-toastify'
-import {useAppDispatch} from '../../app/saga/hooks'
-import {bannerActions} from '../../store/banner/bannerSlice'
+import { Box } from '@mui/material'
+import { useCallback } from 'react'
+import { useDropzone } from 'react-dropzone'
+import { toast } from 'react-toastify'
 
 const styleDropzone = {
   flex: 1,
@@ -25,12 +23,11 @@ const styleDropzone = {
 
 interface IDropzone {
   maxFile: number
-  setFieldValue?: any
-  name: any
+  onUploadImage: any
+  typeAppend: string
 }
 
-const DropzoneCustom = ({maxFile, setFieldValue, name}: IDropzone) => {
-  const dispatch = useAppDispatch()
+const DropzoneCustom = ({maxFile, typeAppend, onUploadImage}: IDropzone) => {
 
   const onDrop = useCallback((acceptedFiles: any) => {
     const newFiles = acceptedFiles.map((file: File) =>
@@ -40,8 +37,8 @@ const DropzoneCustom = ({maxFile, setFieldValue, name}: IDropzone) => {
     )
 
     const formdata: any = new FormData()
-    newFiles.map((file: File) => formdata.append('images', file))
-    dispatch(bannerActions.onUploadImages(formdata))
+    newFiles.map((file: File) => formdata.append(typeAppend, file))
+    onUploadImage(formdata)
   }, [])
 
   const {getRootProps, getInputProps} = useDropzone({
@@ -52,7 +49,7 @@ const DropzoneCustom = ({maxFile, setFieldValue, name}: IDropzone) => {
     onDrop,
     onDropRejected: (files) => {
       if (files?.length > maxFile) {
-        toast.error(`Số lượng tối đa cho phép ${maxFile}`)
+        toast.error(`The maximum amount allowed is ${maxFile}`)
       }
     },
   })
