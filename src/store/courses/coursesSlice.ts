@@ -4,24 +4,32 @@ interface IInitialStateCategory {
   data: any
   dataDetail: any
   thumbnail: any
+  video: any
   loadingGetData: boolean
   loadingGetDetail: boolean
   loadingUploadThumbnail: boolean
+  loadingUploadVideo: boolean
   loadingCreateCourse: boolean
+  loadingUpdateCourse: boolean
   loadingDeleteCourse: boolean
+  loadingDeleteVideo: boolean
   paginate: any
   error: any
 }
 const initialState: IInitialStateCategory = {
   data: null,
   thumbnail: [],
+  video: [],
   dataDetail: null,
   paginate: null,
   loadingGetData: false,
   loadingGetDetail: false,
   loadingUploadThumbnail: false,
+  loadingUploadVideo: false,
   loadingCreateCourse: false,
+  loadingUpdateCourse: false,
   loadingDeleteCourse: false,
+  loadingDeleteVideo: false,
   error: null,
 }
 
@@ -36,7 +44,7 @@ const coursesSlice = createSlice({
       state.loadingGetData = false
       state.data = action.payload.data
       state.paginate = action.payload.paginate
-      state.thumbnail =[]
+      state.thumbnail = []
       state.error = null
     },
     getDataFailure: (state, action: PayloadAction<any>) => {
@@ -58,11 +66,11 @@ const coursesSlice = createSlice({
       state.dataDetail = null
       state.error = action.payload
     },
-   
+
     onCreateCourse: (state, action: PayloadAction<string>) => {
       state.loadingCreateCourse = true
     },
-    
+
     onCreateCourseSuccess: (state, action: PayloadAction<any>) => {
       state.loadingCreateCourse = false
       state.error = null
@@ -72,11 +80,25 @@ const coursesSlice = createSlice({
       state.loadingGetDetail = false
       state.error = action.payload
     },
-   
+
+    onUpdateCourse: (state, action: PayloadAction<string>) => {
+      state.loadingUpdateCourse = true
+    },
+
+    onUpdateCourseSuccess: (state, action: PayloadAction<any>) => {
+      state.loadingUpdateCourse = false
+      state.error = null
+    },
+
+    onUpdateCourseFailure: (state, action) => {
+      state.loadingUpdateCourse = false
+      state.error = action.payload
+    },
+
     onDeleteCourse: (state, action: PayloadAction<string>) => {
       state.loadingDeleteCourse = true
     },
-    
+
     onDeleteCourseSuccess: (state, action: PayloadAction<any>) => {
       state.loadingDeleteCourse = false
       state.error = null
@@ -97,6 +119,30 @@ const coursesSlice = createSlice({
     onUploadThumbailFailure: (state, action: PayloadAction<any>) => {
       state.loadingUploadThumbnail = false
       state.thumbnail = null
+      state.error = action.payload
+    },
+
+    onUploadVideo: (state, action: PayloadAction<any>) => {
+      state.loadingUploadVideo = true
+    },
+    onUploadVideoSuccess: (state, action: PayloadAction<any>) => {
+      state.loadingUploadVideo = false
+      state.video = action.payload
+    },
+    onUploadVideoFailure: (state, action: PayloadAction<any>) => {
+      state.loadingUploadVideo = false
+      state.video = null
+      state.error = action.payload
+    },
+
+    onDeleteVideo: (state, action: PayloadAction<any>) => {
+      state.loadingDeleteVideo = true
+    },
+    onDeleteVideoSuccess: (state, action: PayloadAction<any>) => {
+      state.loadingDeleteVideo = false
+    },
+    onDeleteVideoFailure: (state, action: PayloadAction<any>) => {
+      state.loadingDeleteVideo = false
       state.error = action.payload
     },
   },

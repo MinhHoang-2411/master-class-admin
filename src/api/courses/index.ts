@@ -14,7 +14,7 @@ const coursesApi = {
     return axiosClient.post(url, params)
   },
   updateCourse(params: any) {
-    const url = `courses/${params.id}`
+    const url = `courses/${params._id}`
     return axiosClient.put(url, params)
   },
   deleteCourse(paramsId: string) {
@@ -24,6 +24,14 @@ const coursesApi = {
   uploadThumbnail(params?: any) {
     const url = `courses/uploads?uploadType=thumbnail`
     return axiosClient.post(url, params)
+  },
+  uploadVideo(params?: any) {
+    const url = `publics/files?uploadType=video`
+    return axiosClient.post(url, params)
+  },
+  deletePublicFile(params: any) {
+    const url = `publics/files`
+    return axiosClient.delete(url, {data: params})
   },
 }
 

@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {FC, useEffect} from 'react'
 import {useParams} from 'react-router-dom'
 import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
 import {coursesActions} from '../../store/courses/coursesSlice'
@@ -7,7 +7,7 @@ import {format} from 'date-fns'
 import history from '../../routes/history'
 import {ICourse} from '../../models/Courses'
 
-const CoursesDetail = () => {
+const CoursesDetail: FC = () => {
   const dispatch = useAppDispatch()
   const loading = useAppSelector((state) => state.categories.loadingGetDetail)
   const course: ICourse = useAppSelector((state) => state.courses.dataDetail)
@@ -42,7 +42,7 @@ const CoursesDetail = () => {
                   variant='contained'
                   size='small'
                   color='primary'
-                  onClick={() => history.replace(`/crafted/pages/categories/update/${course?._id}`)}
+                  onClick={() => history.replace(`/crafted/pages/courses/update/${course?._id}`)}
                 >
                   Edit
                 </Button>
@@ -78,7 +78,13 @@ const CoursesDetail = () => {
               <label className='col-lg-4 fw-bold text-muted'>Thumbnail</label>
 
               <div className='col-lg-8 fv-row'>
-                <img src={course?.thumbnail} width={120} height={120} alt='thumbnail' style={{ objectFit: 'cover'}} />
+                <img
+                  src={course?.thumbnail}
+                  width={120}
+                  height={120}
+                  alt='thumbnail'
+                  style={{objectFit: 'cover'}}
+                />
               </div>
             </div>
 
