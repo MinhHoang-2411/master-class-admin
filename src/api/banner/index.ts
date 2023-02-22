@@ -31,7 +31,6 @@ const bannerApi = {
   },
 
   deletePublicFile(params: any) {
-    console.log('params', params)
     const url = `publics/files`
     return axiosClient.delete(url, {data: params})
   },

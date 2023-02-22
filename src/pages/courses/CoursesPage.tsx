@@ -4,12 +4,14 @@ import {Route, Routes} from 'react-router-dom'
 import {PageLink, PageTitle} from '../../layout/core'
 import CoursesDetail from './CoursesDetail'
 import CreateCourse from './CreateCourse'
+import Lessons from './Lessons'
 import CoursesOverview from './Overview'
+import UpdateCourse from './UpdateCourse'
 
 const coursesBreadCrumbs: Array<PageLink> = [
   {
     title: 'Category',
-    path: '/crafted/pages/categories/overview',
+    path: '/crafted/pages/courses/overview',
     isSeparator: false,
     isActive: false,
   },
@@ -48,7 +50,7 @@ const CoursesPage: FC = () => {
           element={
             <>
               <PageTitle breadcrumbs={coursesBreadCrumbs}>Update</PageTitle>
-              <CreateCourse />
+              <UpdateCourse />
             </>
           }
         />
@@ -58,6 +60,7 @@ const CoursesPage: FC = () => {
             <>
               <PageTitle breadcrumbs={coursesBreadCrumbs}>Detail</PageTitle>
               <CoursesDetail />
+              <Lessons />
             </>
           }
         />

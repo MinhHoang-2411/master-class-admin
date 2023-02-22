@@ -13,9 +13,11 @@ import {useEffect, useState} from 'react'
 import {useAppDispatch, useAppSelector} from '../../../app/saga/hooks'
 import {ICategory} from '../../../models/CategoryModels'
 import DropzoneCustom from '../../../shared/dropzone/DropzoneCustom'
+import {ErrorMessage} from '../../../shared/ErrorMesage/ErrorMessage'
 import ListMedia from '../../../shared/ListMedia'
 import {categoriesActions} from '../../../store/categories/categoriesSlice'
 import {coursesActions} from '../../../store/courses/coursesSlice'
+import LessonSection from './LessonSection'
 import courseSchema from './Validate'
 
 interface IValues {
@@ -24,6 +26,15 @@ interface IValues {
   thumbnail: string[]
   authorName: string
   categories: string[]
+  lessons: [
+    {
+      index: number
+      title: string
+      description: string
+      videoUrl: string
+    }
+  ]
+  videoPreview: string
 }
 
 const initialValues: IValues = {
@@ -32,6 +43,15 @@ const initialValues: IValues = {
   thumbnail: [],
   authorName: '',
   categories: [],
+  lessons: [
+    {
+      index: 1,
+      title: '',
+      description: '',
+      videoUrl: '',
+    },
+  ],
+  videoPreview: '',
 }
 
 const MenuProps = {
@@ -70,7 +90,7 @@ const CreateCourse = () => {
     const params = {
       ...values,
       categories: _categoriesId,
-      thumbnail: listImages[0]
+      thumbnail: listImages[0],
     }
     dispatch(coursesActions.onCreateCourse(params))
   }
@@ -80,14 +100,10 @@ const CreateCourse = () => {
       <div className='card mb-5 mb-xl-10' id='kt_profile_details_view'>
         <div className='card-header cursor-pointer'>
           <div className='card-title m-0'>
-            <h3 className='fw-bolder m-0'>Course</h3>
+            <h3 className='fw-bolder m-0'>Create Course</h3>
           </div>
         </div>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          //  validationSchema={courseSchema}
-        >
+        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={courseSchema}>
           {({values, setFieldValue}) => {
             const handleChange = (event: any) => {
               const {
@@ -110,6 +126,7 @@ const CreateCourse = () => {
                         margin='normal'
                         fullWidth
                       />
+                      <ErrorMessage name='name' />
                     </div>
                   </div>
                   <div className='row mb-6'>
@@ -144,6 +161,7 @@ const CreateCourse = () => {
                             </MenuItem>
                           ))}
                         </Field>
+                        <ErrorMessage name='categories' />
                       </FormControl>
                     </div>
                   </div>
@@ -160,6 +178,7 @@ const CreateCourse = () => {
                         margin='normal'
                         fullWidth
                       />
+                      <ErrorMessage name='title' />
                     </div>
                   </div>
                   <div className='row mb-6'>
@@ -176,6 +195,7 @@ const CreateCourse = () => {
                         margin='normal'
                         fullWidth
                       />
+                      <ErrorMessage name='authorName' />
                     </div>
                   </div>
                   <div className='row mb-6'>
@@ -196,9 +216,11 @@ const CreateCourse = () => {
                     </div>
                   </div>
 
-                  <div className='card-footer d-flex justify-content-end py-6 px-9'>
+                  <LessonSection setFieldValue={setFieldValue} values={values} />
+
+                  <div className='card-footer d-flex justify-content-end'>
                     <button type='submit' className='btn btn-primary'>
-                      Create course
+                      Create
                     </button>
                   </div>
                 </div>
