@@ -1,10 +1,10 @@
-import {lazy, FC, Suspense} from 'react'
-import {Route, Routes, Navigate} from 'react-router-dom'
-import {MasterLayout} from '../layout/MasterLayout'
+import { FC, lazy, Suspense } from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import TopBarProgress from 'react-topbar-progress-indicator'
-import {DashboardWrapper} from '../pages/dashboard/DashboardWrapper'
-import {getCSSVariableValue} from '../app/assets/ts/_utils'
-import {WithChildren} from '../app/helpers'
+import { getCSSVariableValue } from '../app/assets/ts/_utils'
+import { WithChildren } from '../app/helpers'
+import { MasterLayout } from '../layout/MasterLayout'
+import { DashboardWrapper } from '../pages/dashboard/DashboardWrapper'
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../pages/profile/ProfilePage'))
@@ -80,4 +80,5 @@ const SuspensedView: FC<WithChildren> = ({children}) => {
   return <Suspense fallback={<TopBarProgress />}>{children}</Suspense>
 }
 
-export {PrivateRoutes}
+export { PrivateRoutes }
+

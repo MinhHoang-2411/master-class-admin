@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { isMappable } from '../../app/helpers/isMapple'
-import { useAppDispatch, useAppSelector } from '../../app/saga/hooks'
-import { ICategory } from '../../models/CategoryModels'
-import { categoriesActions } from '../../store/categories/categoriesSlice'
+import {useEffect} from 'react'
+import {Link} from 'react-router-dom'
+import {isMappable} from '../../app/helpers/isMapple'
+import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
+import {ICategory} from '../../models/CategoryModels'
+import {categoriesActions} from '../../store/categories/categoriesSlice'
+import {uploadActions} from '../../store/upload/uploadSlice'
 import GroupCategory from './GroupCategory/GroupCategory'
 
 const CategoriesOverview = () => {
@@ -13,6 +14,10 @@ const CategoriesOverview = () => {
 
   useEffect(() => {
     dispatch(categoriesActions.getDataStart())
+  }, [])
+
+  useEffect(() => {
+    dispatch(uploadActions.clearStore())
   }, [])
 
   return (

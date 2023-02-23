@@ -3,49 +3,33 @@ import {Box, Button, IconButton, TextField} from '@mui/material'
 import {Field} from 'formik'
 import {useEffect, useState} from 'react'
 import ReactPlayer from 'react-player'
-import { toast } from 'react-toastify'
-import {isMappable} from '../../../app/helpers/isMapple'
-import {useAppDispatch, useAppSelector} from '../../../app/saga/hooks'
-import DropzoneVideo from '../../../shared/dropzone/DropzoneVideo'
-import {coursesActions} from '../../../store/courses/coursesSlice'
+import {toast} from 'react-toastify'
+import {isMappable} from '../../../../app/helpers/isMapple'
+import {useAppDispatch, useAppSelector} from '../../../../app/saga/hooks'
+import DropzoneCustom from '../../../../shared/dropzone/DropzoneCustom'
+import DropzoneVideo from '../../../../shared/dropzone/DropzoneVideo'
+import {ErrorMessage} from '../../../../shared/ErrorMesage/ErrorMessage'
+import ListMedia from '../../../../shared/ListMedia'
+import {coursesActions} from '../../../../store/courses/coursesSlice'
+import {uploadActions} from '../../../../store/upload/uploadSlice'
+import VideoPlayer from './VideoPlayer'
 
 interface IProps {
   setFieldValue?: any
   values?: any
 }
 
-interface VideoPlayerProps {
-  url: string
-  onDeleteVideo: any
-  index: number
-}
-
-const VideoPlayer: React.FC<VideoPlayerProps> = ({url, onDeleteVideo, index}) => {
-  return (
-    <div className='position-relative'>
-      <ReactPlayer
-        className='react-player'
-        url={url}
-        controls={true}
-        width='200px'
-        height='200px'
-      />
-      <IconButton
-        color='secondary'
-        component='label'
-        sx={{position: 'absolute', top: '0', left: '0'}}
-        onClick={() => onDeleteVideo(url, index)}
-      >
-        <CloseIcon sx={{backgroundColor: '#fff', borderRadius: '50%'}} />
-      </IconButton>
-    </div>
-  )
-}
-
 const LessonSection = ({setFieldValue, values}: IProps) => {
   const dispatch = useAppDispatch()
-  const video = useAppSelector((state) => state.courses.video)
+  const video: any = useAppSelector((state) => state.upload.lessonVideo)
+  const image: any = useAppSelector((state) => state.upload.lessonImage)
   const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    if (image.urlThumbnail) {
+      setFieldValue(`lessons.${index}.thumbnail`, [image.urlThumbnail])
+    }
+  }, [image])
 
   useEffect(() => {
     if (video.urlFile) {
@@ -59,6 +43,8 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
       title: '',
       description: '',
       videoUrl: '',
+      thumbnail: [],
+      duration: 0,
     }
     let newArr: any[] = []
     newArr = [...values.lessons, lesson]
@@ -66,8 +52,12 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
     toast.success('Add lesson success')
   }
 
+  const onUploadImage = (formData: any) => {
+    dispatch(uploadActions.uploadLessonImage(formData))
+  }
+
   const onUploadVideo = (formdata: any) => {
-    dispatch(coursesActions.onUploadVideo(formdata))
+    dispatch(uploadActions.uploadLessonVideo(formdata))
   }
 
   const onDeleteVideo = (url: string, index: number) => {
@@ -88,6 +78,7 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
           index: idxx + 1,
           title: ls.title,
           videoUrl: ls.videoUrl,
+          duration: ls.duration,
         }
         return params
       })
@@ -98,7 +89,7 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
   return (
     <>
       <div className='row border-top'>
-        <label className='col-lg-4 col-form-label required fw-bold fs-6'>Lessons</label>
+        <label className='col-lg-4 col-form-label fw-bold fs-4'>Lessons</label>
         <div className='col-lg-8 fv-row d-flex justify-content-end align-items-center'>
           <div className=''>
             <Button
@@ -156,6 +147,7 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
                       margin='normal'
                       fullWidth
                     />
+                    <ErrorMessage name={`lessons[${index}].title`} />
                   </div>
                 </div>
               </div>
@@ -174,31 +166,64 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
                       margin='normal'
                       fullWidth
                     />
+                    <ErrorMessage name={`lessons[${index}].description`} />
                   </div>
                 </div>
               </div>
-              <div className='row mb-6'>
+              <div className='row'>
                 <label className='col-lg-4 col-form-label required fw-bold fs-6'>Video</label>
                 <div className='col-lg-8'>
                   <div className='col-lg-2'>
                     <DropzoneVideo
                       maxFile={1}
-                      onUploadImage={onUploadVideo}
+                      onUploadVideo={onUploadVideo}
                       typeAppend={'file'}
                       setIndex={setIndex}
                       idx={index}
+                      setFieldValue={setFieldValue}
+                      nameValue={`lessons[${index}].duration`}
                     />
                   </div>
+                  <div className='py-3'>
+                    <ErrorMessage name={`lessons[${index}].videoUrl`} />
+                  </div>
+
                   <div className='col-lg-10 mt-6'>
-                    {lesson.videoUrl ? (
+                    {lesson?.videoUrl ? (
                       <VideoPlayer
-                        url={lesson.videoUrl}
+                        url={lesson?.videoUrl}
                         onDeleteVideo={onDeleteVideo}
                         index={index}
                       />
                     ) : (
                       <></>
                     )}
+                  </div>
+                </div>
+              </div>
+              <div className='row mb-6 py-3'>
+                <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                  Thumbnail preview
+                </label>
+                <div className='col-lg-8'>
+                  <div className='col-lg-2'>
+                    <DropzoneCustom
+                      maxFile={1}
+                      onUploadImage={onUploadImage}
+                      typeAppend={'image'}
+                      setIndex={setIndex}
+                      index={index}
+                    />
+                  </div>
+                  <div className='col-lg-10 mt-6'>
+                    <ListMedia
+                      images={lesson?.thumbnail}
+                      setFieldValue={setFieldValue}
+                      nameValue={`lessons[${index}].thumbnail`}
+                    />
+                  </div>
+                  <div className='py-3'>
+                    <ErrorMessage name={`lessons[${index}].thumbnail`} />
                   </div>
                 </div>
               </div>

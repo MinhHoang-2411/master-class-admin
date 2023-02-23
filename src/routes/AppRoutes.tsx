@@ -5,14 +5,14 @@
  * components (e.g: `src/app/modules/Auth/pages/AuthPage`, `src/app/BasePage`).
  */
 
-import {FC} from 'react'
-import {Navigate, Route, Routes} from 'react-router-dom'
-import {useAppSelector} from '../app/saga/hooks'
-import {Layout} from '../layout/App'
-import {AuthPage} from '../pages/auth/AuthPage'
-import {ErrorsPage} from '../pages/errors/ErrorsPage'
-import {getAuth} from '../utils/auth'
-import {PrivateRoutes} from './PrivateRoutes'
+import { FC } from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { useAppSelector } from '../app/saga/hooks'
+import { Layout } from '../layout/App'
+import { AuthPage } from '../pages/auth/AuthPage'
+import { ErrorsPage } from '../pages/errors/ErrorsPage'
+import { getAuth } from '../utils/auth'
+import { PrivateRoutes } from './PrivateRoutes'
 
 const AppRoutes: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
@@ -38,4 +38,5 @@ const AppRoutes: FC = () => {
   )
 }
 
-export {AppRoutes}
+export { AppRoutes }
+

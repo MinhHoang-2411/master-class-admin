@@ -1,12 +1,9 @@
-import {TextField} from '@mui/material'
-import console from 'console'
-import {Field, Form, Formik} from 'formik'
-import {useEffect, useState} from 'react'
-import {useAppDispatch, useAppSelector} from '../../../app/saga/hooks'
-import DropzoneCustom from '../../../shared/dropzone/DropzoneCustom'
-import {ErrorMessage} from '../../../shared/ErrorMesage/ErrorMessage'
-import ListMedia from '../../../shared/ListMedia'
-import {bannerActions} from '../../../store/banner/bannerSlice'
+import { TextField } from '@mui/material'
+import { Field, Form, Formik } from 'formik'
+import { useAppDispatch } from '../../../app/saga/hooks'
+import { ErrorMessage } from '../../../shared/ErrorMesage/ErrorMessage'
+import { bannerActions } from '../../../store/banner/bannerSlice'
+import ImageSection from './Part/ImageSection'
 import bannerSchema from './Validate'
 
 const initialValues = {
@@ -18,26 +15,15 @@ const initialValues = {
 
 const CreateBanner = () => {
   const dispatch = useAppDispatch()
-  const images = useAppSelector((state) => state.banner.images)
-
-  const [listImages, setListImages] = useState<any>(images)
 
   const onSubmit = (values: any) => {
     const payload = {
       ...values,
-      images: listImages,
+      images: values.images,
     }
     try {
       dispatch(bannerActions.onCreateBanner(payload))
     } catch (error) {}
-  }
-
-  useEffect(() => {
-    setListImages([...listImages, ...images])
-  }, [images])
-
-  const onUploadImage = (formdata: any) => {
-    dispatch(bannerActions.onUploadImages(formdata))
   }
 
   return (
@@ -105,23 +91,7 @@ const CreateBanner = () => {
                   </div>
                 </div>
 
-                <div className='row mb-9'>
-                  <label className='col-lg-4 col-form-label required fw-bold fs-6'>
-                    List Image
-                  </label>
-                  <div className='col-lg-8'>
-                    <div className='col-lg-2'>
-                      <DropzoneCustom
-                        maxFile={15 - images?.length}
-                        onUploadImage={onUploadImage}
-                        typeAppend={'images'}
-                      />
-                    </div>
-                    <div className='col-lg-10 mt-6'>
-                      <ListMedia images={listImages} setFiles={setListImages} />
-                    </div>
-                  </div>
-                </div>
+                <ImageSection values={values} setFieldValue={setFieldValue} />
 
                 <div className='card-footer d-flex justify-content-end py-6 px-9'>
                   <button type='submit' className='btn btn-primary'>

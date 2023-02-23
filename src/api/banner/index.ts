@@ -2,8 +2,8 @@ import axiosClient from '../axiosClient'
 
 const bannerApi = {
   getListBanner(params: any) {
-    const url = 'banners?limit=40&page=1'
-    return axiosClient.get(url, params)
+    const url = 'banners'
+    return axiosClient.get(url, { params })
   },
   getBannerDetail(paramsId: string) {
     const url = `banners/${paramsId}`

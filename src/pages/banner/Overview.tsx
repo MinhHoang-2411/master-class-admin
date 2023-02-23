@@ -5,19 +5,32 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import {FC, useEffect} from 'react'
+import {FC, useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import {isMappable} from '../../app/helpers/isMapple'
 import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
 import history from '../../routes/history'
+import SearchInput from '../../shared/Search'
 import {bannerActions} from '../../store/banner/bannerSlice'
+import { uploadActions } from '../../store/upload/uploadSlice'
 
 const BannersOverview: FC = () => {
   const banners = useAppSelector((state) => state.banner.data) || []
+  const paginate = useAppSelector((state) => state.banner.paginate)
+  const [searchTerm, setSearchTerm] = useState<string>('')
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(bannerActions.getDataStart())
+    dispatch(uploadActions.clearStore())
+  }, [])
+  
+  useEffect(() => {
+    const payload: any = {
+      limit: 10,
+      page: 1,
+    }
+    dispatch(bannerActions.getDataStart(payload))
   }, [])
 
   const RedirecBannerDetail = (banner: any) => {
@@ -25,6 +38,18 @@ const BannersOverview: FC = () => {
     history.replace(`/crafted/pages/banner/detail/${banner._id}`)
   }
 
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+  }
+
+  const onSearch = () => {
+    const payload: any = {
+      limit: paginate.limit,
+      page: paginate.page,
+      search: searchTerm,
+    }
+    dispatch(bannerActions.getDataStart(payload))
+  }
   return (
     <>
       <div className='card mb-5 mb-xl-10' id='kt_profile_details_view'>
@@ -37,7 +62,15 @@ const BannersOverview: FC = () => {
             Create Banner
           </Link>
         </div>
-        <div className='card-body p-9'>
+        <div className='d-flex justify-content-end p-6 pb-0'>
+          <SearchInput
+            size='small'
+            color='secondary'
+            onChange={handleSearchChange}
+            onSearch={onSearch}
+          />
+        </div>
+        <div className='card-body p-6'>
           <Grid container spacing={3}>
             {isMappable(banners) ? (
               banners.map((banner: any) => (

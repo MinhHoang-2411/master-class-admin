@@ -34,7 +34,7 @@ function* onCreateCourse(action: PayloadAction<any>) {
     yield put(coursesActions.onCreateCourseSuccess(response.data))
     yield put(
       alertActions.showAlert({
-        text: 'Create banner successful',
+        text: 'Create course successful',
         type: 'success',
       })
     )
@@ -58,7 +58,7 @@ function* onUpdateCourse(action: PayloadAction<any>) {
     yield put(coursesActions.onUpdateCourseSuccess(response.data))
     yield put(
       alertActions.showAlert({
-        text: 'Create banner successful',
+        text: 'Update course successful',
         type: 'success',
       })
     )
@@ -82,11 +82,14 @@ function* onDeleteCourse(action: PayloadAction<any>) {
     yield put(coursesActions.onDeleteCourseSuccess(response.data))
     yield put(
       alertActions.showAlert({
-        text: 'Create banner successful',
+        text: 'Delete course successful',
         type: 'success',
       })
     )
-    history.replace('/crafted/pages/courses/overview')
+    history.replace('/')
+    setTimeout(() => {
+      history.replace('/crafted/pages/courses/overview')
+    }, 10)
   } catch (error: ErrorModel | any) {
     console.error(error)
     yield put(coursesActions.onDeleteCourseFailure(error as string))
@@ -118,7 +121,6 @@ function* onUploadThumbail(action: PayloadAction<any>) {
 
 function* onUploadVideo(action: PayloadAction<any>) {
   const payload = action.payload
-  console.log('payload', payload)
   try {
     const response: ResponseCategory<ICategory> = yield call(coursesApi.uploadVideo, payload)
     yield put(coursesActions.onUploadVideoSuccess(response.data))

@@ -1,8 +1,8 @@
-import {createSlice} from '@reduxjs/toolkit'
-import {getAuth} from '../../utils/auth'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface IInitialStateBanner {
   data: any
+  paginate: any
   loadingGetData: boolean
   loadingGetDataDetail: boolean
   loadingUploadImages: boolean
@@ -18,6 +18,7 @@ interface IInitialStateBanner {
 }
 const initialState: IInitialStateBanner = {
   data: null,
+  paginate: null,
   loadingGetData: false,
   loadingGetDataDetail: false,
   loadingUploadImages: false,
@@ -29,7 +30,7 @@ const initialState: IInitialStateBanner = {
   error: null,
   images: [],
   bannerDetail: null,
-  imagesI: []
+  imagesI: [],
 }
 
 const bannerSlice = createSlice({
@@ -39,9 +40,10 @@ const bannerSlice = createSlice({
     getDataStart: (state) => {
       state.loadingGetData = true
     },
-    getDataSuccess: (state, action) => {
+    getDataSuccess: (state, action: PayloadAction<any>) => {
       state.loadingGetData = false
-      state.data = action.payload
+      state.data = action.payload.data
+      state.paginate = action.payload.paginate
       state.images = []
       state.error = null
     },
@@ -57,7 +59,7 @@ const bannerSlice = createSlice({
     getDataDetailSuccess: (state, action) => {
       state.loadingGetDataDetail = false
       state.bannerDetail = action.payload
-      state.imagesI =  action.payload.images
+      state.imagesI = action.payload.images
       state.error = null
     },
     getDataDetailFailure: (state, action) => {
@@ -80,7 +82,7 @@ const bannerSlice = createSlice({
       state.loadingCreateBanner = false
       state.error = action.payload
     },
-   
+
     onUpdateBanner: (state) => {
       state.loadingUpdateBanner = true
     },
@@ -95,7 +97,7 @@ const bannerSlice = createSlice({
       state.loadingUpdateBanner = false
       state.error = action.payload
     },
-    
+
     //
     onDeleteBanner: (state) => {
       state.loadingDeleteBanner = true
@@ -110,7 +112,7 @@ const bannerSlice = createSlice({
       state.loadingDeleteBanner = false
       state.error = action.payload
     },
-    
+
     //
     onUploadImages: (state) => {
       state.loadingUploadImages = true
@@ -127,7 +129,7 @@ const bannerSlice = createSlice({
       state.data = null
       state.error = action.payload
     },
-    
+
     onDeleteImage: (state) => {
       state.loadingDeleteImage = true
     },

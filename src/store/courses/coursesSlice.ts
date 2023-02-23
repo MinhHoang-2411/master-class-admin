@@ -3,8 +3,14 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 interface IInitialStateCategory {
   data: any
   dataDetail: any
+
   thumbnail: any
-  video: any
+  lessonVideo: any
+  lessonImage: any
+  previewVideo: any
+  previewImage: any
+  overviewImage: any
+
   loadingGetData: boolean
   loadingGetDetail: boolean
   loadingUploadThumbnail: boolean
@@ -13,19 +19,36 @@ interface IInitialStateCategory {
   loadingUpdateCourse: boolean
   loadingDeleteCourse: boolean
   loadingDeleteVideo: boolean
+
+  loadingLessonImage: boolean
+  loadingPreviewVideo: boolean
+  loadingPreviewImage: boolean
+  loadingOverviewImage: boolean
   paginate: any
   error: any
 }
 const initialState: IInitialStateCategory = {
   data: null,
+
   thumbnail: [],
-  video: [],
+  lessonVideo: [],
+  lessonImage: [],
+  previewVideo: [],
+  previewImage: [],
+  overviewImage: [],
+
   dataDetail: null,
   paginate: null,
   loadingGetData: false,
   loadingGetDetail: false,
   loadingUploadThumbnail: false,
   loadingUploadVideo: false,
+
+  loadingLessonImage: false,
+  loadingPreviewVideo: false,
+  loadingPreviewImage: false,
+  loadingOverviewImage: false,
+
   loadingCreateCourse: false,
   loadingUpdateCourse: false,
   loadingDeleteCourse: false,
@@ -45,6 +68,7 @@ const coursesSlice = createSlice({
       state.data = action.payload.data
       state.paginate = action.payload.paginate
       state.thumbnail = []
+      state.lessonVideo = []
       state.error = null
     },
     getDataFailure: (state, action: PayloadAction<any>) => {
@@ -122,16 +146,29 @@ const coursesSlice = createSlice({
       state.error = action.payload
     },
 
+    onUploadLessonImage: (state, action: PayloadAction<any>) => {
+      state.loadingLessonImage = true
+    },
+    onUploadLessonImageSuccess: (state, action: PayloadAction<any>) => {
+      state.loadingLessonImage = false
+      state.lessonImage = action.payload
+    },
+    onUploadLessonImageFailure: (state, action: PayloadAction<any>) => {
+      state.loadingLessonImage = false
+      state.lessonImage = null
+      state.error = action.payload
+    },
+
     onUploadVideo: (state, action: PayloadAction<any>) => {
       state.loadingUploadVideo = true
     },
     onUploadVideoSuccess: (state, action: PayloadAction<any>) => {
       state.loadingUploadVideo = false
-      state.video = action.payload
+      state.lessonVideo = action.payload
     },
     onUploadVideoFailure: (state, action: PayloadAction<any>) => {
       state.loadingUploadVideo = false
-      state.video = null
+      state.lessonVideo = null
       state.error = action.payload
     },
 
