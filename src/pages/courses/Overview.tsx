@@ -1,20 +1,22 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import PreviewIcon from '@mui/icons-material/Preview'
 import {IconButton, Pagination} from '@mui/material'
-import {FC, useEffect} from 'react'
+import {FC, useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import {isMappable} from '../../app/helpers/isMapple'
 import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
 import {ICourse} from '../../models/Courses'
 import history from '../../routes/history'
+import SearchInput from '../../shared/Search'
 import {coursesActions} from '../../store/courses/coursesSlice'
+import {uploadActions} from '../../store/upload/uploadSlice'
 
 const CoursesOverview: FC = () => {
+  const dispatch = useAppDispatch()
   const courses = useAppSelector((state) => state.courses.data)
   const paginate = useAppSelector((state) => state.courses.paginate)
-
   const loading = useAppSelector((state) => state.courses.loadingGetData)
-  const dispatch = useAppDispatch()
+  const [searchTerm, setSearchTerm] = useState<string>('')
 
   useEffect(() => {
     const payload: any = {
@@ -24,17 +26,34 @@ const CoursesOverview: FC = () => {
     dispatch(coursesActions.getDataStart(payload))
   }, [])
 
+  useEffect(() => {
+    dispatch(uploadActions.clearStore())
+  })
+
   const onChangePaginate = (page: number) => {
     const payload: any = {
       limit: 10,
       page,
+      search: searchTerm,
     }
     dispatch(coursesActions.getDataStart(payload))
   }
 
   const onRedirectCourseDetail = (courseId: string) => {
-    // dispatch(categoriesActions.getDetailCategory(category._id))
     history.replace(`/crafted/pages/courses/detail/${courseId}`)
+  }
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+  }
+
+  const onSearch = () => {
+    const payload: any = {
+      page: 1,
+      limit: paginate.limit,
+      search: searchTerm,
+    }
+    dispatch(coursesActions.getDataStart(payload))
   }
 
   return (
@@ -48,12 +67,20 @@ const CoursesOverview: FC = () => {
             Create Course
           </Link>
         </div>
-        <div className='card-body p-9'>
+        <div className='d-flex justify-content-end p-6 pb-0'>
+          <SearchInput
+            size='small'
+            color='secondary'
+            onChange={handleSearchChange}
+            onSearch={onSearch}
+          />
+        </div>
+        <div className='card-body p-6'>
           <table className='table align-middle'>
             <thead className={'text-uppercase text-dark thead-pito border-bottom text-uppercase'}>
               <tr>
-                <th className='py-2 pl-4 pr-2 '>No</th>
-                <th className='py-2'>Course Name</th>
+                <th className='py-2 text-center'>No</th>
+                <th className='py-2 text-center'>Course Name</th>
                 <th className='py-2 text-center'>Author Name</th>
                 <th className='py-2 text-center'>Title</th>
                 <th className='py-2 text-center'>Thumbnail</th>
@@ -64,11 +91,11 @@ const CoursesOverview: FC = () => {
               {!loading && isMappable(courses) ? (
                 courses?.map((course: ICourse, idx: number) => (
                   <tr key={course._id}>
-                    <td>{idx + 1}</td>
-                    <td>{course.name}</td>
+                    <td className='text-center'>{idx + 1 + (paginate.page - 1) * 10}</td>
+                    <td className='text-center'>{course.name}</td>
                     <td className='text-center'>{course.authorName}</td>
-                    <td>{course.title}</td>
-                    <td>
+                    <td className='text-center'>{course.title}</td>
+                    <td className='text-center'>
                       <img
                         src={course.thumbnail}
                         alt='thumbnail'
@@ -81,7 +108,9 @@ const CoursesOverview: FC = () => {
                       <IconButton onClick={() => onRedirectCourseDetail(course._id)}>
                         <PreviewIcon color='info' />
                       </IconButton>
-                      <IconButton>
+                      <IconButton
+                        onClick={() => dispatch(coursesActions.onDeleteCourse(course._id))}
+                      >
                         <DeleteIcon color='secondary' />
                       </IconButton>
                     </td>

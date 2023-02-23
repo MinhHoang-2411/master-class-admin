@@ -7,15 +7,11 @@ import {bannerActions} from './bannerSlice'
 import history from '../../routes/history'
 import { ResponseBanner } from '../../models/BannerModels'
 
-function* fetchBanner() {
+function* fetchBanner(action: PayloadAction<any>) {
+  const payload = action.payload
   try {
-    const payload = {
-      limit: 20,
-      page: 1,
-    }
     const response: ResponseBanner = yield call(bannerApi.getListBanner, payload)
-
-    yield put(bannerActions.getDataSuccess(response.data))
+    yield put(bannerActions.getDataSuccess(response))
   } catch (error: ErrorModel | any) {
     console.error(error)
   }

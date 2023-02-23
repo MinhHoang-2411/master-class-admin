@@ -6,11 +6,12 @@ import {Button} from '@mui/material'
 import {format} from 'date-fns'
 import history from '../../routes/history'
 import {ICourse} from '../../models/Courses'
+import VideoPlayer from './Lessons/VideoPlayer'
 
 const CoursesDetail: FC = () => {
   const dispatch = useAppDispatch()
   const loading = useAppSelector((state) => state.categories.loadingGetDetail)
-  const course: ICourse = useAppSelector((state) => state.courses.dataDetail)
+  const course: any = useAppSelector((state) => state.courses.dataDetail)
   const {id}: any = useParams()
 
   useEffect(() => {
@@ -80,8 +81,67 @@ const CoursesDetail: FC = () => {
               <div className='col-lg-8 fv-row'>
                 <img
                   src={course?.thumbnail}
-                  width={120}
-                  height={120}
+                  width={140}
+                  height={140}
+                  alt='thumbnail'
+                  style={{objectFit: 'cover'}}
+                />
+              </div>
+            </div>
+
+            <div className='row mb-7'>
+              <label className='col-lg-4 fw-bold text-muted'>Thumbnail video preview</label>
+
+              <div className='col-lg-8 fv-row'>
+                <img
+                  src={course?.videoPreview?.thumbnail}
+                  width={140}
+                  height={140}
+                  alt='thumbnail'
+                  style={{objectFit: 'cover'}}
+                />
+              </div>
+            </div>
+
+            <div className='row mb-7'>
+              <label className='col-lg-4 fw-bold text-muted'>Video preview</label>
+              <div className='col-lg-8 fv-row'>
+                <VideoPlayer url={course?.videoPreview?.url} />
+              </div>
+            </div>
+
+            <div className='row mb-7'>
+              <label className='col-lg-4 fw-bold text-muted'>Slogan</label>
+
+              <div className='col-lg-8 fv-row'>
+                <span className='fw-bold fs-6'>{course?.overview?.slogan}</span>
+              </div>
+            </div>
+
+            <div className='row mb-7'>
+              <label className='col-lg-4 fw-bold text-muted'>Overview description</label>
+
+              <div className='col-lg-8 fv-row'>
+                <span className='fw-bold fs-6'>{course?.overview?.description}</span>
+              </div>
+            </div>
+
+            <div className='row mb-7'>
+              <label className='col-lg-4 fw-bold text-muted'>Skills title</label>
+
+              <div className='col-lg-8 fv-row'>
+                <span className='fw-bold fs-6'>{course?.overview?.skills[0]?.title}</span>
+              </div>
+            </div>
+
+            <div className='row mb-7'>
+              <label className='col-lg-4 fw-bold text-muted'>Skills image</label>
+
+              <div className='col-lg-8 fv-row'>
+                <img
+                  src={course?.overview?.skills[0]?.imageUrl}
+                  width={140}
+                  height={140}
                   alt='thumbnail'
                   style={{objectFit: 'cover'}}
                 />

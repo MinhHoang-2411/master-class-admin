@@ -25,22 +25,29 @@ interface IDropzone {
   maxFile: number
   onUploadImage: any
   typeAppend: string
+  index?: any
+  setIndex?: any
 }
 
-const DropzoneCustom = ({
-  maxFile,
-  typeAppend,
-  onUploadImage,
-}: IDropzone) => {
+const DropzoneCustom = ({maxFile, typeAppend, onUploadImage, index, setIndex}: IDropzone) => {
   const onDrop = useCallback((acceptedFiles: any) => {
-    const newFiles = acceptedFiles.map((file: File) =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-      })
-    )
-    const formdata: any = new FormData()
-    newFiles.map((file: File) => formdata.append(typeAppend, file))
-    onUploadImage(formdata)
+    try {
+      if (acceptedFiles.length < maxFile) {
+        return false
+      } else {
+        const newFiles = acceptedFiles.map((file: File) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+        setIndex(index)
+        const formdata: any = new FormData()
+        newFiles.map((file: File) => formdata.append(typeAppend, file))
+        onUploadImage(formdata)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }, [])
 
   const {getRootProps, getInputProps} = useDropzone({

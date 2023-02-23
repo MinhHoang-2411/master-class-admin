@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {FC} from 'react'
+import {FC, useEffect} from 'react'
 import {Route, Routes} from 'react-router-dom'
 import {PageLink, PageTitle} from '../../layout/core'
+import {uploadActions} from '../../store/upload/uploadSlice'
 import CoursesDetail from './CoursesDetail'
 import CreateCourse from './CreateCourse'
 import Lessons from './Lessons'
@@ -10,7 +11,7 @@ import UpdateCourse from './UpdateCourse'
 
 const coursesBreadCrumbs: Array<PageLink> = [
   {
-    title: 'Category',
+    title: 'Courses',
     path: '/crafted/pages/courses/overview',
     isSeparator: false,
     isActive: false,
