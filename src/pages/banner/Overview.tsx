@@ -12,7 +12,7 @@ import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
 import history from '../../routes/history'
 import SearchInput from '../../shared/Search'
 import {bannerActions} from '../../store/banner/bannerSlice'
-import { uploadActions } from '../../store/upload/uploadSlice'
+import {uploadActions} from '../../store/upload/uploadSlice'
 
 const BannersOverview: FC = () => {
   const banners = useAppSelector((state) => state.banner.data) || []
@@ -24,7 +24,7 @@ const BannersOverview: FC = () => {
   useEffect(() => {
     dispatch(uploadActions.clearStore())
   }, [])
-  
+
   useEffect(() => {
     const payload: any = {
       limit: 10,
@@ -62,14 +62,14 @@ const BannersOverview: FC = () => {
             Create Banner
           </Link>
         </div>
-        <div className='d-flex justify-content-end p-6 pb-0'>
+        {/* <div className='d-flex justify-content-end p-6 pb-0'>
           <SearchInput
             size='small'
             color='secondary'
             onChange={handleSearchChange}
             onSearch={onSearch}
           />
-        </div>
+        </div> */}
         <div className='card-body p-6'>
           <Grid container spacing={3}>
             {isMappable(banners) ? (
