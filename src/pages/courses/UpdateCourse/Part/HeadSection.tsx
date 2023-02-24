@@ -63,7 +63,7 @@ const HeadSection = ({values, setFieldValue, listCategory, course}: Props) => {
       <div className='row mb-6'>
         <label className='col-lg-4 col-form-label required fw-bold fs-6'>Category</label>
         <div className='col-lg-8 fv-row'>
-          {isMappable(values?.categories) ? (
+          {isMappable(listCategory) ? (
             <Autocomplete
               multiple
               id='tags-filled'

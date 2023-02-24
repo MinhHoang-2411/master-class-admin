@@ -88,43 +88,60 @@ const CoursesOverview: FC = () => {
               </tr>
             </thead>
             <tbody className='category-list'>
-              {!loading && isMappable(courses) ? (
-                courses?.map((course: ICourse, idx: number) => (
-                  <tr key={course._id}>
-                    <td className='text-center'>{idx + 1 + (paginate.page - 1) * 10}</td>
-                    <td className='text-center'>{course.name}</td>
-                    <td className='text-center'>{course.authorName}</td>
-                    <td className='text-center'>{course.title}</td>
-                    <td className='text-center'>
-                      <img
-                        src={course.thumbnail}
-                        alt='thumbnail'
-                        width={70}
-                        height={70}
-                        style={{objectFit: 'cover'}}
-                      />
-                    </td>
-                    <td className='text-center'>
-                      <IconButton onClick={() => onRedirectCourseDetail(course._id)}>
-                        <PreviewIcon color='info' />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => dispatch(coursesActions.onDeleteCourse(course._id))}
+              {isMappable(courses) ? (
+                !loading ? (
+                  courses?.map((course: ICourse, idx: number) => (
+                    <tr key={course._id}>
+                      <td className='text-center'>{idx + 1 + (paginate.page - 1) * 10}</td>
+                      <td className='text-center'>{course.name}</td>
+                      <td className='text-center'>{course.authorName}</td>
+                      <td className='text-center'>{course.title}</td>
+                      <td className='text-center'>
+                        <img
+                          src={course.thumbnail}
+                          alt='thumbnail'
+                          width={70}
+                          height={70}
+                          style={{objectFit: 'cover'}}
+                        />
+                      </td>
+                      <td className='text-center'>
+                        <IconButton onClick={() => onRedirectCourseDetail(course._id)}>
+                          <PreviewIcon color='info' />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => dispatch(coursesActions.onDeleteCourse(course._id))}
+                        >
+                          <DeleteIcon color='secondary' />
+                        </IconButton>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <div
+                        className='text-center mt-9 p-6 spinner-border text-primary'
+                        role='status'
                       >
-                        <DeleteIcon color='secondary' />
-                      </IconButton>
+                        <span className='visually-hidden'>Loading...</span>
+                      </div>
                     </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                   </tr>
-                ))
+                )
               ) : (
                 <tr>
                   <td></td>
                   <td></td>
                   <td></td>
                   <td>
-                    <div className='text-center mt-9 p-6 spinner-border text-primary' role='status'>
-                      <span className='visually-hidden'>Loading...</span>
-                    </div>
+                    <label className='fw-bold text-muted mt-4'>There are no course</label>
                   </td>
                   <td></td>
                   <td></td>
@@ -147,3 +164,19 @@ const CoursesOverview: FC = () => {
 }
 
 export default CoursesOverview
+
+// (
+//   <tr>
+//     <td></td>
+//     <td></td>
+//     <td></td>
+//     <td>
+//       <div className='text-center mt-9 p-6 spinner-border text-primary' role='status'>
+//         <span className='visually-hidden'>Loading...</span>
+//       </div>
+//     </td>
+//     <td></td>
+//     <td></td>
+//     <td></td>
+//   </tr>
+// )

@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../../app/saga/hooks'
 import DropzoneCustom from '../../../../shared/dropzone/DropzoneCustom'
 import { ErrorMessage } from '../../../../shared/ErrorMesage/ErrorMessage'
 import ListMedia from '../../../../shared/ListMedia'
+import { categoriesActions } from '../../../../store/categories/categoriesSlice'
 import { uploadActions } from '../../../../store/upload/uploadSlice'
 
 interface Props {
@@ -38,6 +39,10 @@ const HeadSection = ({values, setFieldValue}: Props) => {
   const handleSelectChange = (event: any, items: any) => {
     setFieldValue('categories', items)
   }
+
+  useEffect(() => {
+    dispatch(categoriesActions.getDataStart())
+  }, [])
 
   return (
     <div>
