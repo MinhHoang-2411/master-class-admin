@@ -1,17 +1,12 @@
+import CloseIcon from '@mui/icons-material/Close'
 import {
-  Box,
-  Chip,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  TextField
+  Chip, TextField
 } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
 import { Field } from 'formik'
 import { useEffect, useState } from 'react'
+import { isMappable } from '../../../../app/helpers/isMapple'
 import { useAppDispatch, useAppSelector } from '../../../../app/saga/hooks'
-import { ICategory } from '../../../../models/CategoryModels'
 import DropzoneCustom from '../../../../shared/dropzone/DropzoneCustom'
 import { ErrorMessage } from '../../../../shared/ErrorMesage/ErrorMessage'
 import ListMedia from '../../../../shared/ListMedia'
@@ -22,16 +17,9 @@ interface Props {
   setFieldValue: any
 }
 
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: 224,
-      width: 250,
-    },
-  },
-}
 
 const HeadSection = ({values, setFieldValue}: Props) => {
+
   const [index, setIndex] = useState(0)
   const dispatch = useAppDispatch()
   const listCategory = useAppSelector((state) => state.categories.data)
@@ -41,17 +29,14 @@ const HeadSection = ({values, setFieldValue}: Props) => {
     if (image.urlThumbnail) {
       setFieldValue('thumbnail', [image.urlThumbnail])
     }
-  }, [image]) 
+  }, [image])
 
   const onUploadThumbail = (formData: any) => {
     dispatch(uploadActions.uploadThumbail(formData))
   }
 
-  const handleChange = (event: any) => {
-    const {
-      target: {value},
-    } = event
-    setFieldValue('categories', typeof value === 'string' ? value.split(',') : value)
+  const handleSelectChange = (event: any, items: any) => {
+    setFieldValue('categories', items)
   }
 
   return (
@@ -74,35 +59,35 @@ const HeadSection = ({values, setFieldValue}: Props) => {
       <div className='row mb-6'>
         <label className='col-lg-4 col-form-label required fw-bold fs-6'>Category</label>
         <div className='col-lg-8 fv-row'>
-          <FormControl fullWidth>
-            <InputLabel id='multiple-chip-label'>Category</InputLabel>
-            <Field
-              as={Select}
-              sx={{width: '100%'}}
-              labelId='multiple-chip-label'
-              label={'Category'}
-              id='multiple-chip'
+          {isMappable(listCategory) ? (
+            <Autocomplete
               multiple
-              value={values.categories}
-              onChange={handleChange}
-              input={<OutlinedInput id='select-multiple-chip' label='Category' />}
-              renderValue={(selected: any) => (
-                <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5}}>
-                  {selected.map((value: any) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}
-              MenuProps={MenuProps}
-            >
-              {listCategory?.map((category: ICategory) => (
-                <MenuItem key={category._id} value={category.name}>
-                  {category.name}
-                </MenuItem>
-              ))}
-            </Field>
-            <ErrorMessage name='categories' />
-          </FormControl>
+              id='tags-filled'
+              options={listCategory}
+              value={values?.categories}
+              onChange={handleSelectChange}
+              getOptionLabel={(option) => option.name}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    {...getTagProps({index})}
+                    key={option._id}
+                    label={option.name}
+                    deleteIcon={<CloseIcon />}
+                    onDelete={() => {
+                      const newSelectedItems = [...values.categories]
+                      newSelectedItems.splice(index, 1)
+                      setFieldValue('categories', newSelectedItems)
+                    }}
+                  />
+                ))
+              }
+              renderInput={(params) => <TextField {...params} variant='outlined' label='Category' />}
+            />
+          ) : (
+            <></>
+          )}
+          <ErrorMessage name='categories' />
         </div>
       </div>
 

@@ -46,4 +46,5 @@ export interface InititalValuesCreateCourse {
       }
     ]
   }
+  webName: string
 }

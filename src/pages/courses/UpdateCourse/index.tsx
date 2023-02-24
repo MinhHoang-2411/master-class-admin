@@ -20,6 +20,7 @@ interface IValues {
   lessons: string[]
   videoPreview: any
   overview: any
+  webName: string
 }
 
 const UpdateCourse = () => {
@@ -27,7 +28,7 @@ const UpdateCourse = () => {
   const listCategory = useAppSelector((state) => state.categories.data)
   const course = useAppSelector((state) => state.courses.dataDetail)
   const {id}: any = useParams()
-  
+
   const initialValues: IValues = {
     _id: course?._id ? course?._id : '',
     name: course?.name ? course?.name : '',
@@ -38,7 +39,7 @@ const UpdateCourse = () => {
     lessons: course?.lessons
       ? course?.lessons?.map((lesson: any) => ({
           ...lesson,
-          thumbnail: [lesson.thumbnail],
+          thumbnail: [lesson?.thumbnail],
         }))
       : [
           {
@@ -65,12 +66,10 @@ const UpdateCourse = () => {
       ? {
           slogan: course?.overview?.slogan,
           description: course?.overview?.description,
-          skills: [
-            {
-              imageUrl: [course?.overview?.skills[0]?.imageUrl],
-              title: course?.overview?.skills[0]?.title,
-            },
-          ],
+          skills: course?.overview?.skills?.map((skill: any) => ({
+            ...skill,
+            imageUrl: [skill?.imageUrl],
+          })),
         }
       : {
           slogan: '',
@@ -82,6 +81,7 @@ const UpdateCourse = () => {
             },
           ],
         },
+    webName: course?.webName ? course?.webName : '',
   }
 
   useEffect(() => {
@@ -89,25 +89,27 @@ const UpdateCourse = () => {
     dispatch(coursesActions.getDetailStart(id))
   }, [])
 
-  const onSubmit = (values: any) => {
-    const _categoriesId = listCategory
-      ?.filter((cate: any) => values?.categories?.includes(cate?.name))
-      .map((cate: any) => cate?._id)
+  const NormalizeWebName = (webName: string) => {
+    const str = webName.replace(/\s+/g, ' ')
+    const lowerCase = str.toLocaleLowerCase()
+    const diacritics = lowerCase.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    const prepareString = diacritics.replaceAll(' ', '-')
+    return prepareString
+  }
 
+  const onSubmit = (values: any) => {
     const params = {
       ...values,
-      categories: _categoriesId,
+      categories: values.categories.map((category: any) => category._id),
       thumbnail: values.thumbnail[0],
       overview: {
         ...values.overview,
-        skills: [
-          {
-            imageUrl: values.overview.skills[0].imageUrl[0],
-            title: values.overview.skills[0].title,
-          },
-        ],
+        skills: values.overview.skills.map((skill: any) => ({
+          ...skill,
+          imageUrl: skill.imageUrl[0],
+        })),
       },
-      lessons: values.lessons.map((less: any) => ({
+      lessons: values.lessons.map((less: any, index: number) => ({
         ...less,
         thumbnail: less.thumbnail[0],
       })),
@@ -116,6 +118,7 @@ const UpdateCourse = () => {
         duration: values.videoPreview.duration,
         thumbnail: values.videoPreview.thumbnail[0],
       },
+      webName: NormalizeWebName(values.authorName.trim() + ' ' + values.name.trim()),
     }
 
     dispatch(coursesActions.onUpdateCourse(params))
@@ -140,13 +143,9 @@ const UpdateCourse = () => {
                     listCategory={listCategory}
                     course={course}
                   />
-
                   <PreviewSection values={values} setFieldValue={setFieldValue} />
-
                   <OverviewSection values={values} setFieldValue={setFieldValue} />
-
                   <LessonSection setFieldValue={setFieldValue} values={values} />
-
                   <div className='card-footer d-flex justify-content-end'>
                     <button type='submit' className='btn btn-primary'>
                       Update
