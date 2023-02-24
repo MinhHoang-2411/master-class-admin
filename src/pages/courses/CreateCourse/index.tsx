@@ -41,32 +41,32 @@ const initialValues: InititalValuesCreateCourse = {
       },
     ],
   },
+  webName: '',
+}
+
+const NormalizeWebName = (webName: string) => {
+  const str = webName.replace(/\s+/g, ' ')
+  const lowerCase = str.toLocaleLowerCase()
+  const diacritics = lowerCase.normalize("NFD").replace(/[\u0300-\u036f]/g, "") 
+  const prepareString = diacritics.replaceAll(" ", "-")
+  return prepareString
 }
 
 const CreateCourse = () => {
-  const dispatch = useAppDispatch()
-  const listCategory = useAppSelector((state) => state.categories.data)
-  useEffect(() => {
-    dispatch(categoriesActions.getDataStart())
-  }, [])
+  const dispatch = useAppDispatch();
 
   const onSubmit = (values: any) => {
     try {
-      const _categoriesId = listCategory
-        ?.filter((cate: any) => values?.categories?.includes(cate?.name))
-        .map((cate: any) => cate?._id)
       const params = {
         ...values,
-        categories: _categoriesId,
+        categories: values.categories.map((category: any) => category._id),
         thumbnail: values.thumbnail[0],
         overview: {
           ...values.overview,
-          skills: [
-            {
-              imageUrl: values.overview.skills[0].imageUrl[0],
-              title: values.overview.skills[0].title,
-            },
-          ],
+          skills: values.overview.skills.map((skill: any) => ({
+            ...skill,
+            imageUrl: skill.imageUrl[0],
+          })),
         },
         lessons: values.lessons.map((less: any) => ({
           ...less,
@@ -77,6 +77,7 @@ const CreateCourse = () => {
           duration: values.videoPreview.duration,
           thumbnail: values.videoPreview.thumbnail[0],
         },
+        webName: NormalizeWebName(values.authorName.trim() + ' ' + values.name.trim()),
       }
       dispatch(coursesActions.onCreateCourse(params))
     } catch (error) {
@@ -92,7 +93,11 @@ const CreateCourse = () => {
             <h3 className='fw-bolder m-0'>Create Course</h3>
           </div>
         </div>
-        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={courseSchema}>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={courseSchema}
+        >
           {({values, setFieldValue}) => {
             return (
               <Form>
