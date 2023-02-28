@@ -164,19 +164,3 @@ const CoursesOverview: FC = () => {
 }
 
 export default CoursesOverview
-
-// (
-//   <tr>
-//     <td></td>
-//     <td></td>
-//     <td></td>
-//     <td>
-//       <div className='text-center mt-9 p-6 spinner-border text-primary' role='status'>
-//         <span className='visually-hidden'>Loading...</span>
-//       </div>
-//     </td>
-//     <td></td>
-//     <td></td>
-//     <td></td>
-//   </tr>
-// )
