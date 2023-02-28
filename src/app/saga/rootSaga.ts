@@ -5,7 +5,16 @@ import {bannerSaga} from '../../store/banner/bannerSaga'
 import {categoriesSaga} from '../../store/categories/categoriesSaga'
 import {coursesSaga} from '../../store/courses/coursesSaga'
 import {uploadSaga} from '../../store/upload/uploadSaga'
+import {userSaga} from '../../store/users/usersSaga'
 
 export default function* rootSaga() {
-  yield all([authSaga(), alertSaga(), bannerSaga(), categoriesSaga(), coursesSaga(), uploadSaga()])
+  yield all([
+    authSaga(),
+    alertSaga(),
+    bannerSaga(),
+    categoriesSaga(),
+    coursesSaga(),
+    uploadSaga(),
+    userSaga(),
+  ])
 }

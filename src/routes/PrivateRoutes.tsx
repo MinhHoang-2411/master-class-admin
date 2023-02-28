@@ -12,6 +12,7 @@ const PrivateRoutes = () => {
   const BannerPage = lazy(() => import('../pages/banner/BannerPage'))
   const CategoriesPage = lazy(() => import('../pages/categories/CategoriesPage'))
   const CoursesPage = lazy(() => import('../pages/courses/CoursesPage'))
+  const UsersPage = lazy(() => import('../pages/users/UsersPage'))
 
   return (
     <Routes>
@@ -50,6 +51,14 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <CoursesPage />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='crafted/pages/users/*'
+          element={
+            <SuspensedView>
+              <UsersPage />
             </SuspensedView>
           }
         />
