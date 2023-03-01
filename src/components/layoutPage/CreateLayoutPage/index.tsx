@@ -85,6 +85,7 @@ const CreateLayoutPage = () => {
         url: values.trailer.url,
         thumbnail: values.trailer.thumbnail[0],
       },
+      isActive: true,
     }
 
     try {
