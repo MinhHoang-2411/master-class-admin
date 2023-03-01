@@ -19,8 +19,6 @@ const CoursesDetail: FC = () => {
     dispatch(coursesActions.getDetailStart(id))
   }, [])
 
-  console.log('course', course)
-
   return (
     <>
       {!loading ? (

@@ -78,7 +78,7 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
           index: idxx + 1,
           title: ls.title,
           videoUrl: ls.videoUrl,
-          thumbnail: [ls.thumbnail],
+          thumbnail: ls.thumbnail,
           duration: ls.duration,
         }
         return params

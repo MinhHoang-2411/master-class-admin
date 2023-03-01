@@ -45,6 +45,7 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
       videoUrl: '',
       thumbnail: [],
       duration: 0,
+      isDelete: false,
     }
     let newArr: any[] = []
     newArr = [...values.lessons, lesson]
@@ -74,12 +75,8 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
       ?.filter((_: never, idx: number) => idx !== index)
       .map((ls: any, idxx: number) => {
         const params = {
-          description: ls.description,
+          ...ls,
           index: idxx + 1,
-          title: ls.title,
-          videoUrl: ls.videoUrl,
-          thumbnail: [ls.thumbnail],
-          duration: ls.duration,
         }
         return params
       })
@@ -108,129 +105,133 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
       </div>
 
       {isMappable(values.lessons) ? (
-        values.lessons.map((lesson: any, index: number) => (
-          <Box
-            sx={{
-              backgroundColor: '#f8f9fa',
-              mt: 1.5,
-              px: 2.5,
-              borderRadius: 2,
-              position: 'relative',
-            }}
-            key={lesson.index}
-          >
-            {lesson.index > 1 && (
-              <IconButton
-                color='primary'
-                component='label'
-                sx={{position: 'absolute', top: '0', right: '0'}}
-                onClick={() => handleRemoveSection(index)}
-              >
-                <CloseIcon sx={{backgroundColor: '#f1f1f1', borderRadius: '50%'}} />
-              </IconButton>
-            )}
-            <div className='row'>
-              <label className='col-lg-4 col-form-label required fw-bold fs-6'>
-                Lesson {index + 1}
-              </label>
-            </div>
-            <div className='px-3'>
+        values.lessons.map((lesson: any, index: number) =>
+          !lesson.isDelete ? (
+            <Box
+              sx={{
+                backgroundColor: '#f8f9fa',
+                mt: 1.5,
+                px: 2.5,
+                borderRadius: 2,
+                position: 'relative',
+              }}
+              key={lesson._id}
+            >
+              {lesson.index > 1 && (
+                <IconButton
+                  color='primary'
+                  component='label'
+                  sx={{position: 'absolute', top: '0', right: '0'}}
+                  onClick={() => handleRemoveSection(index)}
+                >
+                  <CloseIcon sx={{backgroundColor: '#f1f1f1', borderRadius: '50%'}} />
+                </IconButton>
+              )}
               <div className='row'>
-                <div className='row mb-6 px-4'>
-                  <label className='col-lg-4 col-form-label required fw-bold fs-6'>Title</label>
-                  <div className='col-lg-8 fv-row'>
-                    <Field
-                      as={TextField}
-                      name={`lessons.${index}.title`}
-                      value={lesson.title}
-                      label='Title'
-                      variant='outlined'
-                      margin='normal'
-                      fullWidth
-                    />
-                    <ErrorMessage name={`lessons[${index}].title`} />
+                <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                  Lesson {index + 1}
+                </label>
+              </div>
+              <div className='px-3'>
+                <div className='row'>
+                  <div className='row mb-6 px-4'>
+                    <label className='col-lg-4 col-form-label required fw-bold fs-6'>Title</label>
+                    <div className='col-lg-8 fv-row'>
+                      <Field
+                        as={TextField}
+                        name={`lessons.${index}.title`}
+                        value={lesson.title}
+                        label='Title'
+                        variant='outlined'
+                        margin='normal'
+                        fullWidth
+                      />
+                      <ErrorMessage name={`lessons[${index}].title`} />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className='row'>
-                <div className='row mb-6 px-4'>
-                  <label className='col-lg-4 col-form-label required fw-bold fs-6'>
-                    Description
-                  </label>
-                  <div className='col-lg-8 fv-row'>
-                    <Field
-                      as={TextField}
-                      name={`lessons.${index}.description`}
-                      value={lesson.description}
-                      label='Description'
-                      variant='outlined'
-                      margin='normal'
-                      fullWidth
-                    />
-                    <ErrorMessage name={`lessons[${index}].description`} />
+                <div className='row'>
+                  <div className='row mb-6 px-4'>
+                    <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                      Description
+                    </label>
+                    <div className='col-lg-8 fv-row'>
+                      <Field
+                        as={TextField}
+                        name={`lessons.${index}.description`}
+                        value={lesson.description}
+                        label='Description'
+                        variant='outlined'
+                        margin='normal'
+                        fullWidth
+                      />
+                      <ErrorMessage name={`lessons[${index}].description`} />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className='row'>
-                <label className='col-lg-4 col-form-label required fw-bold fs-6'>Video</label>
-                <div className='col-lg-8'>
-                  <div className='col-lg-2'>
-                    <DropzoneVideo
-                      maxFile={1}
-                      onUploadVideo={onUploadVideo}
-                      typeAppend={'file'}
-                      setIndex={setIndex}
-                      idx={index}
-                      setFieldValue={setFieldValue}
-                      nameValue={`lessons[${index}].duration`}
-                    />
-                  </div>
-                  <div className='py-3'>
-                    <ErrorMessage name={`lessons[${index}].videoUrl`} />
-                  </div>
+                <div className='row'>
+                  <label className='col-lg-4 col-form-label required fw-bold fs-6'>Video</label>
+                  <div className='col-lg-8'>
+                    <div className='col-lg-2'>
+                      <DropzoneVideo
+                        maxFile={1}
+                        onUploadVideo={onUploadVideo}
+                        typeAppend={'file'}
+                        setIndex={setIndex}
+                        idx={index}
+                        setFieldValue={setFieldValue}
+                        nameValue={`lessons[${index}].duration`}
+                      />
+                    </div>
+                    <div className='py-3'>
+                      <ErrorMessage name={`lessons[${index}].videoUrl`} />
+                    </div>
 
-                  <div className='col-lg-10 mt-6'>
-                    {lesson?.videoUrl ? (
-                      <VideoPlayer
-                        url={lesson?.videoUrl}
-                        onDeleteVideo={onDeleteVideo}
+                    <div className='col-lg-10 mt-6'>
+                      {lesson?.videoUrl ? (
+                        <VideoPlayer
+                          url={lesson?.videoUrl}
+                          onDeleteVideo={onDeleteVideo}
+                          index={index}
+                        />
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className='row mb-6 py-3'>
+                  <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                    Thumbnail preview
+                  </label>
+                  <div className='col-lg-8'>
+                    <div className='col-lg-2'>
+                      <DropzoneCustom
+                        maxFile={1}
+                        onUploadImage={onUploadImage}
+                        typeAppend={'image'}
+                        setIndex={setIndex}
                         index={index}
                       />
-                    ) : (
-                      <></>
-                    )}
+                    </div>
+                    <div className='col-lg-10 mt-6'>
+                      <ListMedia
+                        images={lesson?.thumbnail}
+                        setFieldValue={setFieldValue}
+                        nameValue={`lessons[${index}].thumbnail`}
+                      />
+                    </div>
+                    <div className='py-3'>
+                      <ErrorMessage name={`lessons[${index}].thumbnail`} />
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className='row mb-6 py-3'>
-                <label className='col-lg-4 col-form-label required fw-bold fs-6'>
-                  Thumbnail preview
-                </label>
-                <div className='col-lg-8'>
-                  <div className='col-lg-2'>
-                    <DropzoneCustom
-                      maxFile={1}
-                      onUploadImage={onUploadImage}
-                      typeAppend={'image'}
-                      setIndex={setIndex}
-                      index={index}
-                    />
-                  </div>
-                  <div className='col-lg-10 mt-6'>
-                    <ListMedia
-                      images={lesson?.thumbnail}
-                      setFieldValue={setFieldValue}
-                      nameValue={`lessons[${index}].thumbnail`}
-                    />
-                  </div>
-                  <div className='py-3'>
-                    <ErrorMessage name={`lessons[${index}].thumbnail`} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Box>
-        ))
+            </Box>
+          ) : (
+            <></>
+          )
+        )
       ) : (
         <>There are no lesson</>
       )}
