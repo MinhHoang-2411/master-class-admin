@@ -12,6 +12,7 @@ function* fetchBanner(action: PayloadAction<any>) {
   try {
     const response: ResponseBanner = yield call(bannerApi.getListBanner, payload)
     yield put(bannerActions.getDataSuccess(response))
+    localStorage.removeItem('itemUpdate')
   } catch (error: ErrorModel | any) {
     console.error(error)
   }

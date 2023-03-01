@@ -17,7 +17,7 @@ interface IValues {
   thumbnail: string[]
   authorName: string
   categories: string[]
-  lessons: string[]
+  lessons: any
   videoPreview: any
   overview: any
   webName: string
@@ -27,6 +27,7 @@ const UpdateCourse = () => {
   const dispatch = useAppDispatch()
   const listCategory = useAppSelector((state) => state.categories.data)
   const course = useAppSelector((state) => state.courses.dataDetail)
+
   const {id}: any = useParams()
 
   const initialValues: IValues = {
@@ -40,15 +41,18 @@ const UpdateCourse = () => {
       ? course?.lessons?.map((lesson: any) => ({
           ...lesson,
           thumbnail: [lesson?.thumbnail],
+          isDelete: false,
         }))
       : [
           {
+            courseId: '',
             index: 1,
             title: '',
             description: '',
             videoUrl: '',
             thumbnail: [],
             duration: 0,
+            _id: '',
           },
         ],
     videoPreview: course?.videoPreview
@@ -97,6 +101,18 @@ const UpdateCourse = () => {
     return prepareString
   }
 
+  const CheckDeletedLessons = (Lessons: any) => {
+    const ElementDeleted = course?.lessons
+      ?.filter((item: any) => !Lessons.some((other: any) => item?._id === other?._id))
+      .map((less: any, idx: number) => ({...less, isDelete: true}))
+    const _Lesson = [...ElementDeleted, ...Lessons]
+    const PrepareParams = _Lesson.map((less: any, index: number) => ({
+      ...less,
+      thumbnail: typeof less.thumbnail === 'string' ? less.thumbnail : less.thumbnail[0],
+    }))
+    return PrepareParams
+  }
+
   const onSubmit = (values: any) => {
     const params = {
       ...values,
@@ -109,10 +125,7 @@ const UpdateCourse = () => {
           imageUrl: skill.imageUrl[0],
         })),
       },
-      lessons: values.lessons.map((less: any, index: number) => ({
-        ...less,
-        thumbnail: less.thumbnail[0],
-      })),
+      lessons: CheckDeletedLessons(values.lessons),
       videoPreview: {
         url: values.videoPreview.url,
         duration: values.videoPreview.duration,
@@ -120,7 +133,6 @@ const UpdateCourse = () => {
       },
       webName: NormalizeWebName(values.authorName.trim() + ' ' + values.name.trim()),
     }
-
     dispatch(coursesActions.onUpdateCourse(params))
   }
 

@@ -47,6 +47,10 @@ export function AsideMenuMain() {
           <AsideMenuItem to='/crafted/pages/profile/overview' title='Overview' hasBullet={true} />
         </AsideMenuItemWithSub>
 
+        <AsideMenuItemWithSub to='/crafted/pages/layout' title='Layout' hasBullet={true}>
+          <AsideMenuItem to='/crafted/pages/layout/overview' title='Overview' hasBullet={true} />
+        </AsideMenuItemWithSub>
+
         <AsideMenuItemWithSub to='/crafted/pages/wizards' title='Wizards' hasBullet={true}>
           <AsideMenuItem
             to='/crafted/pages/wizards/horizontal'
