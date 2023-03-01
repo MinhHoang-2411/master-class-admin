@@ -1,3 +1,4 @@
+import {Switch} from '@mui/material'
 import {Form, Formik} from 'formik'
 import {useEffect} from 'react'
 import {useParams} from 'react-router-dom'
@@ -39,6 +40,7 @@ interface InitialValues {
       url: string
     }
   ]
+  isActive: boolean
 }
 
 const UpdateLayoutPage = () => {
@@ -77,12 +79,12 @@ const UpdateLayoutPage = () => {
           ...item,
           thumbnail: [item?.thumbnail],
         })),
+    isActive: dataDetail?.isActive ? dataDetail?.isActive : _dataDetail?.isActive,
   }
   useEffect(() => {
     dispatch(layoutPageActions.getDataDetail(id))
   }, [])
 
-  console.log('initial', initialValues);
 
   const onSubmit = (values: any) => {
     const params = {
@@ -108,6 +110,7 @@ const UpdateLayoutPage = () => {
       console.log(error)
     }
   }
+  const label = {inputProps: {'aria-label': 'Switch status'}}
 
   return (
     <>
@@ -122,6 +125,20 @@ const UpdateLayoutPage = () => {
             return (
               <Form>
                 <div className='card-body border-top p-9'>
+                  <div className='row mb-6'>
+                    <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                      Active status
+                    </label>
+                    <div className='col-lg-8 fv-row'>
+                      <Switch
+                        {...label}
+                        color='secondary'
+                        checked={values.isActive}
+                        value={values.isActive}
+                        onChange={(e) => setFieldValue('isActive', e.target.checked)}
+                      />
+                    </div>
+                  </div>
                   <TrailerSection values={values} setFieldValue={setFieldValue} />
                   <WelcomeSection values={values} setFieldValue={setFieldValue} />
                   <MessageTeam values={values} setFieldValue={setFieldValue} />

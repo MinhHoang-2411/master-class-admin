@@ -52,6 +52,19 @@ const ItemLayoutDetailPage = () => {
             </div>
           </div>
           <div className='card-body p-9'>
+            <div className='row mb-7'>
+              <label className='col-lg-4 fw-bold text-muted'>Active status</label>
+
+              <div className='col-lg-8 fv-row'>
+                <span className='fw-bold fs-6'>
+                  {data?.isActive ? (
+                    <span className='badge badge-success'>active</span>
+                  ) : (
+                    <span className='badge badge-light'>inactive</span>
+                  )}
+                </span>
+              </div>
+            </div>
             <div>
               <label className='col-lg-4 col-form-label fw-bold fs-4'>Trailer Section</label>
               <div className='px-3 mt-2'>
