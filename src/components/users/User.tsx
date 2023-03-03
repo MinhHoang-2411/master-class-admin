@@ -5,6 +5,7 @@ import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
 import {IUser} from '../../models/User'
 import history from '../../routes/history'
 import {usersActions} from '../../store/users/usersSlice'
+import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar'
 
 interface IProps {
   idx: number
@@ -44,7 +45,11 @@ const User = ({idx, user}: IProps) => {
             <PreviewIcon color='info' />
           </IconButton>
           <IconButton onClick={() => handleBlockUser(user)}>
-            <BlockIcon color='secondary' />
+            {user.isActive ? (
+              <BlockIcon color='secondary' />
+            ) : (
+              <PermContactCalendarIcon color='secondary' />
+            )}
           </IconButton>
         </td>
       </tr>

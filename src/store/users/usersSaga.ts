@@ -35,7 +35,7 @@ function* handleBlockUser(action: PayloadAction<any>) {
     yield put(usersActions.handleBlockUserSuccess(response.data))
     yield put(
       alertActions.showAlert({
-        text: 'Block user successful',
+        text: `${payload.isActive ? 'Block' : 'Unblock'} user successful`, 
         type: 'success',
       })
     )
