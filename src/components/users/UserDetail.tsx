@@ -32,7 +32,7 @@ const UserDetail = () => {
                   variant='contained'
                   onClick={() => dispatch(usersActions.handleBlockUser(userDetail))}
                 >
-                  {`${userDetail.isActive  ? 'Block' : 'Unblock'}`}
+                  {`${userDetail?.isActive  ? 'Block' : 'Unblock'}`}
                 </Button>
               </div>
 
