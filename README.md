@@ -1,6 +1,6 @@
 ## [Masterclass](https://www.masterclass.com/)
 
-<img src="./public/media/logo.png" alt="image desc" style="max-width: 40%;" />
+<img src="./public/media/logo.jpg" alt="image desc" style="max-width: 40%;" />
 
 > **Masterclass** The system provides online courses.
 > ​

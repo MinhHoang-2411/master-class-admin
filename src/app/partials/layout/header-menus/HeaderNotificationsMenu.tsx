@@ -114,7 +114,7 @@ const HeaderNotificationsMenu: FC = () => (
             <img
               className='mw-100 mh-200px'
               alt='metronic'
-              src={toAbsoluteUrl('/media/logo.png')}
+              src={toAbsoluteUrl('/media/logo.jpg')}
             />
           </div>
         </div>

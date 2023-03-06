@@ -28,7 +28,7 @@ const AuthLayout = () => {
       <div className='d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20'>
         {/* begin::Logo */}
         <a href='#' className='mb-12'>
-          <img alt='Logo' src={toAbsoluteUrl('/media/logo.png')} className='h-90px' />
+          <img alt='Logo' src={toAbsoluteUrl('/media/logo.jpg')} className='h-90px' />
         </a>
         {/* end::Logo */}
         {/* begin::Wrapper */}
