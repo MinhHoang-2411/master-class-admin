@@ -127,7 +127,7 @@ const Topbar: FC = () => {
           data-kt-menu-placement='bottom-end'
           data-kt-menu-flip='bottom'
         >
-          <img src={toAbsoluteUrl('/media/logo.jpg')} alt='metronic' />
+          <img src={toAbsoluteUrl('/media/logo.png')} alt='metronic' style={{ height: "65px", width: "60px", objectFit: "cover"}} />
         </div>
         <HeaderUserMenu />
         {/* end::Toggle */}
