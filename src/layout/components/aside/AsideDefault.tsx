@@ -37,12 +37,28 @@ const AsideDefault: FC = () => {
         {/* begin::Logo */}
         {aside.theme === 'dark' && (
           <Link to='/dashboard'>
-            <img alt='Logo' className='h-40px logo' src={toAbsoluteUrl('/media/logo.png')} />
+            <div className='d-flex justify-content-center align-items-center'>
+              <img
+                alt='Logo'
+                className='logo'
+                src={toAbsoluteUrl('/media/logo.png')}
+                style={{height: '70px', width: '60px', objectFit: 'cover'}}
+              />
+              <h4 style={{fontSize: '13px', marginBottom: '0px', color: '#fff'}}>TheRaisedHands</h4>
+            </div>
           </Link>
         )}
         {aside.theme === 'light' && (
           <Link to='/'>
-            <img alt='Logo' className='h-35px logo' src={toAbsoluteUrl('/media/logo.png')} />
+            <div className='d-flex justify-content-center align-items-center'>
+              <img
+                alt='Logo'
+                className='logo'
+                src={toAbsoluteUrl('/media/logo.png')}
+                style={{height: '70px', width: '60px', objectFit: 'cover'}}
+              />
+              <h4 style={{fontSize: '13px', marginBottom: '0px', color: '#fff'}}>TheRaisedHands</h4>
+            </div>
           </Link>
         )}
         {/* end::Logo */}

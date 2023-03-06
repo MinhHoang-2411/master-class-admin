@@ -128,7 +128,7 @@ export function VerifyCode() {
           <button
             type='submit'
             id='kt_password_reset_submit'
-            className='btn btn-lg btn-primary fw-bolder me-4'
+            className='btn btn-lg btn-primary-main fw-bolder me-4'
           >
             <span className='indicator-label'>Submit</span>
             {loading && (

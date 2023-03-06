@@ -243,3 +243,28 @@
 		@include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
 	}
 }
+
+.btn-primary-main {
+	background-color: #2de0e7;
+	transition: background-color .25s ease;
+	span {
+		color: #fff;
+	}
+	&:hover {
+		background-color: #f3bbe3;
+	}
+	&:disabled,
+	&[disabled]{
+	border: 1px solid #999999;
+	background-color: #cccccc;
+	color: #666666;
+	}
+}
+
+.text-primary-main {
+	color: #2de0e7;
+	transition: color .25s ease;
+	&:hover {
+		color: #f3bbe3;
+	}
+}

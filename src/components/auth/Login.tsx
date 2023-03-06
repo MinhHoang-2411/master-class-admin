@@ -53,7 +53,7 @@ export function Login() {
     >
       {/* begin::Heading */}
       <div className='text-center mb-10'>
-        <h1 className='text-dark mb-3'>Sign In to Masterclass</h1>
+        <h1 className='text-dark mb-3'>Sign In to The Raised Hands</h1>
         {/* <div className='text-gray-400 fw-bold fs-4'>
           New Here?{' '}
           <Link to='/auth/registration' className='link-primary fw-bolder'>
@@ -100,7 +100,7 @@ export function Login() {
             {/* begin::Link */}
             <Link
               to='/auth/forgot-password'
-              className='link-primary fs-6 fw-bolder'
+              className='fs-6 fw-bolder text-primary-main'
               style={{marginLeft: '5px'}}
             >
               Forgot Password ?
@@ -138,7 +138,7 @@ export function Login() {
         <button
           type='submit'
           id='kt_sign_in_submit'
-          className='btn btn-lg btn-primary w-100 mb-5'
+          className='btn btn-lg w-100 mb-5 btn-primary-main'
           disabled={formik.isSubmitting || !formik.isValid}
         >
           {!loading && <span className='indicator-label'>Continue</span>}
