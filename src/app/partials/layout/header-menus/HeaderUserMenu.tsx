@@ -23,7 +23,7 @@ const HeaderUserMenu: FC = () => {
       <div className='menu-item px-3'>
         <div className='menu-content d-flex align-items-center px-3'>
           <div className='symbol symbol-50px me-5'>
-            <img alt='Logo' src={toAbsoluteUrl('/media/logo.png')} />
+            <img alt='Logo' src={toAbsoluteUrl('/media/logo.jpg')} />
           </div>
 
           <div className='d-flex flex-column'>
