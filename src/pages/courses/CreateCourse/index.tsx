@@ -228,7 +228,7 @@ const CreateCourse = () => {
                           className='btn btn-secondary'
                           disabled={value === 0}
                         >
-                          Previous
+                          Back
                         </button>
                         <button
                           type='submit'
@@ -264,7 +264,7 @@ const CreateCourse = () => {
                     className='btn btn-secondary'
                     disabled={value === 0}
                   >
-                    Previous
+                    Back
                   </button>
                   <button
                     onClick={() => {
