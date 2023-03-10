@@ -6,7 +6,7 @@ import DropzoneVideo from '../../../../shared/dropzone/DropzoneVideo'
 import {ErrorMessage} from '../../../../shared/ErrorMesage/ErrorMessage'
 import ListMedia from '../../../../shared/ListMedia'
 import {coursesActions} from '../../../../store/courses/coursesSlice'
-import { uploadActions } from '../../../../store/upload/uploadSlice'
+import {uploadActions} from '../../../../store/upload/uploadSlice'
 import VideoPlayer from './VideoPlayer'
 
 interface Props {
@@ -52,9 +52,9 @@ const PreviewSection = ({values, setFieldValue}: Props) => {
 
   return (
     <div>
-      <div className='row border-top'>
-        <label className='col-lg-4 col-form-label fw-bold fs-4'>Preview</label>
-        <div className='px-2'>
+      <div className='row'>
+        {/* <label className='col-lg-4 col-form-label fw-bold fs-4'>Preview</label> */}
+        <div>
           <Box
             sx={{
               backgroundColor: '#f8f9fa',

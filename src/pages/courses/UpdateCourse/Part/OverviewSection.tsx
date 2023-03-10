@@ -7,7 +7,7 @@ import DropzoneCustom from '../../../../shared/dropzone/DropzoneCustom'
 import {ErrorMessage} from '../../../../shared/ErrorMesage/ErrorMessage'
 import ListMedia from '../../../../shared/ListMedia'
 import {coursesActions} from '../../../../store/courses/coursesSlice'
-import { uploadActions } from '../../../../store/upload/uploadSlice'
+import {uploadActions} from '../../../../store/upload/uploadSlice'
 
 interface Props {
   values?: any
@@ -17,20 +17,20 @@ const OverviewSection = ({values, setFieldValue}: Props) => {
   const [indexState, setIndexState] = useState(0)
   const dispatch = useAppDispatch()
   const image: any = useAppSelector((state) => state.upload.overviewImage)
-  
+
   const onUploadImage = (formData: any) => {
     dispatch(uploadActions.uploadOverviewImage(formData))
   }
   useEffect(() => {
     if (image.urlThumbnail) {
-      setFieldValue(`overview.skills.${0}.imageUrl`, [image.urlThumbnail])
+      setFieldValue(`overview.skills.${indexState}.imageUrl`, [image.urlThumbnail])
     }
   }, [image])
   return (
     <div>
-      <div className='row border-top'>
-        <label className='col-lg-4 col-form-label fw-bold fs-4'>Overview</label>
-        <div className='px-3'>
+      <div className='row'>
+        {/* <label className='col-lg-4 col-form-label fw-bold fs-4'>Overview</label> */}
+        <div>
           <Box
             sx={{
               backgroundColor: '#f8f9fa',
@@ -82,7 +82,7 @@ const OverviewSection = ({values, setFieldValue}: Props) => {
                             onUploadImage={onUploadImage}
                             typeAppend={'image'}
                             setIndex={setIndexState}
-                            index={indexState}
+                            index={index}
                           />
                         </div>
                         <div className='col-lg-10 mt-6'>

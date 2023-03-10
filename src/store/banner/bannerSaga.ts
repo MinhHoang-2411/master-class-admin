@@ -5,7 +5,8 @@ import {ErrorModel, ResponseUploadImages} from '../../models'
 import {alertActions} from '../alert/alertSlice'
 import {bannerActions} from './bannerSlice'
 import history from '../../routes/history'
-import { ResponseBanner } from '../../models/BannerModels'
+import {ResponseBanner} from '../../models/BannerModels'
+import {uploadActions} from '../upload/uploadSlice'
 
 function* fetchBanner(action: PayloadAction<any>) {
   const payload = action.payload

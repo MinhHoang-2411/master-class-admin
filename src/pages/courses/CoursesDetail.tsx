@@ -8,6 +8,7 @@ import history from '../../routes/history'
 import {ICourse} from '../../models/Courses'
 import VideoPlayer from './Lessons/VideoPlayer'
 import {isMappable} from '../../app/helpers/isMapple'
+import {categoriesActions} from '../../store/categories/categoriesSlice'
 
 const CoursesDetail: FC = () => {
   const dispatch = useAppDispatch()
@@ -16,6 +17,7 @@ const CoursesDetail: FC = () => {
   const {id}: any = useParams()
 
   useEffect(() => {
+    dispatch(categoriesActions.getDataStart())
     dispatch(coursesActions.getDetailStart(id))
   }, [])
 

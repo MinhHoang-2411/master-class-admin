@@ -53,6 +53,9 @@ const uploadSlice = createSlice({
       state.loadingThumbnail = false
       state.error = action.payload
     },
+    deleteThumbnail: (state) => {
+      state.thumbnail = []
+    },
     //
     uploadLessonVideo: (state) => {
       state.loadingLessonVideo = true
@@ -64,6 +67,9 @@ const uploadSlice = createSlice({
     uploadLessonVideoFailure: (state, action) => {
       state.loadingLessonVideo = false
       state.error = action.payload
+    },
+    deleteLessonVideo: (state) => {
+      state.lessonVideo = []
     },
     //
     uploadLessonImage: (state) => {
@@ -77,6 +83,9 @@ const uploadSlice = createSlice({
       state.loadingLessonImage = false
       state.error = action.payload
     },
+    deleteLessonImage: (state) => {
+      state.lessonImage = []
+    },
     //
     uploadPreviewVideo: (state) => {
       state.loadingPreviewVideo = true
@@ -88,6 +97,9 @@ const uploadSlice = createSlice({
     uploadPreviewVideoFailure: (state, action) => {
       state.loadingPreviewVideo = false
       state.error = action.payload
+    },
+    deletePreviewVideo: (state) => {
+      state.previewVideo = []
     },
     //
     uploadPreviewImage: (state) => {
@@ -101,6 +113,9 @@ const uploadSlice = createSlice({
       state.loadingPreviewImage = false
       state.error = action.payload
     },
+    deletePreviewImage: (state) => {
+      state.previewImage = []
+    },
     //
     uploadOverviewImage: (state) => {
       state.loadingOverviewImage = true
@@ -112,6 +127,9 @@ const uploadSlice = createSlice({
     uploadOverviewImageFailure: (state, action) => {
       state.loadingOverviewImage = false
       state.error = action.payload
+    },
+    deleteOverViewImage: (state, action: PayloadAction<any>) => {
+      state.overviewImage = []
     },
 
     clearStore: (state) => {

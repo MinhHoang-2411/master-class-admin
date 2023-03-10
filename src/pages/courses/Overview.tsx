@@ -21,7 +21,7 @@ const CoursesOverview: FC = () => {
   useEffect(() => {
     const payload: any = {
       limit: 10,
-      page: 1,
+      page: paginate?.page || 1,
     }
     dispatch(coursesActions.getDataStart(payload))
   }, [])
@@ -80,10 +80,10 @@ const CoursesOverview: FC = () => {
             <thead className={'text-uppercase text-dark thead-pito border-bottom text-uppercase'}>
               <tr>
                 <th className='py-2 text-center'>No</th>
-                <th className='py-2 text-center'>Course Name</th>
-                <th className='py-2 text-center'>Author Name</th>
-                <th className='py-2 text-center'>Title</th>
-                <th className='py-2 text-center'>Thumbnail</th>
+                <th className='py-2'>Course Name</th>
+                <th className='py-2'>Author Name</th>
+                <th className='py-2'>Title</th>
+                <th className='py-2'>Thumbnail</th>
                 <th className='py-2 text-center'>Actions</th>
               </tr>
             </thead>
@@ -93,10 +93,10 @@ const CoursesOverview: FC = () => {
                   courses?.map((course: ICourse, idx: number) => (
                     <tr key={course._id}>
                       <td className='text-center'>{idx + 1 + (paginate.page - 1) * 10}</td>
-                      <td className='text-center'>{course.name}</td>
-                      <td className='text-center'>{course.authorName}</td>
-                      <td className='text-center'>{course.title}</td>
-                      <td className='text-center'>
+                      <td className=''>{course.name}</td>
+                      <td className=''>{course.authorName}</td>
+                      <td className=''>{course.title}</td>
+                      <td className=''>
                         <img
                           src={course.thumbnail}
                           alt='thumbnail'
@@ -154,6 +154,7 @@ const CoursesOverview: FC = () => {
         <div className='d-flex justify-content-end p-6'>
           <Pagination
             count={paginate?.total_page}
+            defaultPage={paginate?.page || 1}
             color='primary'
             onChange={(e: any, page: number) => onChangePaginate(page)}
           />

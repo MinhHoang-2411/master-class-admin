@@ -52,9 +52,9 @@ const PreviewSection = ({values, setFieldValue}: Props) => {
 
   return (
     <div>
-      <div className='row border-top'>
-        <label className='col-lg-4 col-form-label fw-bold fs-4'>Preview</label>
-        <div className='px-2'>
+      <div className='row'>
+        {/* <label className='col-lg-4 col-form-label fw-bold fs-4'>Preview</label> */}
+        <div>
           <Box
             sx={{
               backgroundColor: '#f8f9fa',
@@ -114,6 +114,9 @@ const PreviewSection = ({values, setFieldValue}: Props) => {
                     images={values.videoPreview.thumbnail}
                     setFieldValue={setFieldValue}
                     nameValue={'videoPreview.thumbnail'}
+                    onDelete={() => {
+                      dispatch(uploadActions.deletePreviewImage())
+                    }}
                   />
                 </div>
                 <div className='py-3'>

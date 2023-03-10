@@ -1,4 +1,5 @@
 import {Form, Formik} from 'formik'
+import * as React from 'react'
 import {useEffect, useState} from 'react'
 import {useAppDispatch, useAppSelector} from '../../../app/saga/hooks'
 import {InititalValuesCreateCourse} from '../../../models/Courses'
@@ -9,6 +10,42 @@ import LessonSection from './Part/LessonSection'
 import OverviewSection from './Part/OverviewSection'
 import PreviewSection from './Part/PreviewSection'
 import courseSchema from './Validate'
+//Mui
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Box from '@mui/material/Box'
+import ErrorIcon from '@mui/icons-material/Error'
+import {uploadActions} from '../../../store/upload/uploadSlice'
+interface TabPanelProps {
+  children?: React.ReactNode
+  index: number
+  value: number
+}
+
+const styledTab = {fontSize: '16px', fontWeight: '600'}
+
+function TabPanel(props: TabPanelProps) {
+  const {children, value, index, ...other} = props
+
+  return (
+    <div
+      role='tabpanel'
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{p: 3}}>{children}</Box>}
+    </div>
+  )
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  }
+}
 
 const initialValues: InititalValuesCreateCourse = {
   name: '',
@@ -47,13 +84,20 @@ const initialValues: InititalValuesCreateCourse = {
 const NormalizeWebName = (webName: string) => {
   const str = webName.replace(/\s+/g, ' ')
   const lowerCase = str.toLocaleLowerCase()
-  const diacritics = lowerCase.normalize("NFD").replace(/[\u0300-\u036f]/g, "") 
-  const prepareString = diacritics.replaceAll(" ", "-")
+  const diacritics = lowerCase.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  const prepareString = diacritics.replaceAll(' ', '-')
   return prepareString
 }
 
 const CreateCourse = () => {
-  const dispatch = useAppDispatch();
+  //Tab
+  const [value, setValue] = useState(0)
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue)
+  }
+
+  const dispatch = useAppDispatch()
 
   const onSubmit = (values: any) => {
     try {
@@ -93,30 +137,146 @@ const CreateCourse = () => {
             <h3 className='fw-bolder m-0'>Create Course</h3>
           </div>
         </div>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validationSchema={courseSchema}
-        >
-          {({values, setFieldValue}) => {
+        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={courseSchema}>
+          {({values, setFieldValue, errors, submitCount}) => {
             return (
-              <Form>
-                <div className='card-body border-top p-9'>
-                  <HeadSection values={values} setFieldValue={setFieldValue} />
+              <>
+                <Form>
+                  <div className='card-body border-top p-9'>
+                    <Tabs
+                      textColor='primary'
+                      value={value}
+                      onChange={handleChange}
+                      aria-label='basic tabs example'
+                    >
+                      <Tab
+                        sx={styledTab}
+                        label='Intro'
+                        {...a11yProps(0)}
+                        icon={
+                          ['name', 'categories', 'title', 'thumbnail', 'authorName'].some(
+                            (value) => {
+                              return Object.keys(errors).includes(value)
+                            }
+                          ) && submitCount > 0 ? (
+                            <ErrorIcon sx={{color: '#ff3366'}} />
+                          ) : (
+                            ''
+                          )
+                        }
+                        iconPosition='end'
+                      />
 
-                  <PreviewSection values={values} setFieldValue={setFieldValue} />
+                      <Tab
+                        sx={styledTab}
+                        label='Preview'
+                        {...a11yProps(1)}
+                        icon={
+                          errors?.videoPreview && submitCount > 0 ? (
+                            <ErrorIcon sx={{color: '#ff3366'}} />
+                          ) : (
+                            ''
+                          )
+                        }
+                        iconPosition='end'
+                      />
 
-                  <OverviewSection values={values} setFieldValue={setFieldValue} />
-
-                  <LessonSection setFieldValue={setFieldValue} values={values} />
-
-                  <div className='card-footer d-flex justify-content-end'>
-                    <button type='submit' className='btn btn-primary'>
-                      Create
-                    </button>
+                      <Tab
+                        sx={styledTab}
+                        label='Overview'
+                        {...a11yProps(2)}
+                        icon={
+                          errors?.overview && submitCount > 0 ? (
+                            <ErrorIcon sx={{color: '#ff3366'}} />
+                          ) : (
+                            ''
+                          )
+                        }
+                        iconPosition='end'
+                      />
+                      <Tab
+                        sx={styledTab}
+                        label='Lessons'
+                        {...a11yProps(3)}
+                        icon={
+                          errors?.lessons && submitCount > 0 ? (
+                            <ErrorIcon sx={{color: '#ff3366'}} />
+                          ) : (
+                            ''
+                          )
+                        }
+                        iconPosition='end'
+                      />
+                    </Tabs>
+                    <TabPanel value={value} index={0}>
+                      <HeadSection values={values} setFieldValue={setFieldValue} />
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                      <PreviewSection values={values} setFieldValue={setFieldValue} />
+                    </TabPanel>
+                    <TabPanel value={value} index={2}>
+                      <OverviewSection values={values} setFieldValue={setFieldValue} />
+                    </TabPanel>
+                    <TabPanel value={value} index={3}>
+                      <LessonSection setFieldValue={setFieldValue} values={values} />
+                      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                        <button
+                          onClick={() => {
+                            setValue(value - 1)
+                            dispatch(uploadActions.clearStore())
+                          }}
+                          className='btn btn-secondary'
+                          disabled={value === 0}
+                        >
+                          Previous
+                        </button>
+                        <button
+                          type='submit'
+                          className='btn btn-primary'
+                          onClick={() => {
+                            window.scrollTo({
+                              top: 0,
+                              left: 0,
+                              behavior: 'smooth',
+                            })
+                            dispatch(uploadActions.clearStore())
+                          }}
+                        >
+                          Create
+                        </button>
+                      </div>
+                    </TabPanel>
                   </div>
+                </Form>
+                <div
+                  style={{
+                    display: value < 3 ? 'flex' : 'none',
+                    justifyContent: 'space-between',
+                    padding: '0 54px',
+                    transform: 'translateY(-54px)',
+                  }}
+                >
+                  <button
+                    onClick={() => {
+                      setValue(value - 1)
+                      dispatch(uploadActions.clearStore())
+                    }}
+                    className='btn btn-secondary'
+                    disabled={value === 0}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    onClick={() => {
+                      setValue(value + 1)
+                      dispatch(uploadActions.clearStore())
+                    }}
+                    className='btn btn-primary'
+                  >
+                    Next
+                  </button>
                 </div>
-              </Form>
+              </>
             )
           }}
         </Formik>

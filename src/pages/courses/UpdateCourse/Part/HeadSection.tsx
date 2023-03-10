@@ -23,17 +23,17 @@ const HeadSection = ({values, setFieldValue, listCategory, course}: Props) => {
   const image: any = useAppSelector((state) => state.upload.thumbnail)
 
   useEffect(() => {
-    setFieldValue(
-      'categories',
-      listCategory?.filter((item: any) => course?.categories?.includes(item?._id))
-    )
-  }, [listCategory])
-
-  useEffect(() => {
     if (image.urlThumbnail) {
       setFieldValue('thumbnail', [image.urlThumbnail])
     }
   }, [image])
+
+  // useEffect(() => {
+  //   setFieldValue(
+  //     'categories',
+  //     listCategory?.filter((item: any) => course?.categories?.includes(item?._id))
+  //   )
+  // }, [listCategory])
 
   const onUploadThumbail = (formData: any) => {
     dispatch(uploadActions.uploadThumbail(formData))
@@ -93,6 +93,7 @@ const HeadSection = ({values, setFieldValue, listCategory, course}: Props) => {
           ) : (
             <></>
           )}
+          <ErrorMessage name='categories' />
         </div>
       </div>
 

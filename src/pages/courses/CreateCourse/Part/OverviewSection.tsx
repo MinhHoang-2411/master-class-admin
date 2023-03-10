@@ -48,9 +48,9 @@ const OverviewSection = ({values, setFieldValue}: Props) => {
 
   return (
     <div>
-      <div className='row border-top'>
-        <label className='col-lg-4 col-form-label fw-bold fs-4'>Overview</label>
-        <div className='px-3'>
+      <div className='row'>
+        {/* <label className='col-lg-4 col-form-label fw-bold fs-4'>Overview</label> */}
+        <div>
           <Box
             sx={{
               backgroundColor: '#f8f9fa',
