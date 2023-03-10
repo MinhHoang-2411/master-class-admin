@@ -1,4 +1,6 @@
-import {Box, TextField} from '@mui/material'
+import {Box, Button, IconButton, TextField} from '@mui/material'
+import {toast} from 'react-toastify'
+
 import {Field} from 'formik'
 import {useEffect, useState} from 'react'
 import {isMappable} from '../../../../app/helpers/isMapple'
@@ -8,6 +10,7 @@ import {ErrorMessage} from '../../../../shared/ErrorMesage/ErrorMessage'
 import ListMedia from '../../../../shared/ListMedia'
 import {coursesActions} from '../../../../store/courses/coursesSlice'
 import {uploadActions} from '../../../../store/upload/uploadSlice'
+import CloseIcon from '@mui/icons-material/Close'
 
 interface Props {
   values?: any
@@ -26,6 +29,22 @@ const OverviewSection = ({values, setFieldValue}: Props) => {
       setFieldValue(`overview.skills.${indexState}.imageUrl`, [image.urlThumbnail])
     }
   }, [image])
+  const handleAddSkill = () => {
+    const skill = {
+      imageUrl: [],
+      title: '',
+    }
+    let newArr: any[] = []
+    newArr = [...values.overview.skills, skill]
+    setFieldValue(`overview.skills`, newArr)
+    toast.success('Add skill success')
+  }
+
+  const handleRemoveSkill = (index: number) => {
+    const skills = values?.overview.skills?.filter((_: never, idx: number) => idx !== index)
+    setFieldValue(`overview.skills`, skills)
+    toast.info('Remove skill success')
+  }
   return (
     <div>
       <div className='row'>
@@ -70,45 +89,80 @@ const OverviewSection = ({values, setFieldValue}: Props) => {
               </div>
             </div>
             <div className='row mb-6'>
+              <div className='row'>
+                <label className='col-lg-4 col-form-label fw-bold fs-4'>What you'll learn</label>
+                <div className='col-lg-8 fv-row d-flex justify-content-end align-items-center'>
+                  <div className=''>
+                    <Button
+                      variant='contained'
+                      size='small'
+                      color='primary'
+                      onClick={handleAddSkill}
+                    >
+                      Add skill
+                    </Button>
+                  </div>
+                </div>
+              </div>
               {isMappable(values.overview.skills) ? (
                 values.overview.skills.map((skill: any, index: number) => (
-                  <div className='px-3'>
-                    <div className='row mb-6 py-3'>
-                      <label className='col-lg-4 col-form-label required fw-bold fs-6'>Image</label>
-                      <div className='col-lg-8'>
-                        <div className='col-lg-2'>
-                          <DropzoneCustom
-                            maxFile={1}
-                            onUploadImage={onUploadImage}
-                            typeAppend={'image'}
-                            setIndex={setIndexState}
-                            index={index}
-                          />
-                        </div>
-                        <div className='col-lg-10 mt-6'>
-                          <ListMedia
-                            images={skill.imageUrl}
-                            setFieldValue={setFieldValue}
-                            nameValue={`overview.skills.${index}.imageUrl`}
-                          />
-                        </div>
-                        <div className='py-3'>
-                          <ErrorMessage name={`overview.skills.${index}.imageUrl`} />
+                  <div className='px-6 border position-relative'>
+                    {index >= 1 && (
+                      <IconButton
+                        color='primary'
+                        component='label'
+                        sx={{position: 'absolute', top: 3, right: 3}}
+                        onClick={() => handleRemoveSkill(index)}
+                      >
+                        <CloseIcon sx={{backgroundColor: '#f1f1f1', borderRadius: '50%'}} />
+                      </IconButton>
+                    )}
+
+                    <label className='col-lg-4 col-form-label fw-bold fs-6'>
+                      {`Skill ${index + 1}`}
+                    </label>
+                    <div className='px-3'>
+                      <div className='row mb-6 py-3'>
+                        <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                          Image
+                        </label>
+                        <div className='col-lg-8'>
+                          <div className='col-lg-2'>
+                            <DropzoneCustom
+                              maxFile={1}
+                              onUploadImage={onUploadImage}
+                              typeAppend={'image'}
+                              setIndex={setIndexState}
+                              index={index}
+                            />
+                          </div>
+                          <div className='col-lg-10 mt-6'>
+                            <ListMedia
+                              images={skill.imageUrl}
+                              setFieldValue={setFieldValue}
+                              nameValue={`overview.skills.${index}.imageUrl`}
+                            />
+                          </div>
+                          <div className='py-3'>
+                            <ErrorMessage name={`overview.skills.${index}.imageUrl`} />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className='row mb-6'>
-                      <label className='col-lg-4 col-form-label required fw-bold fs-6'>Title</label>
-                      <div className='col-lg-8 fv-row'>
-                        <Field
-                          as={TextField}
-                          name={`overview.skills.${index}.title`}
-                          label='Title'
-                          variant='outlined'
-                          margin='normal'
-                          fullWidth
-                        />
-                        <ErrorMessage name={`overview.skills.${index}.title`} />
+                      <div className='row mb-6'>
+                        <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                          Title
+                        </label>
+                        <div className='col-lg-8 fv-row'>
+                          <Field
+                            as={TextField}
+                            name={`overview.skills.${index}.title`}
+                            label='Title'
+                            variant='outlined'
+                            margin='normal'
+                            fullWidth
+                          />
+                          <ErrorMessage name={`overview.skills.${index}.title`} />
+                        </div>
                       </div>
                     </div>
                   </div>
