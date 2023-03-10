@@ -251,7 +251,7 @@ const CreateCourse = () => {
                 <div
                   style={{
                     display: value < 3 ? 'flex' : 'none',
-                    justifyContent: 'space-between',
+                    justifyContent: value === 0 ? 'flex-end' : 'space-between',
                     padding: '0 54px',
                     transform: 'translateY(-54px)',
                   }}
@@ -262,7 +262,7 @@ const CreateCourse = () => {
                       dispatch(uploadActions.clearStore())
                     }}
                     className='btn btn-secondary'
-                    disabled={value === 0}
+                    style={{display: value === 0 ? 'none' : 'block'}}
                   >
                     Back
                   </button>
