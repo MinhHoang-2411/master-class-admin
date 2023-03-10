@@ -1,26 +1,22 @@
 import CloseIcon from '@mui/icons-material/Close'
-import {
-  Chip, TextField
-} from '@mui/material'
+import {Chip, TextField} from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
-import { Field } from 'formik'
-import { useEffect, useState } from 'react'
-import { isMappable } from '../../../../app/helpers/isMapple'
-import { useAppDispatch, useAppSelector } from '../../../../app/saga/hooks'
+import {Field} from 'formik'
+import {useEffect, useState} from 'react'
+import {isMappable} from '../../../../app/helpers/isMapple'
+import {useAppDispatch, useAppSelector} from '../../../../app/saga/hooks'
 import DropzoneCustom from '../../../../shared/dropzone/DropzoneCustom'
-import { ErrorMessage } from '../../../../shared/ErrorMesage/ErrorMessage'
+import {ErrorMessage} from '../../../../shared/ErrorMesage/ErrorMessage'
 import ListMedia from '../../../../shared/ListMedia'
-import { categoriesActions } from '../../../../store/categories/categoriesSlice'
-import { uploadActions } from '../../../../store/upload/uploadSlice'
+import {categoriesActions} from '../../../../store/categories/categoriesSlice'
+import {uploadActions} from '../../../../store/upload/uploadSlice'
 
 interface Props {
   values: any
   setFieldValue: any
 }
 
-
 const HeadSection = ({values, setFieldValue}: Props) => {
-
   const [index, setIndex] = useState(0)
   const dispatch = useAppDispatch()
   const listCategory = useAppSelector((state) => state.categories.data)
@@ -45,8 +41,8 @@ const HeadSection = ({values, setFieldValue}: Props) => {
   }, [])
 
   return (
-    <div>
-      <div className='row mb-6'>
+    <div className='row'>
+      <div className='row mb-6 '>
         <label className='col-lg-4 col-form-label required fw-bold fs-6'>Name</label>
         <div className='col-lg-8 fv-row'>
           <Field
@@ -87,7 +83,9 @@ const HeadSection = ({values, setFieldValue}: Props) => {
                   />
                 ))
               }
-              renderInput={(params) => <TextField {...params} variant='outlined' label='Category' />}
+              renderInput={(params) => (
+                <TextField {...params} variant='outlined' label='Category' />
+              )}
             />
           ) : (
             <></>
@@ -143,6 +141,9 @@ const HeadSection = ({values, setFieldValue}: Props) => {
               images={values.thumbnail}
               setFieldValue={setFieldValue}
               nameValue={'thumbnail'}
+              onDelete={() => {
+                dispatch(uploadActions.deleteThumbnail())
+              }}
             />
           </div>
           <div className='py-3'>

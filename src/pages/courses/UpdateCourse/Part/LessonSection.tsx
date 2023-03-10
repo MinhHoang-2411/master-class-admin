@@ -86,9 +86,9 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
 
   return (
     <>
-      <div className='row border-top'>
-        <label className='col-lg-4 col-form-label fw-bold fs-4'>Lessons</label>
-        <div className='col-lg-8 fv-row d-flex justify-content-end align-items-center'>
+      <div className='row'>
+        {/* <label className='col-lg-4 col-form-label fw-bold fs-4'>Lessons</label> */}
+        <div className='col-lg-12 fv-row d-flex justify-content-end align-items-center'>
           <div className=''>
             <Button
               variant='contained'

@@ -6,6 +6,7 @@ import {ICategory, ResponseCategory} from '../../models/CategoryModels'
 import history from '../../routes/history'
 import {alertActions} from '../alert/alertSlice'
 import {coursesActions} from './coursesSlice'
+import {uploadActions} from '../upload/uploadSlice'
 
 function* fetchCourses(action: PayloadAction<any>) {
   const payload = action.payload
@@ -141,6 +142,7 @@ function* onDeleteVideo(action: PayloadAction<any>) {
   try {
     const response: ResponseUploadImages = yield call(coursesApi.deletePublicFile, payload)
     yield put(coursesActions.onDeleteCourseSuccess(response.data.images))
+    yield put(uploadActions.deletePreviewVideo())
   } catch (error: ErrorModel | any) {
     console.error(error)
     yield put(coursesActions.onUploadVideoFailure(error as string))

@@ -9,15 +9,17 @@ interface IListImage {
   images: any
   setFieldValue: any
   nameValue: string
+  onDelete?: any
 }
 
-const ListMedia = ({images, setFieldValue, nameValue}: IListImage) => {
+const ListMedia = ({images, setFieldValue, nameValue, onDelete}: IListImage) => {
   const dispatch = useAppDispatch()
 
   const removeFile = ({pos, url}: {url: string; pos: number}) => {
     const newFiles = images?.filter((_: never, index: number) => index !== pos)
     setFieldValue(nameValue, newFiles)
     onDeletePublicFile(url)
+    onDelete()
   }
 
   const onDeletePublicFile = (url: string) => {

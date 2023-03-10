@@ -13,6 +13,7 @@ import './app/assets/sass/style.scss'
 import {store} from './app/saga/store'
 import {AppRoutes} from './routes/AppRoutes'
 import history from './routes/history'
+import ThemeCustomProvider from './themes/index'
 
 const queryClient = new QueryClient()
 const container = document.getElementById('root')
@@ -22,9 +23,11 @@ if (container) {
     <Provider store={store}>
       <HistoryRouter history={history}>
         <QueryClientProvider client={queryClient}>
-          <AppRoutes />
-          <ReactQueryDevtools initialIsOpen={false} />
-          <ToastContainer />
+          <ThemeCustomProvider>
+            <AppRoutes />
+            <ReactQueryDevtools initialIsOpen={false} />
+            <ToastContainer />
+          </ThemeCustomProvider>
         </QueryClientProvider>
       </HistoryRouter>
     </Provider>
