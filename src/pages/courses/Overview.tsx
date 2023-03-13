@@ -10,6 +10,7 @@ import history from '../../routes/history'
 import SearchInput from '../../shared/Search'
 import {coursesActions} from '../../store/courses/coursesSlice'
 import {uploadActions} from '../../store/upload/uploadSlice'
+import {format} from 'date-fns'
 
 const CoursesOverview: FC = () => {
   const dispatch = useAppDispatch()
@@ -56,6 +57,8 @@ const CoursesOverview: FC = () => {
     dispatch(coursesActions.getDataStart(payload))
   }
 
+  console.log('courses', courses)
+
   return (
     <>
       <div className='card mb-5 mb-xl-10' id='kt_profile_details_view'>
@@ -84,6 +87,7 @@ const CoursesOverview: FC = () => {
                 <th className='py-2'>Author Name</th>
                 <th className='py-2'>Title</th>
                 <th className='py-2'>Thumbnail</th>
+                <th className='py-2 text-center'>Date deleted</th>
                 <th className='py-2 text-center'>Actions</th>
               </tr>
             </thead>
@@ -95,7 +99,9 @@ const CoursesOverview: FC = () => {
                       <td className='text-center'>{idx + 1 + (paginate.page - 1) * 10}</td>
                       <td className=''>{course.name}</td>
                       <td className=''>{course.authorName}</td>
-                      <td className=''>{course.title}</td>
+                      <td className='' style={{width: '500px'}}>
+                        {course.title}
+                      </td>
                       <td className=''>
                         <img
                           src={course.thumbnail}
@@ -104,6 +110,13 @@ const CoursesOverview: FC = () => {
                           height={70}
                           style={{objectFit: 'cover'}}
                         />
+                      </td>
+                      <td className='text-center' style={{width: '100px'}}>
+                        {course?.deletedAt ? (
+                          <span>{format(new Date(course?.deletedAt), 'yyyy-MM-dd')}</span>
+                        ) : (
+                          <span>-</span>
+                        )}
                       </td>
                       <td className='text-center'>
                         <IconButton onClick={() => onRedirectCourseDetail(course._id)}>
@@ -133,6 +146,7 @@ const CoursesOverview: FC = () => {
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                   </tr>
                 )
               ) : (
@@ -143,6 +157,7 @@ const CoursesOverview: FC = () => {
                   <td>
                     <label className='fw-bold text-muted mt-4'>There are no course</label>
                   </td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
