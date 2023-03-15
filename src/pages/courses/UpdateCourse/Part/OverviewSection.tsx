@@ -15,8 +15,9 @@ import CloseIcon from '@mui/icons-material/Close'
 interface Props {
   values?: any
   setFieldValue?: any
+  tabLanguage: number
 }
-const OverviewSection = ({values, setFieldValue}: Props) => {
+const OverviewSection = ({values, setFieldValue, tabLanguage}: Props) => {
   const [indexState, setIndexState] = useState(0)
   const dispatch = useAppDispatch()
   const image: any = useAppSelector((state) => state.upload.overviewImage)
@@ -32,7 +33,10 @@ const OverviewSection = ({values, setFieldValue}: Props) => {
   const handleAddSkill = () => {
     const skill = {
       imageUrl: [],
-      title: '',
+      title: {
+        vi: '',
+        en: '',
+      },
     }
     let newArr: any[] = []
     newArr = [...values.overview.skills, skill]
@@ -59,35 +63,67 @@ const OverviewSection = ({values, setFieldValue}: Props) => {
               position: 'relative',
             }}
           >
-            <div className='row mb-6'>
-              <label className='col-lg-4 col-form-label required fw-bold fs-6'>Slogan</label>
-              <div className='col-lg-8 fv-row'>
-                <Field
-                  as={TextField}
-                  name='overview.slogan'
-                  label='Slogan'
-                  variant='outlined'
-                  margin='normal'
-                  fullWidth
-                />
-                <ErrorMessage name='overview.slogan' />
+            {tabLanguage === 0 ? (
+              <div className='row mb-6 py-2'>
+                <label className='col-lg-4 col-form-label required fw-bold fs-6'>Slogan</label>
+                <div className='col-lg-8 fv-row'>
+                  <Field
+                    as={TextField}
+                    name='overview.slogan.en'
+                    label='Slogan English'
+                    variant='outlined'
+                    margin='normal'
+                    fullWidth
+                  />
+                  <ErrorMessage name='overview.slogan.en' />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className='row mb-6 py-2'>
+                <label className='col-lg-4 col-form-label required fw-bold fs-6'>Slogan</label>
+                <div className='col-lg-8 fv-row'>
+                  <Field
+                    as={TextField}
+                    name='overview.slogan.vi'
+                    label='Slogan Vietnamese'
+                    variant='outlined'
+                    margin='normal'
+                    fullWidth
+                  />
+                </div>
+              </div>
+            )}
 
-            <div className='row mb-6'>
-              <label className='col-lg-4 col-form-label required fw-bold fs-6'>Description</label>
-              <div className='col-lg-8 fv-row'>
-                <Field
-                  as={TextField}
-                  name='overview.description'
-                  label='Description'
-                  variant='outlined'
-                  margin='normal'
-                  fullWidth
-                />
-                <ErrorMessage name='overview.description' />
+            {tabLanguage === 0 ? (
+              <div className='row mb-6 py-2'>
+                <label className='col-lg-4 col-form-label required fw-bold fs-6'>Description</label>
+                <div className='col-lg-8 fv-row'>
+                  <Field
+                    as={TextField}
+                    name='overview.description.en'
+                    label='Description English'
+                    variant='outlined'
+                    margin='normal'
+                    fullWidth
+                  />
+                  <ErrorMessage name='overview.description.en' />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className='row mb-6 py-2'>
+                <label className='col-lg-4 col-form-label required fw-bold fs-6'>Description</label>
+                <div className='col-lg-8 fv-row'>
+                  <Field
+                    as={TextField}
+                    name='overview.description.vi'
+                    label='Description Vietnamese'
+                    variant='outlined'
+                    margin='normal'
+                    fullWidth
+                  />
+                </div>
+              </div>
+            )}
             <div className='row mb-6'>
               <div className='row'>
                 <label className='col-lg-4 col-form-label fw-bold fs-4'>What you'll learn</label>
@@ -148,22 +184,40 @@ const OverviewSection = ({values, setFieldValue}: Props) => {
                           </div>
                         </div>
                       </div>
-                      <div className='row mb-6'>
-                        <label className='col-lg-4 col-form-label required fw-bold fs-6'>
-                          Title
-                        </label>
-                        <div className='col-lg-8 fv-row'>
-                          <Field
-                            as={TextField}
-                            name={`overview.skills.${index}.title`}
-                            label='Title'
-                            variant='outlined'
-                            margin='normal'
-                            fullWidth
-                          />
-                          <ErrorMessage name={`overview.skills.${index}.title`} />
+                      {tabLanguage === 0 ? (
+                        <div className='row mb-6'>
+                          <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                            Title
+                          </label>
+                          <div className='col-lg-8 fv-row'>
+                            <Field
+                              as={TextField}
+                              name={`overview.skills.${index}.title.en`}
+                              label='Title English'
+                              variant='outlined'
+                              margin='normal'
+                              fullWidth
+                            />
+                            <ErrorMessage name={`overview.skills.${index}.title.en`} />
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div className='row mb-6'>
+                          <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                            Title
+                          </label>
+                          <div className='col-lg-8 fv-row'>
+                            <Field
+                              as={TextField}
+                              name={`overview.skills.${index}.title.vi`}
+                              label='Title Vietnamese'
+                              variant='outlined'
+                              margin='normal'
+                              fullWidth
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))

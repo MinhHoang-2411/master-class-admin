@@ -48,16 +48,28 @@ function a11yProps(index: number) {
 }
 
 const initialValues: InititalValuesCreateCourse = {
-  name: '',
-  title: '',
+  name: {
+    vi: '',
+    en: '',
+  },
+  title: {
+    vi: '',
+    en: '',
+  },
   thumbnail: [],
   authorName: '',
   categories: [],
   lessons: [
     {
       index: 1,
-      title: '',
-      description: '',
+      title: {
+        vi: '',
+        en: '',
+      },
+      description: {
+        vi: '',
+        en: '',
+      },
       videoUrl: '',
       thumbnail: [],
       duration: 0,
@@ -69,12 +81,21 @@ const initialValues: InititalValuesCreateCourse = {
     duration: 0,
   },
   overview: {
-    slogan: '',
-    description: '',
+    slogan: {
+      vi: '',
+      en: '',
+    },
+    description: {
+      vi: '',
+      en: '',
+    },
     skills: [
       {
         imageUrl: [],
-        title: '',
+        title: {
+          vi: '',
+          en: '',
+        },
       },
     ],
   },
@@ -97,6 +118,11 @@ const CreateCourse = () => {
     setValue(newValue)
   }
 
+  const [tabLanguage, setTabLanguage] = useState(0)
+
+  const handleChangeLanguage = (event: React.SyntheticEvent, newValue: number) => {
+    setTabLanguage(newValue)
+  }
   const dispatch = useAppDispatch()
 
   const onSubmit = (values: any) => {
@@ -121,8 +147,9 @@ const CreateCourse = () => {
           duration: values.videoPreview.duration,
           thumbnail: values.videoPreview.thumbnail[0],
         },
-        webName: NormalizeWebName(values.authorName.trim() + ' ' + values.name.trim()),
+        webName: NormalizeWebName(values.authorName.trim() + ' ' + values.name.en.trim()),
       }
+      console.log('params', params)
       dispatch(coursesActions.onCreateCourse(params))
     } catch (error) {
       console.log(error)
@@ -142,7 +169,17 @@ const CreateCourse = () => {
             return (
               <>
                 <Form>
-                  <div className='card-body border-top p-9'>
+                  <div className='card-body border-top py-3 px-9'>
+                    <Box className='mb-3' sx={{borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: 'center'}}>
+                      <Tabs
+                        value={tabLanguage}
+                        onChange={handleChangeLanguage}
+                        aria-label='basic tabs example'
+                      >
+                        <Tab label='English' {...a11yProps(0)} sx={styledTab} />
+                        <Tab sx={styledTab} label='Vietnamese' {...a11yProps(1)} />
+                      </Tabs>
+                    </Box>
                     <Tabs
                       textColor='primary'
                       value={value}
@@ -209,16 +246,16 @@ const CreateCourse = () => {
                       />
                     </Tabs>
                     <TabPanel value={value} index={0}>
-                      <HeadSection values={values} setFieldValue={setFieldValue} />
+                      <HeadSection values={values} setFieldValue={setFieldValue} tabLanguage={tabLanguage}/>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                      <PreviewSection values={values} setFieldValue={setFieldValue} />
+                      <PreviewSection values={values} setFieldValue={setFieldValue}/>
                     </TabPanel>
-                    <TabPanel value={value} index={2}>
-                      <OverviewSection values={values} setFieldValue={setFieldValue} />
+                    <TabPanel value={value} index={2} >
+                      <OverviewSection values={values} setFieldValue={setFieldValue} tabLanguage={tabLanguage}/>
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                      <LessonSection setFieldValue={setFieldValue} values={values} />
+                      <LessonSection setFieldValue={setFieldValue} values={values} tabLanguage={tabLanguage}/>
                       <div style={{display: 'flex', justifyContent: 'space-between'}}>
                         <button
                           onClick={() => {

@@ -48,14 +48,57 @@ function a11yProps(index: number) {
 
 interface IValues {
   _id: string
-  name: string
-  title: string
+  name: {
+    vi: string
+    en: string
+  }
+  title: {
+    vi: string
+    en: string
+  }
   thumbnail: string[]
   authorName: string
   categories: string[]
-  lessons: any
-  videoPreview: any
-  overview: any
+  lessons: [
+    {
+      index: number
+      title: {
+        vi: string
+        en: string
+      }
+      description: {
+        vi: string
+        en: string
+      }
+      videoUrl: string
+      thumbnail: string[]
+      duration: number
+    }
+  ]
+  videoPreview: {
+    url: string
+    thumbnail: string[]
+    duration: number
+  }
+  overview: {
+    slogan: {
+      vi: string
+      en: string
+    }
+    description: {
+      vi: string
+      en: string
+    }
+    skills: [
+      {
+        imageUrl: string[]
+        title: {
+          vi: string
+          en: string
+        }
+      }
+    ]
+  }
   webName: string
 }
 
@@ -65,6 +108,12 @@ const UpdateCourse = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
+  }
+
+  const [tabLanguage, setTabLanguage] = useState(0)
+
+  const handleChangeLanguage = (event: React.SyntheticEvent, newValue: number) => {
+    setTabLanguage(newValue)
   }
 
   const dispatch = useAppDispatch()
@@ -176,7 +225,7 @@ const UpdateCourse = () => {
         duration: values.videoPreview.duration,
         thumbnail: values.videoPreview.thumbnail[0],
       },
-      webName: NormalizeWebName(values.authorName.trim() + ' ' + values.name.trim()),
+      webName: NormalizeWebName(values.authorName.trim() + ' ' + values.name.en.trim()),
     }
     dispatch(coursesActions.onUpdateCourse(params))
   }
@@ -199,21 +248,25 @@ const UpdateCourse = () => {
             return (
               <>
                 <Form>
-                  <div className='card-body border-top p-9'>
-                    {/* <HeadSection
-                      values={values}
-                      setFieldValue={setFieldValue}
-                      listCategory={listCategory}
-                      course={course}
-                    />
-                    <PreviewSection values={values} setFieldValue={setFieldValue} />
-                    <OverviewSection values={values} setFieldValue={setFieldValue} />
-                    <LessonSection setFieldValue={setFieldValue} values={values} />
-                    <div className='card-footer d-flex justify-content-end'>
-                      <button type='submit' className='btn btn-primary'>
-                        Update
-                      </button>
-                    </div> */}
+                  <div className='card-body border-top py-3 px-9'>
+                    <Box
+                      className='mb-3'
+                      sx={{
+                        borderBottom: 1,
+                        borderColor: 'divider',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Tabs
+                        value={tabLanguage}
+                        onChange={handleChangeLanguage}
+                        aria-label='basic tabs example'
+                      >
+                        <Tab label='English' {...a11yProps(0)} sx={styledTab} />
+                        <Tab sx={styledTab} label='Vietnamese' {...a11yProps(1)} />
+                      </Tabs>
+                    </Box>
                     <Tabs
                       textColor='primary'
                       value={value}
@@ -285,16 +338,25 @@ const UpdateCourse = () => {
                         setFieldValue={setFieldValue}
                         listCategory={listCategory}
                         course={course}
+                        tabLanguage={tabLanguage}
                       />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                       <PreviewSection values={values} setFieldValue={setFieldValue} />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                      <OverviewSection values={values} setFieldValue={setFieldValue} />
+                      <OverviewSection
+                        values={values}
+                        setFieldValue={setFieldValue}
+                        tabLanguage={tabLanguage}
+                      />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                      <LessonSection setFieldValue={setFieldValue} values={values} />
+                      <LessonSection
+                        setFieldValue={setFieldValue}
+                        values={values}
+                        tabLanguage={tabLanguage}
+                      />
                       <div style={{display: 'flex', justifyContent: 'space-between'}}>
                         <button
                           onClick={() => {
