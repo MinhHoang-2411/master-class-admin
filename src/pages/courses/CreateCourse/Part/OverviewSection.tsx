@@ -81,7 +81,7 @@ const OverviewSection = ({values, setFieldValue, tabLanguage}: Props) => {
               </div>
             ) : (
               <div className='row mb-6 py-2'>
-                <label className='col-lg-4 col-form-label required fw-bold fs-6'>Slogan</label>
+                <label className='col-lg-4 col-form-label fw-bold fs-6'>Slogan</label>
                 <div className='col-lg-8 fv-row'>
                   <Field
                     as={TextField}
@@ -105,6 +105,7 @@ const OverviewSection = ({values, setFieldValue, tabLanguage}: Props) => {
                     label='Description English'
                     variant='outlined'
                     margin='normal'
+                    inputProps={{maxLength: 257}}
                     fullWidth
                   />
                   <ErrorMessage name='overview.description.en' />
@@ -112,7 +113,7 @@ const OverviewSection = ({values, setFieldValue, tabLanguage}: Props) => {
               </div>
             ) : (
               <div className='row mb-6 py-2'>
-                <label className='col-lg-4 col-form-label required fw-bold fs-6'>Description</label>
+                <label className='col-lg-4 col-form-label fw-bold fs-6'>Description</label>
                 <div className='col-lg-8 fv-row'>
                   <Field
                     as={TextField}
@@ -121,6 +122,7 @@ const OverviewSection = ({values, setFieldValue, tabLanguage}: Props) => {
                     variant='outlined'
                     margin='normal'
                     fullWidth
+                    inputProps={{maxLength: 256}}
                   />
                 </div>
               </div>
@@ -206,9 +208,7 @@ const OverviewSection = ({values, setFieldValue, tabLanguage}: Props) => {
                         </div>
                       ) : (
                         <div className='row mb-6'>
-                          <label className='col-lg-4 col-form-label required fw-bold fs-6'>
-                            Title
-                          </label>
+                          <label className='col-lg-4 col-form-label fw-bold fs-6'>Title</label>
                           <div className='col-lg-8 fv-row'>
                             <Field
                               as={TextField}

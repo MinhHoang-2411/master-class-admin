@@ -63,7 +63,7 @@ const HeadSection = ({values, setFieldValue, tabLanguage}: Props) => {
         </div>
       ) : (
         <div className='row mb-6 '>
-          <label className='col-lg-4 col-form-label required fw-bold fs-6'>Name</label>
+          <label className='col-lg-4 col-form-label fw-bold fs-6'>Name</label>
           <div className='col-lg-8 fv-row'>
             <Field
               as={TextField}
@@ -133,7 +133,7 @@ const HeadSection = ({values, setFieldValue, tabLanguage}: Props) => {
         </div>
       ) : (
         <div className='row mb-6'>
-          <label className='col-lg-4 col-form-label required fw-bold fs-6'>Title</label>
+          <label className='col-lg-4 col-form-label fw-bold fs-6'>Title</label>
           <div className='col-lg-8 fv-row'>
             <Field
               as={TextField}

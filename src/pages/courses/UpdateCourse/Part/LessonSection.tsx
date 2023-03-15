@@ -195,7 +195,7 @@ const LessonSection = ({setFieldValue, values, tabLanguage}: IProps) => {
                     </div>
                   ) : (
                     <div className='row mb-6 px-4'>
-                      <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                      <label className='col-lg-4 col-form-label fw-bold fs-6'>
                         Description
                       </label>
                       <div className='col-lg-8 fv-row'>
