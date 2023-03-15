@@ -16,16 +16,28 @@ export interface ICourse {
 }
 
 export interface InititalValuesCreateCourse {
-  name: string
-  title: string
+  name: {
+    vi: string
+    en: string
+  }
+  title: {
+    vi: string
+    en: string
+  }
   thumbnail: string[]
   authorName: string
   categories: string[]
   lessons: [
     {
       index: number
-      title: string
-      description: string
+      title: {
+        vi: string
+        en: string
+      }
+      description: {
+        vi: string
+        en: string
+      }
       videoUrl: string
       thumbnail: string[]
       duration: number
@@ -37,12 +49,21 @@ export interface InititalValuesCreateCourse {
     duration: number
   }
   overview: {
-    slogan: string
-    description: string
+    slogan: {
+      vi: string
+      en: string
+    }
+    description: {
+      vi: string
+      en: string
+    }
     skills: [
       {
         imageUrl: string[]
-        title: string
+        title: {
+          vi: string
+          en: string
+        }
       }
     ]
   }

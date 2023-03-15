@@ -58,7 +58,7 @@ const CoursesDetail: FC = () => {
               <label className='col-lg-4 fw-bold text-muted'>Course Name</label>
 
               <div className='col-lg-8'>
-                <span className='fw-bolder fs-6 text-dark'>{course?.name}</span>
+                <span className='fw-bolder fs-6 text-dark'>{course?.name?.en}</span>
               </div>
             </div>
 
@@ -74,7 +74,7 @@ const CoursesDetail: FC = () => {
               <label className='col-lg-4 fw-bold text-muted'>Title</label>
 
               <div className='col-lg-8 fv-row'>
-                <span className='fw-bold fs-6'>{course?.title}</span>
+                <span className='fw-bold fs-6'>{course?.title?.en}</span>
               </div>
             </div>
 
@@ -123,13 +123,13 @@ const CoursesDetail: FC = () => {
               <div className='row my-7'>
                 <label className='col-lg-4 fw-bold text-muted'>Slogan</label>
                 <div className='col-lg-8 fv-row'>
-                  <span className='fw-bold fs-6'>{course?.overview?.slogan}</span>
+                  <span className='fw-bold fs-6'>{course?.overview?.slogan?.en}</span>
                 </div>
               </div>
               <div className='row my-7'>
                 <label className='col-lg-4 fw-bold text-muted'>Description</label>
                 <div className='col-lg-8 fv-row'>
-                  <span className='fw-bold fs-6'>{course?.overview?.description}</span>
+                  <span className='fw-bold fs-6'>{course?.overview?.description?.en}</span>
                 </div>
               </div>
               <div className='card-body p-9 rounded'>
@@ -151,7 +151,7 @@ const CoursesDetail: FC = () => {
                               style={{objectFit: 'cover'}}
                             />
                             <div>
-                              <span className='fw-bold fs-6'>{skill?.title}</span>
+                              <span className='fw-bold fs-6'>{skill?.title?.en}</span>
                             </div>
                           </div>
                         ))

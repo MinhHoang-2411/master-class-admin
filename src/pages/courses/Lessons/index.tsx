@@ -5,8 +5,14 @@ import CustomAccordion from './CustomAccordion'
 
 interface ILesson {
   index: number
-  title: string
-  description: string
+  title: {
+    en: string
+    vi?: string
+  }
+  description: {
+    en: string
+    vi?: string
+  }
   videoUrl: string
 }
 
@@ -25,8 +31,8 @@ const Lessons: FC = () => {
             course?.lessons?.map((lesson: ILesson, index: number) => (
               <>
                 <CustomAccordion
-                  title={lesson.title}
-                  description={lesson.description}
+                  title={lesson.title.en}
+                  description={lesson.description.en}
                   videoUrl={lesson.videoUrl}
                   index={lesson.index}
                   key={lesson.index}

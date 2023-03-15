@@ -17,9 +17,10 @@ import VideoPlayer from './VideoPlayer'
 interface IProps {
   setFieldValue?: any
   values?: any
+  tabLanguage?: any
 }
 
-const LessonSection = ({setFieldValue, values}: IProps) => {
+const LessonSection = ({setFieldValue, values, tabLanguage}: IProps) => {
   const dispatch = useAppDispatch()
   const video: any = useAppSelector((state) => state.upload.lessonVideo)
   const image: any = useAppSelector((state) => state.upload.lessonImage)
@@ -40,8 +41,14 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
   const handleAddSection = () => {
     const lesson = {
       index: values.lessons.length + 1,
-      title: '',
-      description: '',
+      title: {
+        vi: '',
+        en: '',
+      },
+      description: {
+        vi: '',
+        en: '',
+      },
       videoUrl: '',
       thumbnail: [],
       duration: 0,
@@ -134,40 +141,76 @@ const LessonSection = ({setFieldValue, values}: IProps) => {
               </div>
               <div className='px-3'>
                 <div className='row'>
-                  <div className='row mb-6 px-4'>
-                    <label className='col-lg-4 col-form-label required fw-bold fs-6'>Title</label>
-                    <div className='col-lg-8 fv-row'>
-                      <Field
-                        as={TextField}
-                        name={`lessons.${index}.title`}
-                        value={lesson.title}
-                        label='Title'
-                        variant='outlined'
-                        margin='normal'
-                        fullWidth
-                      />
-                      <ErrorMessage name={`lessons[${index}].title`} />
+                  {tabLanguage === 0 ? (
+                    <div className='row mb-6 px-4'>
+                      <label className='col-lg-4 col-form-label required fw-bold fs-6'>Title</label>
+                      <div className='col-lg-8 fv-row'>
+                        <Field
+                          as={TextField}
+                          name={`lessons.${index}.title.en`}
+                          value={lesson.title.en}
+                          label='Title English'
+                          variant='outlined'
+                          margin='normal'
+                          fullWidth
+                        />
+                        <ErrorMessage name={`lessons[${index}].title.en`} />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className='row mb-6 px-4'>
+                      <label className='col-lg-4 col-form-label required fw-bold fs-6'>Title</label>
+                      <div className='col-lg-8 fv-row'>
+                        <Field
+                          as={TextField}
+                          name={`lessons.${index}.title.vi`}
+                          value={lesson.title.vi}
+                          label='Title Vietnamese'
+                          variant='outlined'
+                          margin='normal'
+                          fullWidth
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className='row'>
-                  <div className='row mb-6 px-4'>
-                    <label className='col-lg-4 col-form-label required fw-bold fs-6'>
-                      Description
-                    </label>
-                    <div className='col-lg-8 fv-row'>
-                      <Field
-                        as={TextField}
-                        name={`lessons.${index}.description`}
-                        value={lesson.description}
-                        label='Description'
-                        variant='outlined'
-                        margin='normal'
-                        fullWidth
-                      />
-                      <ErrorMessage name={`lessons[${index}].description`} />
+                  {tabLanguage === 0 ? (
+                    <div className='row mb-6 px-4'>
+                      <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                        Description
+                      </label>
+                      <div className='col-lg-8 fv-row'>
+                        <Field
+                          as={TextField}
+                          name={`lessons.${index}.description.en`}
+                          value={lesson.description.en}
+                          label='Description English'
+                          variant='outlined'
+                          margin='normal'
+                          fullWidth
+                        />
+                        <ErrorMessage name={`lessons[${index}].description.en`} />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className='row mb-6 px-4'>
+                      <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                        Description
+                      </label>
+                      <div className='col-lg-8 fv-row'>
+                        <Field
+                          as={TextField}
+                          name={`lessons.${index}.description.vi`}
+                          value={lesson.description.vi}
+                          label='Description Vietnamese'
+                          variant='outlined'
+                          margin='normal'
+                          fullWidth
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className='row'>
                   <label className='col-lg-4 col-form-label required fw-bold fs-6'>Video</label>

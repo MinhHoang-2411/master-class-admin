@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close'
-import {Chip, TextField} from '@mui/material'
+import {Button, Chip, TextField} from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
 import {Field} from 'formik'
 import {useEffect, useState} from 'react'
@@ -14,9 +14,10 @@ import {uploadActions} from '../../../../store/upload/uploadSlice'
 interface Props {
   values: any
   setFieldValue: any
+  tabLanguage: number
 }
 
-const HeadSection = ({values, setFieldValue}: Props) => {
+const HeadSection = ({values, setFieldValue, tabLanguage}: Props) => {
   const [index, setIndex] = useState(0)
   const dispatch = useAppDispatch()
   const listCategory = useAppSelector((state) => state.categories.data)
@@ -40,23 +41,43 @@ const HeadSection = ({values, setFieldValue}: Props) => {
     dispatch(categoriesActions.getDataStart())
   }, [])
 
+  console.log('listCategory', listCategory)
+
   return (
     <div className='row'>
-      <div className='row mb-6 '>
-        <label className='col-lg-4 col-form-label required fw-bold fs-6'>Name</label>
-        <div className='col-lg-8 fv-row'>
-          <Field
-            as={TextField}
-            name='name'
-            label='Name'
-            variant='outlined'
-            value={values.name}
-            margin='normal'
-            fullWidth
-          />
-          <ErrorMessage name='name' />
+      {tabLanguage === 0 ? (
+        <div className='row mb-6 '>
+          <label className='col-lg-4 col-form-label required fw-bold fs-6'>Name</label>
+          <div className='col-lg-8 fv-row'>
+            <Field
+              as={TextField}
+              name='name.en'
+              label='Name English'
+              variant='outlined'
+              value={values.name.en}
+              margin='normal'
+              fullWidth
+            />
+            <ErrorMessage name='name.en' />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className='row mb-6 '>
+          <label className='col-lg-4 col-form-label required fw-bold fs-6'>Name</label>
+          <div className='col-lg-8 fv-row'>
+            <Field
+              as={TextField}
+              name='name.vi'
+              label='Name Vietnamese'
+              variant='outlined'
+              value={values.name.vi}
+              margin='normal'
+              fullWidth
+            />
+          </div>
+        </div>
+      )}
+
       <div className='row mb-6'>
         <label className='col-lg-4 col-form-label required fw-bold fs-6'>Category</label>
         <div className='col-lg-8 fv-row'>
@@ -94,21 +115,39 @@ const HeadSection = ({values, setFieldValue}: Props) => {
         </div>
       </div>
 
-      <div className='row mb-6'>
-        <label className='col-lg-4 col-form-label required fw-bold fs-6'>Title</label>
-        <div className='col-lg-8 fv-row'>
-          <Field
-            as={TextField}
-            name='title'
-            label='Title'
-            variant='outlined'
-            value={values.title}
-            margin='normal'
-            fullWidth
-          />
-          <ErrorMessage name='title' />
+      {tabLanguage === 0 ? (
+        <div className='row mb-6'>
+          <label className='col-lg-4 col-form-label required fw-bold fs-6'>Title</label>
+          <div className='col-lg-8 fv-row'>
+            <Field
+              as={TextField}
+              name='title.en'
+              label='Title English'
+              variant='outlined'
+              value={values.title.en}
+              margin='normal'
+              fullWidth
+            />
+            <ErrorMessage name='title.en' />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className='row mb-6'>
+          <label className='col-lg-4 col-form-label required fw-bold fs-6'>Title</label>
+          <div className='col-lg-8 fv-row'>
+            <Field
+              as={TextField}
+              name='title.vi'
+              label='Title Vietnamese'
+              variant='outlined'
+              value={values.title.vi}
+              margin='normal'
+              fullWidth
+            />
+          </div>
+        </div>
+      )}
+
       <div className='row mb-6'>
         <label className='col-lg-4 col-form-label required fw-bold fs-6'>Author Name</label>
         <div className='col-lg-8 fv-row'>
