@@ -149,7 +149,6 @@ const CreateCourse = () => {
         },
         webName: NormalizeWebName(values.authorName.trim() + ' ' + values.name.en.trim()),
       }
-      console.log('params', params)
       dispatch(coursesActions.onCreateCourse(params))
     } catch (error) {
       console.log(error)
@@ -165,19 +164,36 @@ const CreateCourse = () => {
           </div>
         </div>
         <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={courseSchema}>
-          {({values, setFieldValue, errors, submitCount}) => {
+          {({values, setFieldValue, errors, submitCount, dirty, touched}) => {
             return (
               <>
                 <Form>
                   <div className='card-body border-top py-3 px-9'>
-                    <Box className='mb-3' sx={{borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: 'center'}}>
+                    <Box
+                      className='mb-3'
+                      sx={{
+                        borderBottom: 1,
+                        borderColor: 'divider',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
+                    >
                       <Tabs
                         value={tabLanguage}
                         onChange={handleChangeLanguage}
                         aria-label='basic tabs example'
                       >
                         <Tab label='English' {...a11yProps(0)} sx={styledTab} />
-                        <Tab sx={styledTab} label='Vietnamese' {...a11yProps(1)} />
+                        <Tab
+                          sx={styledTab}
+                          label='Vietnamese'
+                          {...a11yProps(1)}
+                          disabled={
+                            Object.keys(errors).length > 0 && Object.keys(touched).length > 0
+                              ? true
+                              : false
+                          }
+                        />
                       </Tabs>
                     </Box>
                     <Tabs
@@ -246,16 +262,28 @@ const CreateCourse = () => {
                       />
                     </Tabs>
                     <TabPanel value={value} index={0}>
-                      <HeadSection values={values} setFieldValue={setFieldValue} tabLanguage={tabLanguage}/>
+                      <HeadSection
+                        values={values}
+                        setFieldValue={setFieldValue}
+                        tabLanguage={tabLanguage}
+                      />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                      <PreviewSection values={values} setFieldValue={setFieldValue}/>
+                      <PreviewSection values={values} setFieldValue={setFieldValue} />
                     </TabPanel>
-                    <TabPanel value={value} index={2} >
-                      <OverviewSection values={values} setFieldValue={setFieldValue} tabLanguage={tabLanguage}/>
+                    <TabPanel value={value} index={2}>
+                      <OverviewSection
+                        values={values}
+                        setFieldValue={setFieldValue}
+                        tabLanguage={tabLanguage}
+                      />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                      <LessonSection setFieldValue={setFieldValue} values={values} tabLanguage={tabLanguage}/>
+                      <LessonSection
+                        setFieldValue={setFieldValue}
+                        values={values}
+                        tabLanguage={tabLanguage}
+                      />
                       <div style={{display: 'flex', justifyContent: 'space-between'}}>
                         <button
                           onClick={() => {
@@ -290,7 +318,7 @@ const CreateCourse = () => {
                     display: value < 3 ? 'flex' : 'none',
                     justifyContent: value === 0 ? 'flex-end' : 'space-between',
                     padding: '0 54px',
-                    transform: 'translateY(-54px)',
+                    transform: 'translateY(-34px)',
                   }}
                 >
                   <button

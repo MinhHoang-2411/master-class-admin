@@ -28,7 +28,7 @@ const courseSchema = () =>
         en: Yup.string().required('Slogan is required'),
       }),
       description: Yup.object().shape({
-        en: Yup.string().required('Description is required'),
+        en: Yup.string().max(256, 'Maximum 256 symbols').required('Description is required'),
       }),
       skills: Yup.array().of(
         Yup.object().shape({

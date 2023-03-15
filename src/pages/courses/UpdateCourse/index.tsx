@@ -244,7 +244,7 @@ const UpdateCourse = () => {
           validationSchema={courseSchema}
           enableReinitialize={true}
         >
-          {({values, setFieldValue, errors, submitCount}) => {
+          {({values, setFieldValue, errors, submitCount, isValid, touched}) => {
             return (
               <>
                 <Form>
@@ -264,7 +264,12 @@ const UpdateCourse = () => {
                         aria-label='basic tabs example'
                       >
                         <Tab label='English' {...a11yProps(0)} sx={styledTab} />
-                        <Tab sx={styledTab} label='Vietnamese' {...a11yProps(1)} />
+                        <Tab
+                          sx={styledTab}
+                          label='Vietnamese'
+                          {...a11yProps(1)}
+                          disabled={Object.keys(errors).length > 0 ? true : false}
+                        />
                       </Tabs>
                     </Box>
                     <Tabs
@@ -391,7 +396,7 @@ const UpdateCourse = () => {
                     display: value < 3 ? 'flex' : 'none',
                     justifyContent: value === 0 ? 'flex-end' : 'space-between',
                     padding: '0 54px',
-                    transform: 'translateY(-54px)',
+                    transform: 'translateY(-34px)',
                   }}
                 >
                   <button
