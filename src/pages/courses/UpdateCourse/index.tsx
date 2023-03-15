@@ -268,7 +268,7 @@ const UpdateCourse = () => {
                           sx={styledTab}
                           label='Vietnamese'
                           {...a11yProps(1)}
-                          disabled={Object.keys(errors).length > 0 ? true : false}
+                          disabled={Object.keys(errors).length > 0}
                         />
                       </Tabs>
                     </Box>

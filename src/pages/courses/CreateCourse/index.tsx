@@ -189,9 +189,7 @@ const CreateCourse = () => {
                           label='Vietnamese'
                           {...a11yProps(1)}
                           disabled={
-                            Object.keys(errors).length > 0 && Object.keys(touched).length > 0
-                              ? true
-                              : false
+                            Object.keys(errors).length > 0 || Object.keys(touched).length === 0
                           }
                         />
                       </Tabs>
