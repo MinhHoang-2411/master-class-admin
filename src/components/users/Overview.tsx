@@ -43,6 +43,7 @@ const UsersOverview = () => {
                 <th className='py-2 text-center'>No</th>
                 <th className='py-2 w-40'>Name</th>
                 <th className='py-2 text-center'>Email</th>
+                <th className='py-2 text-center'>Type</th>
                 <th className='py-2 text-center'>Role</th>
                 <th className='py-2 text-center'>Active Status</th>
                 <th className='py-2 text-center'>Actions</th>
