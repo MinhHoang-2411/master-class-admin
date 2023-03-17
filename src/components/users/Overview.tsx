@@ -41,7 +41,7 @@ const UsersOverview = () => {
             <thead className={'text-uppercase text-dark thead-pito border-bottom text-uppercase'}>
               <tr>
                 <th className='py-2 text-center'>No</th>
-                <th className='py-2 w-40'>Name</th>
+                <th className='py-2 text-center w-40'>Name</th>
                 <th className='py-2 text-center'>Email</th>
                 <th className='py-2 text-center'>Type</th>
                 <th className='py-2 text-center'>Role</th>
