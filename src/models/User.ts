@@ -7,6 +7,11 @@ export interface IUser {
   isActive: boolean
   createdAt?: string
   updatedAt?: string
+  name?: string
+  socialAccount?: {
+    email?: string
+    socialName?: string
+  }
 }
 
 export interface ResponseUser {

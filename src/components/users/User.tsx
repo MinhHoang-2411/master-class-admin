@@ -24,12 +24,19 @@ const User = ({idx, user}: IProps) => {
     dispatch(usersActions.handleBlockUser(user))
   }
 
+  const DisplayNameUser = user?.firstName ? `${user?.firstName} ${user?.lastName}` : user?.name
+
+  const DisplayEmail = user?.socialAccount ? user?.socialAccount?.email : user?.email
+
+  const DisplayTypeUser = user?.socialAccount ? user.socialAccount.socialName : "normal"
+
   return (
     <>
       <tr>
         <td className='text-center'>{idx + 1 + (paginate.page - 1) * 10}</td>
-        <td>{`${user.firstName} ${user.lastName}`}</td>
-        <td>{`${user.email}`}</td>
+        <td>{DisplayNameUser}</td>
+        <td>{DisplayEmail}</td>
+        <td className='text-center'>{DisplayTypeUser}</td>
         <td className='text-center'>{`${user.roleName}`}</td>
         <td className='text-center'>
           <span className='fw-bold fs-6'>
