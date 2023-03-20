@@ -149,7 +149,7 @@ const LessonSection = ({setFieldValue, values, tabLanguage}: IProps) => {
                           as={TextField}
                           name={`lessons.${index}.title.en`}
                           value={lesson.title.en}
-                          label='Title English'
+                          label='English title'
                           variant='outlined'
                           margin='normal'
                           fullWidth
@@ -165,7 +165,7 @@ const LessonSection = ({setFieldValue, values, tabLanguage}: IProps) => {
                           as={TextField}
                           name={`lessons.${index}.title.vi`}
                           value={lesson.title.vi}
-                          label='Title Vietnamese'
+                          label='Vietnamese title'
                           variant='outlined'
                           margin='normal'
                           fullWidth
@@ -185,7 +185,7 @@ const LessonSection = ({setFieldValue, values, tabLanguage}: IProps) => {
                           as={TextField}
                           name={`lessons.${index}.description.en`}
                           value={lesson.description.en}
-                          label='Description English'
+                          label='English description'
                           variant='outlined'
                           margin='normal'
                           fullWidth
@@ -195,15 +195,13 @@ const LessonSection = ({setFieldValue, values, tabLanguage}: IProps) => {
                     </div>
                   ) : (
                     <div className='row mb-6 px-4'>
-                      <label className='col-lg-4 col-form-label fw-bold fs-6'>
-                        Description
-                      </label>
+                      <label className='col-lg-4 col-form-label fw-bold fs-6'>Description</label>
                       <div className='col-lg-8 fv-row'>
                         <Field
                           as={TextField}
                           name={`lessons.${index}.description.vi`}
                           value={lesson.description.vi}
-                          label='Description Vietnamese'
+                          label='Vietnamese description'
                           variant='outlined'
                           margin='normal'
                           fullWidth

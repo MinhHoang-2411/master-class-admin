@@ -53,7 +53,7 @@ const HeadSection = ({values, setFieldValue, listCategory, course, tabLanguage}:
             <Field
               as={TextField}
               name='name.en'
-              label='Name English'
+              label='English name'
               variant='outlined'
               value={values.name.en}
               margin='normal'
@@ -69,7 +69,7 @@ const HeadSection = ({values, setFieldValue, listCategory, course, tabLanguage}:
             <Field
               as={TextField}
               name='name.vi'
-              label='Name Vietnamese'
+              label='Vietnamese name'
               variant='outlined'
               value={values.name.vi}
               margin='normal'
@@ -122,7 +122,7 @@ const HeadSection = ({values, setFieldValue, listCategory, course, tabLanguage}:
             <Field
               as={TextField}
               name='title.en'
-              label='Title English'
+              label='English title'
               variant='outlined'
               value={values.title.en}
               margin='normal'
@@ -138,7 +138,7 @@ const HeadSection = ({values, setFieldValue, listCategory, course, tabLanguage}:
             <Field
               as={TextField}
               name='title.vi'
-              label='Title Vietnamese'
+              label='Vietnamese title'
               variant='outlined'
               value={values.title.vi}
               margin='normal'
@@ -153,7 +153,7 @@ const HeadSection = ({values, setFieldValue, listCategory, course, tabLanguage}:
           <Field
             as={TextField}
             name='authorName'
-            label='Author Name'
+            label='Author name'
             variant='outlined'
             value={values.authorName}
             margin='normal'

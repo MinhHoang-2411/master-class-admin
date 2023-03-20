@@ -1,12 +1,15 @@
-import { TextField } from '@mui/material'
-import { Field, Form, Formik } from 'formik'
-import { useAppDispatch } from '../../../app/saga/hooks'
-import { ErrorMessage } from '../../../shared/ErrorMesage/ErrorMessage'
-import { categoriesActions } from '../../../store/categories/categoriesSlice'
+import {TextField} from '@mui/material'
+import {Field, Form, Formik} from 'formik'
+import {useAppDispatch} from '../../../app/saga/hooks'
+import {ErrorMessage} from '../../../shared/ErrorMesage/ErrorMessage'
+import {categoriesActions} from '../../../store/categories/categoriesSlice'
 import categorySchema from './Validate'
 
 const initialValues = {
-  name: '',
+  name: {
+    vi: '',
+    en: '',
+  },
 }
 
 const CreateCategory = () => {
@@ -33,19 +36,37 @@ const CreateCategory = () => {
             <Form>
               <div className='card-body border-top p-9'>
                 <div className='row mb-6'>
-                  <label className='col-lg-4 col-form-label required fw-bold fs-6'>Name</label>
+                  <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                    English Name
+                  </label>
                   <div className='col-lg-8 fv-row'>
                     <Field
                       as={TextField}
-                      name='name'
-                      label='Name'
+                      name='name.en'
+                      label='English name'
                       variant='outlined'
-                      value={values.name}
+                      value={values.name.en}
                       onChange={handleChange}
                       margin='normal'
                       fullWidth
                     />
-                    <ErrorMessage name='name' />
+                    <ErrorMessage name='name.en' />
+                  </div>
+                </div>
+                <div className='row mb-6'>
+                  <label className='col-lg-4 col-form-label fw-bold fs-6'>Vietnamese Name</label>
+                  <div className='col-lg-8 fv-row'>
+                    <Field
+                      as={TextField}
+                      name='name.vi'
+                      label='Vietnamese name'
+                      variant='outlined'
+                      value={values.name.vi}
+                      onChange={handleChange}
+                      margin='normal'
+                      fullWidth
+                    />
+                    <ErrorMessage name='name.vi' />
                   </div>
                 </div>
                 <div className='card-footer d-flex justify-content-end py-6 px-9'>

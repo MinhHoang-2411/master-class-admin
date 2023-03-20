@@ -70,7 +70,7 @@ const OverviewSection = ({values, setFieldValue, tabLanguage}: Props) => {
                   <Field
                     as={TextField}
                     name='overview.slogan.en'
-                    label='Slogan English'
+                    label='English slogan'
                     variant='outlined'
                     margin='normal'
                     fullWidth
@@ -85,7 +85,7 @@ const OverviewSection = ({values, setFieldValue, tabLanguage}: Props) => {
                   <Field
                     as={TextField}
                     name='overview.slogan.vi'
-                    label='Slogan Vietnamese'
+                    label='Vietnamese slogan'
                     variant='outlined'
                     margin='normal'
                     fullWidth
@@ -101,7 +101,7 @@ const OverviewSection = ({values, setFieldValue, tabLanguage}: Props) => {
                   <Field
                     as={TextField}
                     name='overview.description.en'
-                    label='Description English'
+                    label='English description'
                     variant='outlined'
                     margin='normal'
                     inputProps={{maxLength: 257}}
@@ -117,7 +117,7 @@ const OverviewSection = ({values, setFieldValue, tabLanguage}: Props) => {
                   <Field
                     as={TextField}
                     name='overview.description.vi'
-                    label='Description Vietnamese'
+                    label='Vietnamese description'
                     variant='outlined'
                     margin='normal'
                     inputProps={{maxLength: 256}}
@@ -195,7 +195,7 @@ const OverviewSection = ({values, setFieldValue, tabLanguage}: Props) => {
                             <Field
                               as={TextField}
                               name={`overview.skills.${index}.title.en`}
-                              label='Title English'
+                              label='English title'
                               variant='outlined'
                               margin='normal'
                               fullWidth
@@ -205,14 +205,12 @@ const OverviewSection = ({values, setFieldValue, tabLanguage}: Props) => {
                         </div>
                       ) : (
                         <div className='row mb-6'>
-                          <label className='col-lg-4 col-form-label fw-bold fs-6'>
-                            Title
-                          </label>
+                          <label className='col-lg-4 col-form-label fw-bold fs-6'>Title</label>
                           <div className='col-lg-8 fv-row'>
                             <Field
                               as={TextField}
                               name={`overview.skills.${index}.title.vi`}
-                              label='Title Vietnamese'
+                              label='Vietnamese title'
                               variant='outlined'
                               margin='normal'
                               fullWidth
