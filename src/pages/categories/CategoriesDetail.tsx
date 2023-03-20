@@ -1,10 +1,10 @@
-import { Button } from '@mui/material'
-import { format } from 'date-fns'
-import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../app/saga/hooks'
+import {Button} from '@mui/material'
+import {format} from 'date-fns'
+import {useEffect} from 'react'
+import {useParams} from 'react-router-dom'
+import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
 import history from '../../routes/history'
-import { categoriesActions } from '../../store/categories/categoriesSlice'
+import {categoriesActions} from '../../store/categories/categoriesSlice'
 
 const CategoryDetail = () => {
   const dispatch = useAppDispatch()
@@ -41,7 +41,9 @@ const CategoryDetail = () => {
                   variant='contained'
                   size='small'
                   color='primary'
-                  onClick={() => history.replace(`/crafted/pages/categories/update/${category?._id}`)}
+                  onClick={() =>
+                    history.replace(`/crafted/pages/categories/update/${category?._id}`)
+                  }
                 >
                   Edit
                 </Button>
@@ -50,12 +52,24 @@ const CategoryDetail = () => {
           </div>
           <div className='card-body p-9'>
             <div className='row mb-7'>
-              <label className='col-lg-4 fw-bold text-muted'>Name</label>
+              <label className='col-lg-4 fw-bold text-muted'>English name</label>
 
               <div className='col-lg-8'>
-                <span className='fw-bolder fs-6 text-dark'>{category?.name}</span>
+                <span className='fw-bolder fs-6 text-dark'>{category?.name?.en}</span>
               </div>
             </div>
+
+            {category?.name?.vi ? (
+              <div className='row mb-7'>
+                <label className='col-lg-4 fw-bold text-muted'>Vietnamese name</label>
+
+                <div className='col-lg-8'>
+                  <span className='fw-bolder fs-6 text-dark'>{category?.name?.vi}</span>
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
 
             <div className='row mb-7'>
               <label className='col-lg-4 fw-bold text-muted'>Priority</label>
