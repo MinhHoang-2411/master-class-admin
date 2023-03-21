@@ -83,8 +83,7 @@ const UpdateLayoutPage = () => {
   }
   useEffect(() => {
     dispatch(layoutPageActions.getDataDetail(id))
-  }, [])
-
+  }, [id])
 
   const onSubmit = (values: any) => {
     const params = {
@@ -122,6 +121,7 @@ const UpdateLayoutPage = () => {
         </div>
         <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={layoutSchema}>
           {({values, setFieldValue}) => {
+            console.log('values', values)
             return (
               <Form>
                 <div className='card-body border-top p-9'>

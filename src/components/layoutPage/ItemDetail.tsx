@@ -16,9 +16,8 @@ const ItemLayoutDetailPage = () => {
 
   useEffect(() => {
     dispatch(layoutPageActions.getDataDetail(id))
-  }, [])
+  }, [id])
 
-  console.log('data', data)
   return (
     <>
       {!isLoading ? (

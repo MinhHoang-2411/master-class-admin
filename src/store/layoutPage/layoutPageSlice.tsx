@@ -5,12 +5,11 @@ interface IInitialStateLayoutPage {
   dataDetail: any
 
   loadingGetData: boolean
-  loadingGetDataDetail: boolean,
+  loadingGetDataDetail: boolean
 
   loadingHandleCreateLayout: boolean
   loadingHandleUpdateLayout: boolean
   loadingHandleDeleteLayout: boolean
-
 
   trailerThumbnail: any
   trailerUrl: any
@@ -98,20 +97,25 @@ const layoutPageSlice = createSlice({
       state.dataDetail = null
       state.error = action.payload
     },
-    
 
     handleCreateLayout: (state) => {
       state.loadingHandleCreateLayout = true
     },
     handleCreateLayoutSuccess: (state, action) => {
       state.loadingHandleCreateLayout = false
+      state.trailerThumbnail = []
+      state.trailerUrl = []
+      state.welcomeThumbnail = []
+      state.welcomeUrl = []
+      state.messagesTeamThumbnail = []
+      state.messagesTeamUrl = []
       state.error = null
     },
     handleCreateLayoutFailure: (state, action) => {
       state.loadingHandleCreateLayout = false
       state.error = action.payload
     },
-    
+
     handleUpdateLayout: (state) => {
       state.loadingHandleUpdateLayout = true
     },
@@ -135,10 +139,6 @@ const layoutPageSlice = createSlice({
       state.loadingHandleDeleteLayout = false
       state.error = action.payload
     },
-
-
-
-
 
     uploadTrailerThumbnailStart: (state, action: PayloadAction<string>) => {
       state.loadingTrailerThumbnail = true
@@ -181,7 +181,7 @@ const layoutPageSlice = createSlice({
       state.welcomeUrl = []
       state.error = action.payload
     },
-    
+
     uploadWelcomeThumbnailStart: (state, action: PayloadAction<string>) => {
       state.loadingWelcomeThumbnail = true
     },
@@ -195,7 +195,7 @@ const layoutPageSlice = createSlice({
       state.welcomeThumbnail = []
       state.error = action.payload
     },
-    
+
     //
     uploadMessagesTeamThumbnailStart: (state, action: PayloadAction<string>) => {
       state.loadingMessagesTeamThumbnail = true
@@ -210,7 +210,7 @@ const layoutPageSlice = createSlice({
       state.messagesTeamThumbnail = []
       state.error = action.payload
     },
-   
+
     //
     uploadMessagesTeamUrlStart: (state, action: PayloadAction<string>) => {
       state.loadingMessagesTeamUrl = true
