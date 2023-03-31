@@ -34,9 +34,9 @@ const User = ({idx, user}: IProps) => {
     <>
       <tr className='border-bottom'>
         <td className='text-center'>{idx + 1 + (paginate.page - 1) * 10}</td>
-        <td className='text-center'>{DisplayNameUser}</td>
-        <td className='text-center'>{DisplayEmail || '-'}</td>
-        <td className='text-center'>{DisplayTypeUser}</td>
+        <td>{DisplayNameUser}</td>
+        <td>{DisplayEmail || '-'}</td>
+        <td>{DisplayTypeUser}</td>
         <td className='text-center'>{`${user.roleName}`}</td>
         <td className='text-center'>
           <span className='fw-bold fs-6'>
