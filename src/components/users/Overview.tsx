@@ -91,6 +91,9 @@ const UsersOverview = () => {
                 <th style={{fontWeight: 600}} className='py-2 '>
                   Email
                 </th>
+                <th style={{fontWeight: 600}} className='py-2'>
+                  Type
+                </th>
                 <th style={{fontWeight: 600}} className='py-2 text-center'>
                   Role
                 </th>
