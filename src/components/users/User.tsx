@@ -32,7 +32,7 @@ const User = ({idx, user}: IProps) => {
 
   return (
     <>
-      <tr>
+      <tr className='border-bottom'>
         <td className='text-center'>{idx + 1 + (paginate.page - 1) * 10}</td>
         <td className='text-center'>{DisplayNameUser}</td>
         <td className='text-center'>{DisplayEmail || '-'}</td>
