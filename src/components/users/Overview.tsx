@@ -1,8 +1,10 @@
 import {Pagination} from '@mui/material'
-import {useEffect} from 'react'
+import _ from 'lodash'
+import {useCallback, useEffect, useState} from 'react'
 import {isMappable} from '../../app/helpers/isMapple'
 import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
 import {IUser} from '../../models/User'
+import SearchInput from '../../shared/Search'
 import {usersActions} from '../../store/users/usersSlice'
 import User from './User'
 
@@ -11,6 +13,37 @@ const UsersOverview = () => {
   const users = useAppSelector((state) => state.users.users)
   const paginate = useAppSelector((state) => state.users.paginate)
   const loading = useAppSelector((state) => state.users.loadingGetUser)
+
+  //searching
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const debounceSearch = useCallback(
+    _.debounce((value) => {
+      const params: any = {
+        page: 1,
+        limit: 10,
+      }
+      if (value && value.trim() !== '') {
+        params['search'] = value.trim()
+      } else delete params['search']
+      console.log('yayy')
+    }, 500),
+    []
+  )
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+    debounceSearch(event.target.value)
+  }
+
+  const handleClearSearch = () => {
+    const params: any = {
+      page: 1,
+      limit: 10,
+    }
+    setSearchTerm('')
+    console.log('yayy')
+  }
 
   useEffect(() => {
     const payload: any = {
@@ -36,17 +69,37 @@ const UsersOverview = () => {
             <h3 className='fw-bolder m-0'>Users</h3>
           </div>
         </div>
+        <div className='d-flex justify-content-start p-6 pb-0'>
+          <SearchInput
+            searchTerm={searchTerm}
+            size='small'
+            color='secondary'
+            onChange={handleSearchChange}
+            onClearSearch={handleClearSearch}
+          />
+        </div>
         <div className='card-body p-6'>
           <table className='table align-middle'>
             <thead className={'text-uppercase text-dark thead-pito border-bottom text-uppercase'}>
               <tr>
-                <th className='py-2 text-center'>No</th>
-                <th className='py-2 text-center w-40'>Name</th>
-                <th className='py-2 text-center'>Email</th>
-                <th className='py-2 text-center'>Type</th>
-                <th className='py-2 text-center'>Role</th>
-                <th className='py-2 text-center'>Active Status</th>
-                <th className='py-2 text-center'>Actions</th>
+                <th style={{fontWeight: 600}} className='py-2 text-center'>
+                  No
+                </th>
+                <th style={{fontWeight: 600}} className='py-2 w-40'>
+                  Name
+                </th>
+                <th style={{fontWeight: 600}} className='py-2 '>
+                  Email
+                </th>
+                <th style={{fontWeight: 600}} className='py-2 text-center'>
+                  Role
+                </th>
+                <th style={{fontWeight: 600}} className='py-2 text-center'>
+                  Active Status
+                </th>
+                <th style={{fontWeight: 600}} className='py-2 text-center'>
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className='category-list'>

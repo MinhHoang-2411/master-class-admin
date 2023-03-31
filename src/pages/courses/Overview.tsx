@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import PreviewIcon from '@mui/icons-material/Preview'
-import {IconButton, Pagination} from '@mui/material'
-import {FC, useEffect, useState} from 'react'
+import {Divider, IconButton, Pagination} from '@mui/material'
+import {FC, useCallback, useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import {isMappable} from '../../app/helpers/isMapple'
 import {useAppDispatch, useAppSelector} from '../../app/saga/hooks'
@@ -11,6 +11,7 @@ import SearchInput from '../../shared/Search'
 import {coursesActions} from '../../store/courses/coursesSlice'
 import {uploadActions} from '../../store/upload/uploadSlice'
 import {format} from 'date-fns'
+import _ from 'lodash'
 
 const CoursesOverview: FC = () => {
   const dispatch = useAppDispatch()
@@ -18,6 +19,36 @@ const CoursesOverview: FC = () => {
   const paginate = useAppSelector((state) => state.courses.paginate)
   const loading = useAppSelector((state) => state.courses.loadingGetData)
   const [searchTerm, setSearchTerm] = useState<string>('')
+
+  //searching
+  const debounceSearch = useCallback(
+    _.debounce((value) => {
+      const params: any = {
+        page: 1,
+        limit: 10,
+      }
+      if (value && value.trim() !== '') {
+        params['search'] = value.trim()
+      } else delete params['search']
+      dispatch(coursesActions.getDataStart(params))
+    }, 500),
+    []
+  )
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+    debounceSearch(event.target.value)
+  }
+
+  const handleClearSearch = () => {
+    const params: any = {
+      page: 1,
+      limit: 10,
+    }
+    setSearchTerm('')
+    dispatch(coursesActions.getDataStart(params))
+  }
+  // end searching
 
   useEffect(() => {
     const payload: any = {
@@ -44,19 +75,6 @@ const CoursesOverview: FC = () => {
     history.replace(`/crafted/pages/courses/detail/${courseId}`)
   }
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value)
-  }
-
-  const onSearch = () => {
-    const payload: any = {
-      page: 1,
-      limit: paginate.limit,
-      search: searchTerm,
-    }
-    dispatch(coursesActions.getDataStart(payload))
-  }
-
   console.log('courses', courses)
 
   return (
@@ -70,65 +88,87 @@ const CoursesOverview: FC = () => {
             Create Course
           </Link>
         </div>
-        <div className='d-flex justify-content-end p-6 pb-0'>
+        <div className='d-flex justify-content-start p-6 pb-0'>
           <SearchInput
+            searchTerm={searchTerm}
             size='small'
             color='secondary'
             onChange={handleSearchChange}
-            onSearch={onSearch}
+            onClearSearch={handleClearSearch}
           />
         </div>
         <div className='card-body p-6'>
           <table className='table align-middle'>
             <thead className={'text-uppercase text-dark thead-pito border-bottom text-uppercase'}>
               <tr>
-                <th className='py-2 text-center'>No</th>
-                <th className='py-2'>Course Name</th>
-                <th className='py-2'>Author Name</th>
-                <th className='py-2'>Title</th>
-                <th className='py-2'>Thumbnail</th>
-                <th className='py-2 text-center'>Date deleted</th>
-                <th className='py-2 text-center'>Actions</th>
+                <th style={{fontWeight: 600}} className='bold-text py-2 text-center'>
+                  No
+                </th>
+                <th style={{fontWeight: 600}} className='py-2'>
+                  Course Name
+                </th>
+                <th style={{fontWeight: 600}} className='py-2'>
+                  Author Name
+                </th>
+                <th style={{fontWeight: 600}} className='py-2'>
+                  Title
+                </th>
+                <th style={{fontWeight: 600}} className='py-2'>
+                  Thumbnail
+                </th>
+                <th style={{fontWeight: 600}} className='py-2 text-center'>
+                  Date deleted
+                </th>
+                <th style={{fontWeight: 600}} className='py-2 text-center'>
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className='category-list'>
               {isMappable(courses) ? (
                 !loading ? (
                   courses?.map((course: ICourse, idx: number) => (
-                    <tr key={course._id}>
-                      <td className='text-center'>{idx + 1 + (paginate.page - 1) * 10}</td>
-                      <td className=''>{course.name}</td>
-                      <td className=''>{course.authorName}</td>
-                      <td className='' style={{width: '500px'}}>
-                        {course.title}
-                      </td>
-                      <td className=''>
-                        <img
-                          src={course.thumbnail}
-                          alt='thumbnail'
-                          width={70}
-                          height={70}
-                          style={{objectFit: 'cover'}}
-                        />
-                      </td>
-                      <td className='text-center' style={{width: '100px'}}>
-                        {course?.deletedAt ? (
-                          <span>{format(new Date(course?.deletedAt), 'yyyy-MM-dd')}</span>
-                        ) : (
-                          <span>-</span>
-                        )}
-                      </td>
-                      <td className='text-center'>
-                        <IconButton onClick={() => onRedirectCourseDetail(course._id)}>
-                          <PreviewIcon color='info' />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => dispatch(coursesActions.onDeleteCourse(course._id))}
+                    <>
+                      <tr className='border-bottom' key={course._id}>
+                        <td className='text-center'>{idx + 1 + (paginate.page - 1) * 10}</td>
+                        <td className=''>{course.name}</td>
+                        <td className=''>{course.authorName}</td>
+                        <td
+                          style={{
+                            width: '350px',
+                            border: 0,
+                          }}
                         >
-                          <DeleteIcon color='secondary' />
-                        </IconButton>
-                      </td>
-                    </tr>
+                          <p className='ellipsis-text-2'>{course.title}</p>
+                        </td>
+                        <td className=''>
+                          <img
+                            src={course.thumbnail}
+                            alt='thumbnail'
+                            width={70}
+                            height={70}
+                            style={{objectFit: 'cover'}}
+                          />
+                        </td>
+                        <td className='text-center' style={{width: '150px'}}>
+                          {course?.deletedAt ? (
+                            <span>{format(new Date(course?.deletedAt), 'yyyy-MM-dd')}</span>
+                          ) : (
+                            <span>-</span>
+                          )}
+                        </td>
+                        <td className='text-center' style={{width: '100px'}}>
+                          <IconButton onClick={() => onRedirectCourseDetail(course._id)}>
+                            <PreviewIcon color='info' />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => dispatch(coursesActions.onDeleteCourse(course._id))}
+                          >
+                            <DeleteIcon color='secondary' />
+                          </IconButton>
+                        </td>
+                      </tr>
+                    </>
                   ))
                 ) : (
                   <tr>
